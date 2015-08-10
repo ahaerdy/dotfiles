@@ -30,8 +30,12 @@
 #!vim/.vim/bundle/**
 #!vim/.vim/view
 #!vim/.vim/view/**
+# ubooquity
+# jdownloader
 # add plugins? !vim/.vimrc
 # git clone manually? !zshrc/.oh-my-zsh
+# nzbget
+# wegorc
 
 # Allowed Folders/Files
 !.gitignore

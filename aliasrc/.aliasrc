@@ -306,13 +306,9 @@ wolframalpha() { ~/.scripts/shellscripts/wolframalpha_com/was.sh ;}
 #}}}
 #-------- Configurations {{{
 #------------------------------------------------------
-cfg-ag() { $EDITOR ~/.agignore ;}
 cfg-aliases() { $EDITOR ~/.aliasrc ;}
-cfg-amule() { $EDITOR ~/.aMule/amule.conf ;}
-cfg-amuleweb() { $EDITOR ~/.aMule/remote.conf ;}
 cfg-bashrc() { $EDITOR ~/.bashrc ;}
 cfg-blocklist() { $EDITOR ~/.scripts/blocklist.sh ;}
-cfg-centerim-binds() { $EDITOR ~/.centerim5/binds.xml ;}
 # http://blog.dotsmart.net/2011/09/30/change-font-size-in-chrome-devtools/
 cfg-chromium-devtoolsize() { $EDITOR ~/.config/chromium/Default/User\ StyleSheets/Custom.css ;}
 cfg-chromium-noscript() { $EDITOR ~/.config/chromium/Default/Extensions/odjhifogjcknibkahlpidmdajjpkkcfn/*/CHANGE__PASSWORD__HERE.js ;}
@@ -327,8 +323,7 @@ cfg-emulationstation-input() { $EDITOR ~/.emulationstation/es_input.cfg ;}
 cfg-flexget() { $EDITOR ~/.flexget/config.yml ;}
 cfg-fstab() { sudo $EDITOR /etc/fstab ;}
 cfg-ghsync() { $EDITOR ~/.scripts/ghsync-script.sh ;}
-cfg-gift-giftd() { $EDITOR ~/.giFT/giftd.conf ;}
-cfg-gift-ui() { $EDITOR ~/.giFT/ui/ui.conf ;}
+cfg-gitignore() { $EDITOR ~/Public/dotfiles/.gitignore;}
 cfg-group() { sudo $EDITOR /etc/group ;}
 cfg-hosts() { sudo $EDITOR /etc/hosts ;}
 cfg-i3wm() { $EDITOR ~/.i3/config ;}
@@ -337,13 +332,11 @@ cfg-interfacelift() { $EDITOR ~/.scripts/interfacelift.sh ;}
 cfg-kodi-keyboard() { $EDITOR ~/.kodi/userdata/keymaps/keyboard.xml ;}
 cfg-kodi-confluencethumbnailview() { sudo $EDITOR /usr/share/kodi/addons/skin.confluence/720p/MyVideoNav.xml ;}
 cfg-lgogdownloader() { $EDITOR ~/.config/lgogdownloader/config.cfg ;}
-cfg-lightdm() { sudo $EDITOR /etc/lightdm/lightdm.conf ;}
 cfg-livestreamer() { $EDITOR ~/.livestreamerrc ;}
 cfg-mcomix() { $EDITOR ~/.config/mcomix/keybindings.conf ;}
 cfg-mediatomb() { $EDITOR ~/.mediatomb/config.xml ;}
 cfg-mpd() { $EDITOR ~/.mpd/mpd.conf ;}
 cfg-mplayer() { $EDITOR ~/.mplayer/config ;}
-cfg-mupen64plus() { $EDITOR ~/.config/mupen64plus/mupen64plus.cfg ;}
 cfg-muttrc() { $EDITOR ~/.muttrc ;}
 cfg-nanorc() { $EDITOR ~/.nanorc;}
 cfg-ncmpcpp() { $EDITOR ~/.ncmpcpp/config ;}
@@ -357,15 +350,8 @@ cfg-percol() { $EDITOR ~/.percol.d/rc.py ;}
 cfg-periscope() { $EDITOR ~/.config/periscope/config ;}
 cfg-pianobar() { $EDITOR ~/.config/pianobar/config ;}
 cfg-pianobar-libao() { sudo $EDITOR /etc/libao.conf ;}
-cfg-plowshare-depositfiles() { $EDITOR ~/.config/plowshare/depositfiles.txt ;}
-cfg-plowshare-netloadin() { $EDITOR ~/.config/plowshare/netloadin.txt ;}
-cfg-plowshare-uploaded() { $EDITOR ~/.config/plowshare/uploaded.txt ;}
-cfg-plowshare-rapidgator() { $EDITOR ~/.config/plowshare/rapidgator.txt ;}
-cfg-plowshare-rapidshare() { $EDITOR ~/.config/plowshare/rapidshare.txt ;}
-cfg-plowshare-random() { $EDITOR ~/.config/plowshare/random.txt ;}
 cfg-pyload() { $EDITOR ~/.pyload/pyload.conf ;}
 cfg-quicktile() { $EDITOR ~/.config/quicktile.cfg ;}
-cfg-quicksynergy() { $EDITOR ~/.quicksynergy/synergy.conf ;}
 cfg-ranger() { $EDITOR ~/.config/ranger/rc.conf ;}
 cfg-ranger-rifle() { $EDITOR ~/.config/ranger/rifle.conf ;} # edit open_with extensions
 cfg-ranger-commands() { $EDITOR ~/.config/ranger/commands.py ;} # scripts
@@ -384,26 +370,18 @@ cfg-syncthing() { $EDITOR ~/.config/syncthing/config.xml ;}
 cfg-timidity() { sudo $EDITOR /etc/timidity++/timidity.cfg ;}
 cfg-tmuxrc() { $EDITOR ~/.tmux.conf ;}
 cfg-torrentflix() { torrentflix --config=$EDITOR ;}
-cfg-tpb() { $EDITOR ~/.scripts/shellscripts/thepiratebay_se/tpb.sh ;}
+cfg-tpb() { $EDITOR ~/.scripts/tpb.sh ;}
 cfg-transmission-daemon() { $EDITOR ~/.config/transmission-daemon/settings.json ;}
 cfg-transmission-ncurse() { $EDITOR ~/.config/transmission-remote-cli/settings.cfg ;}
-cfg-trz() { $EDITOR ~/.scripts/shellscripts/torrentz_eu/torrentz_eu.sh ;}
-cfg-turses() { $EDITOR ~/.turses/config ;}
+cfg-trz() { $EDITOR ~/.scripts/torrentz_eu.sh ;}
 cfg-urlview() { $EDITOR ~/.urlview ;}
 cfg-updatedb() { sudo $EDITOR /etc/updatedb.conf ;}	
-cfg-vifmrc() { $EDITOR ~/.vifm/vifmrc ;}
 cfg-vimrc() { $EDITOR ~/.vimrc ;}
-cfg-vlcrc() { $EDITOR ~/.config/vlc/vlcrc ;}
 cfg-w3m() { $EDITOR ~/.w3m/config ;}
 cfg-w3m-keymap() { $EDITOR ~/.w3m/keymap ;}
 cfg-wegorc() { $EDITOR ~/.wegorc ;}
 cfg-xboxdrv() { sudo $EDITOR /etc/default/xboxdrv ;}
-cfg-xdefaults() { $EDITOR ~/.Xdefaults ;}
 cfg-xdg-mine() { $EDITOR ~/.local/share/applications/mimeapps.list ;}
-cfg-xinitrc() { $EDITOR ~/.xinitrc ;}
-cfg-xmodmap() { $EDITOR ~/.Xmodmap ;}
-cfg-xrdp() { sudo $EDITOR /etc/xrdp/xrdp.ini ;}
-cfg-xrdp-xsession() { $EDITOR ~/.xsession ;}
 cfg-xresources() { $EDITOR ~/.Xresources ;}
 cfg-zshrc() { $EDITOR ~/.zshrc ;}
 #}}}
@@ -2198,15 +2176,15 @@ set-wineprefix() {
 #}}}
 #-------- VimWiki {{{
 #------------------------------------------------------
-wikiapps() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikiapps/index.wiki ;}
-wikidroid() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikidroid/index.wiki ;}
-wikigame() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikigame/index.wiki ;}
-wikihaiku() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikihaiku/index.md ;}
-wikimd() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikimd/index.md ;}
-wikinote() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikinote/index.wiki ;}
-wikislitaz() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikislitaz/index.md ;}
-wikisuper() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikisuper/index.wiki ;}
-wikivista() { $EDITOR $path_pub/dotfiles/private/.vimwiki/wikivista/index.wiki ;}
+wikiapps()   { $EDITOR ~/.vimwiki/wikiapps/index.wiki ;}
+wikidroid()  { $EDITOR ~/.vimwiki/wikidroid/index.wiki ;}
+wikigame()   { $EDITOR ~/.vimwiki/wikigame/index.wiki ;}
+wikihaiku()  { $EDITOR ~/.vimwiki/wikihaiku/index.md ;}
+wikimd()     { $EDITOR ~/.vimwiki/wikimd/index.md ;}
+wikinote()   { $EDITOR ~/.vimwiki/wikinote/index.wiki ;}
+wikislitaz() { $EDITOR ~/.vimwiki/wikislitaz/index.md ;}
+wikisuper()  { $EDITOR ~/.vimwiki/wikisuper/index.wiki ;}
+wikivista()  { $EDITOR ~/.vimwiki/wikivista/index.wiki ;}
 # }}}
 #-------- Recordmydesktop CLI {{{
 #------------------------------------------------------
@@ -3193,3 +3171,7 @@ lowercase-extension() {
 # remove bulk packages wildcard
 # https://bbs.archlinux.org/viewtopic.php?id=135649
 # pacman -Rns $(pacman -Qq | grep libretro)
+
+# http://stackoverflow.com/a/13541721
+git-sync-ignorelist() { git rm --cached `git ls-files -i --exclude-from=.gitignore` ;}
+
