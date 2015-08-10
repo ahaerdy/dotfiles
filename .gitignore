@@ -1,0 +1,151 @@
+# Whitelist of files and folders to be uploaded to github
+# ! = allow
+# * = everything in current dir
+# ** = recursively allow everything in folder and subfolder
+# *.ext = wildcard with extension
+
+# Ignore everything
+*
+
+# NO sync yet
+# no Calibre
+# no centerim5
+# no !keepass/.keepass/*.kdb
+# no !mutt
+# no !newsbeuter
+# no !pianobar
+# no !purple
+# no !pyload
+# no !snippets
+# no !surfraw/.config/surfraw/bookmarks
+# no !vim/.vim/plugins
+# no !vimwiki
+# no !weechat
+# no !zshrc/ohmyzsh
+# no !xresources
+# no !xresources/.Xresources
+#!vim/.vim/autoload
+#!vim/.vim/autoload/**
+#!vim/.vim/bundle
+#!vim/.vim/bundle/**
+#!vim/.vim/view
+#!vim/.vim/view/**
+# add plugins? !vim/.vimrc
+# git clone manually? !zshrc/.oh-my-zsh
+
+# Allowed Folders/Files
+!.gitignore
+#!README.md
+
+!aliasrc
+!aliasrc/.aliasrc
+!bashrc
+!bashrc/.bashrc
+!beets
+!beets/.config
+!beets/.config/beets
+!beets/.config/beets/config.yaml
+!cmus
+!cmus/.cmus
+!cmus/.cmus/*.theme
+!cmus/.cmus/themes-screenshot
+!cmus/.cmus/themes-screenshot/*.png
+!easytag
+!easytag/.easytag
+!easytag/.easytag/easytagrc
+!emulationstation
+!emulationstation/.emulationstation
+!emulationstation/.emulationstation/*.cfg
+!emulationstation/.emulationstation/themes
+!emulationstation/.emulationstation/themes/**
+!flexget
+!flexget/.flexget
+!flexget/.flexget/config.yml
+!hex-a-hop
+!hex-a-hop/**
+!htop
+!htop/**
+!icons
+!icons/**
+!inputrc
+!inputrc/.inputrc
+!i3
+!i3/**
+!keepass
+!keepass/.config
+!keepass/.config/keepassc
+!keepass/.config/keepassc/config
+!keepass/.config/keepassx
+!keepass/.config/keepassx/config.ini
+!mcomix
+!mcomix/.config
+!mcomix/.config/mcomix
+!mcomix/.config/mcomix/*.conf
+!mpd
+!mpd/.mpd
+!mpd/.mpd/mpd.conf
+!mplayer
+!mplayer/.mplayer
+!mplayer/.mplayer/config
+!musicbrainz
+!musicbrainz/.config
+!musicbrainz/.config/MusicBrainz
+!musicbrainz/.config/MusicBrainz/Picard.conf
+!musicbrainz/.config/MusicBrainz/Picard
+!musicbrainz/.config/MusicBrainz/Picard/plugins
+!musicbrainz/.config/MusicBrainz/Picard/plugins/*.py
+!nanorc
+!nanorc/.nanorc
+!ncmpcpp
+!ncmpcpp/.ncmpcpp
+!ncmpcpp/.ncmpcpp/config
+!pastebinit
+!pastebinit/.pastebinit.xml
+!periscope
+!periscope/.config
+!periscope/.config/periscope
+!periscope/.config/periscope/config
+!portaddress
+!portaddress/**
+!quicktile
+!quicktile/.config
+!quicktile/.config/quicktile.cfg
+!retroarch
+!retroarch/.config
+!retroarch/.config/retroarch
+!retroarch/.config/retroarch/*.cfg
+!scripts
+!scripts/**
+!skippy-xd
+!skippy-xd/.skippy-xd.rc
+!surfraw
+!surfraw/.config
+!surfraw/.config/surfraw
+!surfraw/.config/surfraw/conf
+!surfraw/.config/surfraw/elvi
+!surfraw/.config/surfraw/elvi/*
+!tmux
+!tmux/.tmux.conf
+!transmission-daemon
+!transmission-daemon/.config
+!transmission-daemon/.config/transmission-daemon
+!transmission-daemon/.config/transmission-daemon/settings.json
+!transmission-daemon/.config/transmission-daemon/blocklists
+!transmission-daemon/.config/transmission-daemon/blocklists/*.bin
+!transmission-remote-cli
+!transmission-remote-cli/.config
+!transmission-remote-cli/.config/transmission-remote-cli
+!transmission-remote-cli/.config/transmission-remote-cli/settings.cfg
+!urlview
+!urlview/.urlview
+!vim
+!vim/.vimrc
+!vim/.vim
+!w3m
+!w3m/.w3m
+!w3m/.w3m/config
+!w3m/.w3m/keymap
+!zshrc
+!zshrc/.zshrc
+
+

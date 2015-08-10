@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# AUTHOR: gotbletu ( https://twitter.com/gotbletu )
+#
+# DATE: February 08, 2014
+#
+# DESC: Elvi to search IRC Channels
+# elvis: mibbit		-- Search IRC for chat channels (https://search.mibbit.com)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search IRC (https://search.mibbit.com) for chat channels
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://search.mibbit.com"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://search.mibbit.com/search/${escaped_args}"
+fi
