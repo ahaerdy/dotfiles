@@ -16,6 +16,10 @@ if [ -d "$HOME/node_modules/.bin" ] ; then
     export PATH="$HOME/node_modules/.bin:$PATH"
 fi
 
+if [ -d "$HOME/.scripts" ] ; then
+    export PATH="$HOME/.scripts:$PATH"
+fi
+
 #-------- Environment Variable {{{
 #------------------------------------------------------
 export HISTCONTROL=ignoreboth			#Remove Extra Commands
@@ -157,6 +161,7 @@ alias mv='mv -i'					# mv interactive
 alias nano='nano -c -$'					# word wrapping
 alias nvlc='nvlc --no-color'				# black/white color
 alias pdfgrep='pdfgrep -in'				# ignorecase, page number
+alias pyradio='pyradio -s ~/.pyradio.csv'
 alias rm='rm -i'					# rm interactive
 alias sshxforwarding='ssh -XCc blowfish-cbc,arcfour'
 alias sshxtrusted='ssh -Y'
@@ -166,6 +171,7 @@ alias srb='surfraw -browser=$BROWSER'			# surfraw bookmarks
 alias trash='gvfs-trash'
 alias wget='wget -c'					# continues/resumes
 alias weechat='weechat-curses'
+alias xev-keycode="xev | grep 'keycode\|button'"
 alias youtube-viewer='youtube-viewer -C -f -4 --results=6'	# color, fullscreen, 480p, number of results
 alias lsd='ls -1d */'					# ls folders only
 alias l='ls -l'
@@ -292,8 +298,6 @@ t() { ~/.scripts/todo.txt-cli/todo.sh $@ ;}
 # tutorial video: https://www.youtube.com/watch?v=IY56U1L6FCI
 # https://github.com/saironiq/shellscripts/blob/master/thepiratebay_se/tpb.sh
 # https://github.com/saironiq/shellscripts/blob/master/torrentz_eu/torrentz_eu.sh
-tpb() { ~/.scripts/shellscripts/thepiratebay_se/tpb.sh $@ ;}
-trz() { ~/.scripts/shellscripts/torrentz_eu/torrentz_eu.sh $@ ;}
 
 # https://bitbucket.org/antocuni/tty2gif
 # convert ttyrec to gif files
@@ -325,6 +329,7 @@ cfg-fstab() { sudo $EDITOR /etc/fstab ;}
 cfg-ghsync() { $EDITOR ~/.scripts/ghsync-script.sh ;}
 cfg-gitignore() { $EDITOR ~/Public/dotfiles/.gitignore;}
 cfg-group() { sudo $EDITOR /etc/group ;}
+cfg-hintsrc() { $EDITOR ~/.hintsrc ;}
 cfg-hosts() { sudo $EDITOR /etc/hosts ;}
 cfg-i3wm() { $EDITOR ~/.i3/config ;}
 cfg-inputrc() { $EDITOR ~/.inputrc ;}
@@ -351,6 +356,7 @@ cfg-periscope() { $EDITOR ~/.config/periscope/config ;}
 cfg-pianobar() { $EDITOR ~/.config/pianobar/config ;}
 cfg-pianobar-libao() { sudo $EDITOR /etc/libao.conf ;}
 cfg-pyload() { $EDITOR ~/.pyload/pyload.conf ;}
+cfg-pyradio() { $EDITOR ~/.pyradio.csv ;}
 cfg-quicktile() { $EDITOR ~/.config/quicktile.cfg ;}
 cfg-ranger() { $EDITOR ~/.config/ranger/rc.conf ;}
 cfg-ranger-rifle() { $EDITOR ~/.config/ranger/rifle.conf ;} # edit open_with extensions
@@ -383,6 +389,7 @@ cfg-wegorc() { $EDITOR ~/.wegorc ;}
 cfg-xboxdrv() { sudo $EDITOR /etc/default/xboxdrv ;}
 cfg-xdg-mine() { $EDITOR ~/.local/share/applications/mimeapps.list ;}
 cfg-xresources() { $EDITOR ~/.Xresources ;}
+cfg-yaourtrc() { $EDITOR ~/.yaourtrc ;}
 cfg-zshrc() { $EDITOR ~/.zshrc ;}
 #}}}
 #-------- Configurations Reload {{{
@@ -550,7 +557,8 @@ FF_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
 #            	alsamixer and hit F6
 # FF_SOUNDCARD=pulse
 # FF_SOUNDCARD=hw:0,1
-FF_SOUNDCARD=hw:2,0
+# FF_SOUNDCARD=hw:2,0
+FF_SOUNDCARD=hw:3,0
 # FF_SOUNDCARD=hw:1,0
 # FF_SOUNDCARD=hw:3,0
 # FF_SOUNDCARD=hw:0,3
@@ -2927,6 +2935,7 @@ mpsyt-game-jamesnintendonerd() { mpsyt user jamesnintendonerd ;}
 mpsyt-game-mcfrosticles() { mpsyt user mcfrosticles ;}
 mpsyt-game-metaljesusrocks() { mpsyt user metaljesusrocks ;}
 mpsyt-game-retroliberty() { mpsyt user retroliberty ;}
+mpsyt-game-lazygamereviews() { mpsyt user phreakindee ;}
 mpsyt-greatmilitarybattles() { mpsyt user greatmilitarybattles ;}
 mpsyt-greentvgreentv() { mpsyt user greentvgreentv ;}
 mpsyt-homeorganizing() { mpsyt user homeorganizing ;}
@@ -2934,6 +2943,12 @@ mpsyt-linux-linuxgamecast() { mpsyt user linuxgamecast ;}
 mpsyt-linux-jupiterbroadcasting() { mpsyt user jupiterbroadcasting ;}
 mpsyt-midwaysimplicity() { mpsyt user midwaysimplicity ;}
 mpsyt-midwaysimplicity-mtohami() { mpsyt user mtohami ;}
+mpsyt-minimalism-carriesimple() { mpsyt user UCtauuxrTG1yon8CNsgqhDkg ;}
+mpsyt-minimalism-discernmylife() { mpsyt user UCJPp8gkjxH4T3A8rYO1S52A ;}
+mpsyt-minimalism-poetskinny() { mpsyt user UC4O0Vd3UxFXGX-UQNelwTag ;}
+mpsyt-minimalism-ticoandtina() { mpsyt user ticoandtina ;}
+mpsyt-minimalism-unconventionalliving() { mpsyt user UC7uuFb0QztC-yC2CrcS-lJw ;}
+mpsyt-minimalism-zenminimalism() { mpsyt user UCpD5Hqe60AJ79fupvuA6F1Q ;}
 mpsyt-mma-arielhelwani() { mpsyt user arielhelwani ;}
 mpsyt-mma-fueltv() { mpsyt user fueltv ;}
 mpsyt-mma-gracieacademy() { mpsyt user gracieacademy ;}
@@ -2960,6 +2975,8 @@ mpsyt-tmw-hodgetwins() { mpsyt user hodgetwins ;}
 mpsyt-tmw-hodgetwinsonsports() { mpsyt user hodgetwinsonsports ;}
 mpsyt-tmw-twinmuscleworkout() { mpsyt user twinmuscleworkout ;}
 mpsyt-vanlife-christravels() { mpsyt user tylerdurdeno9 ;}
+mpsyt-vanlife-exploringalternatives() { mpsyt user explorealternatives ;}
+mpsyt-vanlife-noellemarie() { mpsyt user noellemarie42 ;}
 mpsyt-vanlife-happilyhouseless() { mpsyt user TheNomadicvanman ;}
 mpsyt-vanlife-justincredible() { mpsyt user JustinCredibleTV ;}
 mpsyt-vanlife-nomadicfanatic() { mpsyt user nomadicfanatic ;}
@@ -3175,3 +3192,9 @@ lowercase-extension() {
 # http://stackoverflow.com/a/13541721
 git-sync-ignorelist() { git rm --cached `git ls-files -i --exclude-from=.gitignore` ;}
 
+mp3cut() { 
+
+	# example: cut from 5s to 10s; mpgtx -s file.mp3 "[00:05-00:10]" -b file-output
+	mpgtx -s "$1" "["$2":"$3"-"$4":"$5"]" -b "${1%.*}-output"
+	
+	;}

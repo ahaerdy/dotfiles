@@ -11,9 +11,19 @@
 #       https://github.com/gotbletu
 #       gotbleu@gmail.com
 
-#	description: search youporn.com from command line, then streams video using mplayer
-#	usage: skeet_youporn <search term>
-#	requires: mplayer lynx 
+display_usage() { 
+	echo -e "DESCRIPTION:\n search www.youporn.com from command line, then streams video using mplayer"
+	echo -e "\nREQUIREMENTS:\n lynx mplayer youtube-dl"
+	echo -e "\nUSAGE:\n$0 [search words] \n"
+	} 
+# if no arguments supplied, display usage 
+	if [  $# -le 0 ] 
+	then 
+		display_usage
+		exit 1
+	fi 
+ 
+# code begins
 	grepmatch=$(echo "$@" | sed 's/ /.*/g')
         keyword="$(echo "http://www.youporn.com/search?query=$@&type=straight" | sed 's/ /\+/g')"
 	pagenum=3

@@ -11,10 +11,19 @@
 #       https://github.com/gotbletu
 #       gotbleu@gmail.com
 
-#	description: search empflix.com from command line, then streams video using mplayer
-#	usage: skeet_empflix <search term>
-#	requires: mplayer lynx quvi
-#	date: March 09, 2013
+display_usage() { 
+	echo -e "DESCRIPTION:\n search www.empflix.com from command line, then streams video using mplayer"
+	echo -e "\nREQUIREMENTS:\n lynx mplayer youtube-dl"
+	echo -e "\nUSAGE:\n$0 [search words] \n"
+	} 
+# if no arguments supplied, display usage 
+	if [  $# -le 0 ] 
+	then 
+		display_usage
+		exit 1
+	fi 
+ 
+# code begins
         keyword="$(echo "&what=$@&category=&sb=relevance&su=anytime&sd=all&dir=desc" | sed 's/ /\%20/g')"
 	pagenum=3
 	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo \
@@ -35,7 +44,7 @@ do
         # then invoke the player on that file
         select fileName in $fileList; do
                 if [ -n "$fileName" ]; then
-		quvi --exec "mplayer %u" "${fileName}" 
+		mplayer $( youtube-dl -g "${fileName}" )
                 fi
                 break
         done

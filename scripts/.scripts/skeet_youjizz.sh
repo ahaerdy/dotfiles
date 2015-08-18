@@ -11,10 +11,19 @@
 #       https://github.com/gotbletu
 #       gotbleu@gmail.com
 
-#	description: search youjizz.com from command line, then streams video using mplayer
-#	usage: skeet_youjizz <search term>
-#	requires: mplayer lynx youtube-dl
-#	date: 2/17/2013
+display_usage() { 
+	echo -e "DESCRIPTION:\n search www.youjizz.com from command line, then streams video using mplayer"
+	echo -e "\nREQUIREMENTS:\n lynx mplayer youtube-dl"
+	echo -e "\nUSAGE:\n$0 [search words] \n"
+	} 
+# if no arguments supplied, display usage 
+	if [  $# -le 0 ] 
+	then 
+		display_usage
+		exit 1
+	fi 
+ 
+# code begins
         keyword="$(echo "http://www.youjizz.com/search/$@" | sed 's/ /\-/g')"
 	pagenum=5
 	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword-$num".html""; done )

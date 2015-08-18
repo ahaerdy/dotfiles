@@ -36,6 +36,7 @@
 # git clone manually? !zshrc/.oh-my-zsh
 # nzbget
 # wegorc
+# hintsrc
 
 # Allowed Folders/Files
 !.gitignore
@@ -43,6 +44,9 @@
 
 !aliasrc
 !aliasrc/.aliasrc
+!antimicro
+!antimicro/.config
+!antimicro/.config/*.amgp
 !bashrc
 !bashrc/.bashrc
 !beets
@@ -91,6 +95,10 @@
 !mplayer
 !mplayer/.mplayer
 !mplayer/.mplayer/config
+!mpv
+!mpv/.config
+!mpv/.config/mpv
+!mpv/.config/mpv/input.conf
 !musicbrainz
 !musicbrainz/.config
 !musicbrainz/.config/MusicBrainz
@@ -111,6 +119,8 @@
 !periscope/.config/periscope/config
 !portaddress
 !portaddress/**
+!pyradio
+!pyradio/.pyradio.csv
 !quicktile
 !quicktile/.config
 !quicktile/.config/quicktile.cfg
@@ -122,6 +132,9 @@
 !scripts/**
 !skippy-xd
 !skippy-xd/.skippy-xd.rc
+!soundeffects
+!soundeffects/.soundeffects
+!soundeffects/.soundeffects/*.ogg
 !surfraw
 !surfraw/.config
 !surfraw/.config/surfraw
@@ -145,10 +158,16 @@
 !vim
 !vim/.vimrc
 !vim/.vim
+!vimwiki
+!vimwiki/.vimwiki
+!vimwiki/.vimwiki/wikimd
+!vimwiki/.vimwiki/wikimd/*.md
 !w3m
 !w3m/.w3m
 !w3m/.w3m/config
 !w3m/.w3m/keymap
+!yaourt
+!yaourt/.yaourtrc
 !zshrc
 !zshrc/.zshrc
 

@@ -47,6 +47,9 @@ fi
 if [ -f ~/.aliasrc ]; then
     . ~/.aliasrc
 fi
+if [ -f ~/.hintsrc ]; then
+    . ~/.hintsrc
+fi
 
 #Add Auto Complete to commands that dont work
 if [ "$PS1" ]; then
