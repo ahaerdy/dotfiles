@@ -1,4 +1,5 @@
 #!/bin/bash
+# tutorial video: https://www.youtube.com/watch?v=9T4VtC5Bhmo
 # http://crunchbang.org/forums/viewtopic.php?pid=396202#p396202
 # shoutcast_radionomy_search.sh
 # search shoutcast and radionomy,

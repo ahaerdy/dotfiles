@@ -12,7 +12,7 @@
 #       gotbleu@gmail.com
 
 # tutorial video: https://www.youtube.com/watch?v=mVw2gD9iiOg
-# A script to turns any terminal into a dropdown terminal
+# A script to turn any terminal into a dropdown terminal
 
 # requires:
 # 	xdotool

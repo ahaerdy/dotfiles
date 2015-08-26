@@ -3,7 +3,7 @@
 #------------------------------------------------------
 # ignore duplicates from ~/.zsh_history
 setopt histignoredups
-cfg-zsh-history() { $EDITOR $HISTFILE ;}
+cfg-history() { $EDITOR $HISTFILE ;}
 # }}}
 #-------- Oh My ZSH {{{
 #------------------------------------------------------
@@ -36,10 +36,10 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git 
-#command-not-found 
 npm
 pip
 zsh-syntax-highlighting
+#command-not-found 
 )
 
 
@@ -48,69 +48,13 @@ source $ZSH/oh-my-zsh.sh
 
 DISABLE_AUTO_TITLE=true
 
-#
-
 # }}}
 
 
 
 
-#-------- debians default zshrc binding {{{
+#-------- Include External Files {{{
 #------------------------------------------------------
-# /etc/zsh/zshrc: system-wide .zshrc file for zsh(1).
-#
-# This file is sourced only for interactive shells. It
-# should contain commands to set up aliases, functions,
-# options, key bindings, etc.
-#
-# Global Order: zshenv, zprofile, zshrc, zlogin
-
-# READNULLCMD=${PAGER:-/usr/bin/pager}
-# 
-# if [[ "$TERM" != emacs ]]; then
-# [[ -z "$terminfo[kdch1]" ]] || bindkey -M emacs "$terminfo[kdch1]" delete-char
-# [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
-# [[ -z "$terminfo[kend]" ]] || bindkey -M emacs "$terminfo[kend]" end-of-line
-# [[ -z "$terminfo[kich1]" ]] || bindkey -M emacs "$terminfo[kich1]" overwrite-mode
-# [[ -z "$terminfo[kdch1]" ]] || bindkey -M vicmd "$terminfo[kdch1]" vi-delete-char
-# [[ -z "$terminfo[khome]" ]] || bindkey -M vicmd "$terminfo[khome]" vi-beginning-of-line
-# [[ -z "$terminfo[kend]" ]] || bindkey -M vicmd "$terminfo[kend]" vi-end-of-line
-# [[ -z "$terminfo[kich1]" ]] || bindkey -M vicmd "$terminfo[kich1]" overwrite-mode
-# 
-# [[ -z "$terminfo[cuu1]" ]] || bindkey -M viins "$terminfo[cuu1]" vi-up-line-or-history
-# [[ -z "$terminfo[cuf1]" ]] || bindkey -M viins "$terminfo[cuf1]" vi-forward-char
-# [[ -z "$terminfo[kcuu1]" ]] || bindkey -M viins "$terminfo[kcuu1]" vi-up-line-or-history
-# [[ -z "$terminfo[kcud1]" ]] || bindkey -M viins "$terminfo[kcud1]" vi-down-line-or-history
-# [[ -z "$terminfo[kcuf1]" ]] || bindkey -M viins "$terminfo[kcuf1]" vi-forward-char
-# [[ -z "$terminfo[kcub1]" ]] || bindkey -M viins "$terminfo[kcub1]" vi-backward-char
-# 
-# # ncurses fogyatekos
-# [[ "$terminfo[kcuu1]" == "O"* ]] && bindkey -M viins "${terminfo[kcuu1]/O/[}" vi-up-line-or-history
-# [[ "$terminfo[kcud1]" == "O"* ]] && bindkey -M viins "${terminfo[kcud1]/O/[}" vi-down-line-or-history
-# [[ "$terminfo[kcuf1]" == "O"* ]] && bindkey -M viins "${terminfo[kcuf1]/O/[}" vi-forward-char
-# [[ "$terminfo[kcub1]" == "O"* ]] && bindkey -M viins "${terminfo[kcub1]/O/[}" vi-backward-char
-# [[ "$terminfo[khome]" == "O"* ]] && bindkey -M viins "${terminfo[khome]/O/[}" beginning-of-line
-# [[ "$terminfo[kend]" == "O"* ]] && bindkey -M viins "${terminfo[kend]/O/[}" end-of-line
-# [[ "$terminfo[khome]" == "O"* ]] && bindkey -M emacs "${terminfo[khome]/O/[}" beginning-of-line
-# [[ "$terminfo[kend]" == "O"* ]] && bindkey -M emacs "${terminfo[kend]/O/[}" end-of-line
-# fi
-# 
-# zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
-# 			     /usr/sbin /usr/bin /sbin /bin /usr/X11R6/bin
-# 
-# unalias run-help
-# autoload run-help
-# 
-# # If you don't want compinit called here, place the line
-# # skip_global_compinit=1
-# # in your $ZDOTDIR/.zshenv or $ZDOTDIR/.zprofice
-# if [[ -z "$skip_global_compinit" ]]; then
-#   autoload -U compinit
-#   compinit
-# fi
-
-#}}}
-
 if [ -f ~/.aliasrc ]; then
     . ~/.aliasrc
 fi
@@ -118,6 +62,7 @@ if [ -f ~/.hintsrc ]; then
     . ~/.hintsrc
 fi
 
+# }}}
 
 #-------- Auto Start Tmux Session {{{
 #------------------------------------------------------
@@ -252,15 +197,16 @@ zle -N zle-keymap-select
 # fixes backspace deletion issues
 # http://zshwiki.org/home/zle/vi-mode
 bindkey -a u undo
-bindkey -a '^R' redo
+# bindkey -a '^R' redo	# conflicts with history search hotkey
+bindkey -a '^T' redo
 bindkey '^?' backward-delete-char	#backspace
 bindkey '^H' backward-delete-char
 
 
 # history search in vim mode
 # http://zshwiki.org./home/zle/bindkeys#why_isn_t_control-r_working_anymore
-bindkey -M viins '^s' history-incremental-search-backward
-bindkey -M vicmd '^s' history-incremental-search-backward
+bindkey -M viins '^r' history-incremental-search-backward
+bindkey -M vicmd '^r' history-incremental-search-backward
 
 
 
@@ -384,15 +330,11 @@ unsetopt correct_all
 
 
 
+# ==== WITHOUT OHMYZSH# {{{
 
 # menu selection /menu completion
 # http://www.refining-linux.org/archives/40/ZSH-Gem-5-Menu-selection/
 #autoload -U compinit && compinit
 #zstyle ':completion:*' menu select
 #setopt menu_complete
-#
-## load other alias
-#if [ -f ~/.aliases_gotbletu ]; then
-#    . ~/.aliases_gotbletu
-#fi
-
+# }}}

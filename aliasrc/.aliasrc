@@ -9,6 +9,8 @@
 #       https://plus.google.com/+gotbletu
 #       https://github.com/gotbletu
 #       gotbletu@gmail.com
+#-------- Set PATHS {{{
+#------------------------------------------------------
 export GOPATH=~/.go
 export PATH="$PATH:$GOPATH/bin"
 
@@ -19,7 +21,7 @@ fi
 if [ -d "$HOME/.scripts" ] ; then
     export PATH="$HOME/.scripts:$PATH"
 fi
-
+# }}}
 #-------- Environment Variable {{{
 #------------------------------------------------------
 export HISTCONTROL=ignoreboth			#Remove Extra Commands
@@ -151,7 +153,6 @@ alias du='du -d1 -h'					# max depth, human readable
 alias emacs='emacs -nw'					# cli mode
 alias feh='feh -B white -g 1360x768'			# background, resolution
 alias free='free -h'					# human readable
-alias fu='fu -a'					# show all results
 alias info='info --vi-keys'				# GNU info act like man command
 alias lsblk='lsblk -o "NAME,SIZE,FSTYPE,TYPE,LABEL,MOUNTPOINT,UUID"'    # combo use lsblk or lsblk -f
 alias mkdir='mkdir -p -v'				# create if not exist, verbose
@@ -168,7 +169,7 @@ alias sshxtrusted='ssh -Y'
 alias sr='sr -browser=$BROWSERCLI'			# cli browser
 alias surfraw='surfraw -browser=$BROWSER'		# gui browser
 alias srb='surfraw -browser=$BROWSER'			# surfraw bookmarks
-alias trash='gvfs-trash'
+alias trash='trash-put'
 alias wget='wget -c'					# continues/resumes
 alias weechat='weechat-curses'
 alias xev-keycode="xev | grep 'keycode\|button'"
@@ -185,21 +186,6 @@ lsg() {
 ## }}}
 #-------- Binary / Shell Scripts {{{
 #------------------------------------------------------
-# https://code.google.com/p/ass2srt
-# convert ass/ssa to srt subtitle
-ass2srt() { ~/.scripts/ass2srt.pl $@ ;}
-
-# http://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
-# display avalible colors
-color-avalible() { ~/.scripts/color-avalible.sh ;}
-
-# http://madebynathan.com/2011/08/15/bash-color-index
-# display color
-color-index() { ~/.scripts/color-index.sh ;}
-
-# https://bbs.archlinux.org/viewtopic.php?pid=658127#p658127
-# show color for tput
-color-tput() { ~/.scripts/color-tput.sh ;}
 
 # lightweight image viewer
 # tutorial video: https://www.youtube.com/watch?v=OMOIZlOEfb8
@@ -207,45 +193,9 @@ color-tput() { ~/.scripts/color-tput.sh ;}
 feh-browser() { ~/.scripts/feh-browser.sh $@ -B white -g 1280x800 & }
 feh-slideshow() { ~/.scripts/feh-browser.sh $@ -B white -g 1280x800 -D 3 & }
 
-# https://github.com/bagder/curl/blob/master/perl/contrib/formfind
-# easy find web forms to use with curl
-formfind() { ~/.scripts/formfind.pl ;}
-
-# searches commandlinefu.com
-# tutorial video: https://www.youtube.com/watch?v=Xeni7mHIVPE
-# http://samirahmed.github.com/fu/
-fu-dev() { python2.7 ~/.scripts/fu/src/fu.py -a $@ ;}
-
-# d/l wallpapers from http://interfacelift.com
-# tutorial video: https://www.youtube.com/watch?v=aK4mAAScnAo
-# https://github.com/gotbletu/shownotes/blob/master/interfacelift.sh
-get-interfacelift() { ~/.scripts/interfacelift.sh ;}
-
-# backup dotfiles on to github
-# http://linuxtidbits.wordpress.com/2012/05/30/managing-scripts-and-configurations-on-github-with-a-script/
-ghsync() { ~/.scripts/ghsync-script.sh $@ ;}
-
-# d/l music from http://grooveshark.com
-# tutorial video: https://www.youtube.com/watch?v=QX4vyEmLhsE
-# https://github.com/jacktheripper51/groove-dl
-groove-dl-cli() { python2.7 /usr/share/groove-dl/groove.py "$@" ;}
-
-# multiple text highlighter
-# tutorial video: https://www.youtube.com/watch?v=KkGMOYoQx6A
-# https://github.com/paoloantinori/hhighlighter
-# requires: ack
-if [ -e ~/.scripts/hhighlighter/h.sh ]; then
-	source ~/.scripts/hhighlighter/h.sh
-fi
-
 # http://code.google.com/p/imgur-cli
 # imgur image uploader http://imgur.com
 imgur() { python2 ~/.scripts/imgur-cli/imgur.py $@ ;}
-
-# read apps reviews via cli (from ubuntu software center)
-# tutorial video: https://www.youtube.com/watch?v=m6wfVxMTedY
-# https://github.com/gotbletu/shownotes/blob/master/package_comments.py
-package-comments() { python2.7 ~/.scripts/package_comments.py $@ ;}
 
 # manual tiling (similar compiz grid plugin)
 # tutorial video: https://www.youtube.com/watch?v=ZF76DELEpjM
@@ -257,9 +207,6 @@ quicktile-kill () { kill $(ps -ef | grep '[q]uicktile.py' | awk '{print $2}') ;}
 # http://bash.cyberciti.biz/multimedia/linux-rip-audio-cd/
 rip-audio-cd() { ~/.scripts/rip_audio_cd.sh ;}
 
-# swagbucks tv 
-sbtv() { ~/.scripts/sbtv_v1.sh $@ ;}
-
 # screenshot gallery generator 
 # tutorial video: https://www.youtube.com/watch?v=_4G4nMUTzX8
 # http://cli-apps.org/content/show.php/Movie+Thumbnailer?content=74676
@@ -268,17 +215,6 @@ shot() { ~/.scripts/shot.sh -n 30 -r 80% -s $@ ;}
 # take screenshot fullscreen, window, area selection using import command
 # http://en.gentoo-wiki.com/wiki/Screenshot
 sshot() { ~/.scripts/screenshot.sh area ;}
-
-# stream music from http://www.shoutcast.com
-# tutorial video: https://www.youtube.com/watch?v=9T4VtC5Bhmo
-# http://crunchbanglinux.org/forums/post/150615
-shoutcast-tuner() { ~/.scripts/shoutcast_tuner.sh ;}
-
-
-# catalog movies; generate html page
-# tutorial video: https://www.youtube.com/watch?v=4J-ORBz7gjY
-# http://smoviecat.sourceforge.net
-simple-movie-catalog() { cd ~/.scripts/SimpleMovieCatalog; perl moviecat-pl -my -mf -origtitle -c config.txt ;}
 
 # todo list manager
 # tutorial video: https://www.youtube.com/watch?v=rm12kDVM1ps
@@ -293,11 +229,6 @@ t() { ~/.scripts/todo.txt-cli/todo.sh $@ ;}
 	# http://technotales.wordpress.com/2009/05/24/using-vim-as-a-pager/
 	# vim readonly; to force write use :w!
 	vless() { vim -R "$@" ;}
-
-# search thepiratebay and torrentz.eu
-# tutorial video: https://www.youtube.com/watch?v=IY56U1L6FCI
-# https://github.com/saironiq/shellscripts/blob/master/thepiratebay_se/tpb.sh
-# https://github.com/saironiq/shellscripts/blob/master/torrentz_eu/torrentz_eu.sh
 
 # https://bitbucket.org/antocuni/tty2gif
 # convert ttyrec to gif files
@@ -329,6 +260,7 @@ cfg-fstab() { sudo $EDITOR /etc/fstab ;}
 cfg-ghsync() { $EDITOR ~/.scripts/ghsync-script.sh ;}
 cfg-gitignore() { $EDITOR ~/Public/dotfiles/.gitignore;}
 cfg-group() { sudo $EDITOR /etc/group ;}
+cfg-grub() { sudo $EDITOR /etc/default/grub ;}
 cfg-hintsrc() { $EDITOR ~/.hintsrc ;}
 cfg-hosts() { sudo $EDITOR /etc/hosts ;}
 cfg-i3wm() { $EDITOR ~/.i3/config ;}
@@ -456,35 +388,6 @@ cmdfu-random() { echo -e "`curl -sL http://www.commandlinefu.com/commands/random
 # usage: down4me google.com
 down4me() { curl -s "http://www.downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g';}
 
-# combine multiple pdf files into a single pdf file
-# tutorial video: http://www.youtube.com/watch?v=eQoOk5Xbt3M
-combine-pdf() { gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=combinedpdf_`date +'%F_%Hh%M'`.pdf -f "$@" ;}
-
-# extract pdf pages
-# http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
-pdfpextr()
-{
-    # this function uses 3 arguments:
-    #     $1 is the first page of the range to extract
-    #     $2 is the last page of the range to extract
-    #     $3 is the input file
-    #     output file will be named "inputfile_pXX-pYY.pdf"
-    #     example: pdfpextr 22 36 inputfile.pdf
-    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-       -dFirstPage=${1} \
-       -dLastPage=${2} \
-       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
-       ${3}
-}
-
-
-
-
-
-# combine multiple avi files into a single avi file
-# tutorial video: https://www.youtube.com/watch?v=EAWGFJoZXAU
-combine-avi() { avimerge -o combineavi_`date +'%F_%Hh%M'`.avi -i "$@" ;}
-
 # convert doc/docx to pdf (dont upload sensitive data)
 # tutorial video: http://www.youtube.com/watch?v=r90IdQwF-hs
 doc2pdf() { curl -# -F inputDocument=@"$1" http://www.doc2pdf.net/convert/document.pdf > "${1%.*}.pdf" ;}
@@ -533,120 +436,36 @@ doubles-to-triples() {
 #-------- FFMPEG X11GRAB Screencasting {{{
 #------------------------------------------------------
 # tutorial video: http://www.youtube.com/watch?v=mNz5Lrc06_s
-# compile ffmpeg:	http://ubuntuforums.org/showthread.php?t=786095
-# 			https://ffmpeg.org/trac/ffmpeg/wiki/UbuntuCompilationGuide
-# proper screencast: 	http://ubuntuforums.org/showthread.php?t=1392026
+# http://ubuntuforums.org/showthread.php?t=1392026
+# https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 # http://nowardev.wordpress.com/2011/05/23/how-to-screencast/
 # https://github.com/gotbletu/shownotes/blob/master/ffmpeg_x11grab_screencast.txt
 # https://dl.dropboxusercontent.com/u/28788188/cast.sh (Xpander69)
 # https://support.google.com/youtube/answer/1722171?hl=en
-# credit: verb3k, MocoPoloX, FakeOutdoorsman, Xpander69
-# press q to quit
 
-# Screencasting Variables# {{{
-# package select (avconv or ffmpeg)
+# ffmpeg location
 # FF_RECORDER=/usr/bin/ffmpeg
 FF_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
 
-# SoundCard (pulse for pulseaudio; install pavucontrol to change pulse settings)
-#            hw:0,1 for directly communicating with your soundcard
-#            to get a list of sound device:
-#            	arecord -l
-#            	aplay -l
-#            	cat /proc/asound/pcm
-#            	alsamixer and hit F6
-# FF_SOUNDCARD=pulse
-# FF_SOUNDCARD=hw:0,1
-# FF_SOUNDCARD=hw:2,0
-FF_SOUNDCARD=hw:3,0
-# FF_SOUNDCARD=hw:1,0
-# FF_SOUNDCARD=hw:3,0
-# FF_SOUNDCARD=hw:0,3
+# use "arecord -l" to find mic
+# pavucontrol if using pulseaudio
+# FF_MIC=pulse
+FF_MIC=hw:4,0
 
-# How many threads used (0 for automatic)
-FF_THREADS=0
+# scale down resolution if needed
+# ${FF_SCALE[*]}
+# FF_SCALE=(-vf scale=1280:720)
 
-# Resolution (use xrandr to find your resolution or use xwininfo to auto find your resolution)
-FF_RESO_MON1=1680x1050
-FF_RESO_MON2=1920x1080
-FF_RESO_FULL=$(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1)
-# FF_RESO_ALL=$(xwininfo -root | grep 'geometry' |awk '{print $2;}') #older version
+FF_OUTPUT=~/Public/screencast/aa_screencast_baking.mkv
+
+ffcast() { $FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -y $FF_OUTPUT ;}
 
 
-# Xserver Display number(:0.0 is default; use offset for other monitor :0.0+X,Y)
-FF_XDISP=:0.0
-FF_XDISP_MON2=:0.0+1680,0
+# example references
+# worked well on ffmpeg 0.11.1
+# ffmpeg -f pulse -ac 1 -i hw:3,0 -async 1 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -y ~/Public/screencast/aa_screencast_baking.mkv 
 
-# Audio Device
-FF_AUDIO=alsa
-
-# Channels (Mono = 1; Dual = 2 ; dual for most devices)
-FF_CHANNELS=1
-# FF_CHANNELS=2
-
-
-# Frames per second
-FF_FPS=30
-
-# Constant Rate Factor(0 = highest quality; 50 = lowest)
-# CRF=22
-FF_CRF=0
-
-# libx264 presets (slow, fast, superfast, ultrafast; run "x264 -h" and go to preset section for more)
-# additionaly run "sudo find /usr -iname '*.ffpreset'" for others
-FF_PRESET=ultrafast
-
-# Video Codec
-FF_VCODEC=libx264
-
-# Compatibility ( yuv444p for H.264, yuv420p for compatibility with outdated media players )
-FF_PIXFMT=yuv444p
-
-# Audio Codec (libmp3lame, pcm_s16le or libvorbis are most common)
-# ACODEC=libvorbis
-# ACODEC=pcm_s16le
-FF_ACODEC=libmp3lame
-
-# Directory where your video is gonna be saved.(include / at the end)
-# DIRECTORY=$HOME/Public/
-FF_DIRECTORY=$PATH_SCREENCAST/
-
-# File name
-# FILENAME=videocast`$DATE +%d%m%Y_%H.%M.%S`.mkv
-FF_FILENAME=aa_screencast_baking.mkv
-
-# ======== OPTIONAL ========
-# Scale Video on the fly
-# I use this for youtube since my Monitor is 1680x1050 and Youtube 720p video is 1280x720; so i scale down the resolution
-# This avoids black bars on left and right side (non-fullscreen); on "fullscreen" the black bars are on top and bottom
-# orginal flag: -vf scale=1280:720
-FF_SCALE="scale=1280:720"
-
-# Overwrite Output File; ( -y = yes ; -n = no )
-# This only works if you use the same filename
-FF_OVERWRITE="-y"
-# ==========================
 # }}}
-# Screencasting Commands# {{{
-# Monitor 1 = Benq LCD with Scaling 1680x1050 --> 1280x720 Youtube 720p
-ffcast_benq() { $FF_RECORDER -f $FF_AUDIO -ac $FF_CHANNELS -i $FF_SOUNDCARD -async 1 -f x11grab -r $FF_FPS -s $FF_RESO_MON1 -i $FF_XDISP -vcodec $FF_VCODEC -pix_fmt $FF_PIXFMT -preset $FF_PRESET -crf $FF_CRF -acodec $FF_ACODEC -ab 128k -threads $FF_THREADS -vf $FF_SCALE $FF_OVERWRITE $FF_DIRECTORY$FF_FILENAME ;}
-
-# Monitor 2 = Proscan LED TV; 1080p - 1920x1080
-ffcast_proscantv() { $FF_RECORDER -f $FF_AUDIO -ac $FF_CHANNELS -i $FF_SOUNDCARD -async 1 -f x11grab -r $FF_FPS -s $FF_RESO_MON2 -i $FF_XDISP_MON2 -vcodec $FF_VCODEC -pix_fmt $FF_PIXFMT -preset $FF_PRESET -crf $FF_CRF -acodec $FF_ACODEC -ab 128k -threads $FF_THREADS $FF_OVERWRITE $FF_DIRECTORY$FF_FILENAME ;}
-
-# fullscreen
-ffcast_full() { $FF_RECORDER -f $FF_AUDIO -ac $FF_CHANNELS -i $FF_SOUNDCARD -async 1 -f x11grab -r $FF_FPS -s $FF_RESO_FULL -i $FF_XDISP -vcodec $FF_VCODEC -pix_fmt $FF_PIXFMT -preset $FF_PRESET -crf $FF_CRF -acodec $FF_ACODEC -ab 128k -threads $FF_THREADS $FF_OVERWRITE $FF_DIRECTORY$FF_FILENAME ;}
-# }}}
-# ------ old examples ------# {{{
-#E1: ffmpeg -f alsa -ac 2 -i hw:0,1 -f x11grab -r 30 -s 1280x1024 -i :0.0 -acodec pcm_s16le -vcodec libx264 -vpre lossless_ultrafast -threads 0 out.avi
-#E2: avconv -f alsa -i pulse -f x11grab -r 25 -s 1920x1080 -i :0.0 -vcodec mpeg4 -b 12000k -g 300 -bf 2 -acodec libmp3lame -ab 256k out.avi
-#E3: ffmpeg -threads 0 -f alsa -i pulse -f x11grab -s 1280x720 -r 30 -i :0.0+0,0 -vcodec libx264 -preset superfast -crf 16 -acodec libmp3lame -ab 256k -ar 44100 -f mp4 out.mp4
-#E4: ffmpeg -f alsa -ac 2 -i hw:0,0 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' | awk '{print $2;}') -i :0.0 -acodec pcm_s16le -vcodec libx264 -preset ultrafast -crf 0 -threads 0 -y out.mkv
-#E5: (select window); ffmpeg -f alsa -ac 2 -i hw:0,0 -f x11grab -r 30 -s $(xwininfo -frame | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+') -i :0.0+$(xwininfo -frame | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' ) -acodec pcm_s16le -vcodec libx264 -preset ultrafast -crf 0 -threads 0 -y out.mkv
-#E6: ffmpeg -f alsa -ac 2 -i hw:3,0 -async 1 -f x11grab -r 30 -s 1280x1024 -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -vf 800x600 -y out.mkv ;}
-# --------------------------# }}}
-
-#}}}
 #-------- Fasd {{{
 #------------------------------------------------------
 # jump/open recent files and folder quickly
@@ -658,20 +477,6 @@ if which fasd >/dev/null; then
 	alias o='a -e $OPENER'		# open any file
 	alias v='f -e $EDITOR'		# open with text editor
 fi
-#}}}
-#-------- Plowshare {{{
-#------------------------------------------------------
-# d/l cyberlocker files like rapidshare, mediafire ..etc
-# tutorial video: http://www.youtube.com/watch?v=5AzFdX-EyeI
-# http://code.google.com/p/plowshare/
-# PPA: https://launchpad.net/~plowsharepackagers
-plowdown-depositfiles() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/depositfiles.txt ;}
-plowdown-uploaded() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/uploaded.txt ;}
-plowdown-netloadin() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/netloadin.txt ;}
-plowdown-rapidgator() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/rapidgator.txt ;}
-plowdown-rapidshare() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/rapidshare.txt ;}
-plowdown-random() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/random.txt ;}
-
 #}}}
 #-------- Simple HTTP Server {{{
 #------------------------------------------------------
@@ -746,24 +551,6 @@ tsm-ncurse() { transmission-remote-cli ;}
 
 #}}}
 
-#-------- iPod 5G Device {{{
-#------------------------------------------------------
-# convert to ipod 5g compatible video format
-# tutorial video: http://www.youtube.com/watch?v=gVVeR9KizBk
-
-ipod5g() { HandBrakeCLI -i "$1" -o "${1%.*}.ipod5g.mp4" --preset="iPod" ;}
-ipod5g-tsp() { tsp HandBrakeCLI -i "$1" -o "${1%.*}.ipod5g.mp4" --preset="iPod" ;}
-ipod5g-rsync() { 
-# https://gist.github.com/nekobato/5998548
-# including trailing slashes on $SRC
-# rsync $SRC/Music/ $DEST/media/Ipod
-rsync -avrm --delete-excluded --modify-window=2 --include '*/' --include '*.mp3' --exclude '*' "$1" "$2" 
-}
-
-tsp-handbrake-normal() { tsp HandBrakeCLI -i "$1" -o "${1%.*}.normal.mp4" --preset="Normal" ;}
-tsp-handbrake-high() { tsp HandBrakeCLI -i "$1" -o "${1%.*}.high.mp4" --preset="High Profile" ;}
-
-# }}}
 #-------- Sopcast CLI {{{
 #------------------------------------------------------
 # tutorial Video: http://www.youtube.com/watch?v=Dm7cFjhzgHo
@@ -1420,7 +1207,7 @@ fzf-locate() {
 	# then
 	#  	exit
 	# fi
-;}
+}
 fzf-playonlinux() { playonlinux --run '$(ls ~/.PlayOnLinux/shortcuts | fzf -e -i )' ;}
 
 # http://www.reddit.com/r/commandline/comments/3abtup/fzfr_fzf_bash_function/
@@ -1549,12 +1336,6 @@ pa-swap() { ~/.scripts/pulseaudio_toggle.sh ;}
 #}}}
 #-------- Extraction / Archive Related {{{
 #------------------------------------------------------
-# usage: combine-zip file.zip -- join splited zip (z01, z02 ..etc)
-combine-zip() { zip -s- "$1" -O "${1%.*}"-combined.zip ;}
-
-# usage: combine-001 file.avi.001 -- only requires the 1st file
-combine-001() { lxsplit -j "$1" ;}
-
 # compress folder into cbr/cbz
 cbrit() { rar a -r "${1%/}.cbr" "$1" ;}
 cbzit() { zip -r "${1%/}.cbz" "$1" ;}
@@ -1601,16 +1382,6 @@ imguralbum_cbz() {
 
 
 #}}}
-
-
-mp3skull() {
-        keyword="$(echo "http://mp3skull.com/mp3/$@.html" | sed 's/ /\_/g')"
-	music_url=$(lynx -source "$keyword" | awk '/href/ && /\.mp3/' \
-		| cut -d\" -f4 | sed 's/ /\%20/g' | awk '!x[$0]++')
-	echo $music_url | sed 's/\ /\n/g' | sed 's/\%20/ /g' | vim -R -
-}
-
-
 
 
 # http://www.walkingrandomly.com/?p=2850
@@ -2673,21 +2444,9 @@ readability2html() {
 }
 
 
-#http://www.reddit.com/r/commandline/comments/19ept5/open_discussion_cool_trick_thursday_what_are_your/c8neljz
-#cd to mp3 ripper
-audiocd_to_mp3() { cdparanoia -B ; for f in *.wav ; do sox -S $f "${f%.wav}.mp3" ; rm $f ; done ;}
-audiocd_to_iso() { use dd or ddrescure or readom ;}
 
 unlock() { keepassc -d ~/.keepass/masterlock.kdb ;}
 
-ripit-mydefault() { 
-	ripit -o ~/Downloads -p 0 -c 0 --nointeraction "$@"
-	# -p ; playlist (m3u file) 0=disable
-	# --nointeraction; use 1st CDDB it finds
-	# -c ; 0 - Lame (for mp3), 1 - Oggenc, 2 - Flac, 3 - Faac,
-	# 	4 - mp4als, 5 - Musepack, 6 - Wavpack, 7 - ffmpeg
-	# $@ ; specfic tracks like 1-4,5,8
-	}
 
 # }}}
 #-------- One Off {{{
@@ -2696,8 +2455,6 @@ compile-cpp() { g++ -Wall -o "${1%.cpp}" "$1" ; }
 
 
 
-# Arch linux
-alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 
 # http://www.commandlinefu.com/commands/view/954
 symlinks() { find . -type l ! -exec test -e {} \; -print ;}
@@ -2911,13 +2668,7 @@ mpsyt-collider-jedicouncil() { mpsyt pl "https://www.youtube.com/playlist?list=P
 mpsyt-collider-heroes() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnaH7ltMEq0h8jBlfU79kwg" ;}
 mpsyt-collider-mailbag() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnuYS9PZhp3jgOSlb9BzaKs" ;}
 mpsyt-collider-spoilers() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBclxpYg1JdmqUYQnKCCiPcPd" ;}
-mpsyt-amc-mailbag() { mpsyt pl "http://www.youtube.com/playlist?list=PLYNW0PN4_jrqlBqzAVRv3rfpo6nhzJnKp" ;}
-mpsyt-amc-jedicouncil() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrrNalTqcKp5Hm6xUkxgmAvf" ;}
-mpsyt-amc-heroes() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrpSdrkBA5PSBKXUgpIQM2Yz" ;}
-mpsyt-amc-rewind() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrowkjkuZka22uWpb_CLXFYz" ;}
 mpsyt-amc-spoilers() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrrILuvfws1zYComnO5n4nmJ" ;}
-mpsyt-amc-comingsoon() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrpdMTL0PFMBF2Y54ivswXVh" ;}
-mpsyt-amctheatres() { mpsyt user amctheatres ;}
 mpsyt-afterbuzz-arrowaftershow() { mpsyt pl PL6THzna6gLceNeZoXKUOoDeO7cwI57rJn ;}
 mpsyt-afterbuzz-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PL6THzna6gLcdfHMhXnGy-O0kS0q-muucC" ;}
 mpsyt-afterbuzz-gameofthrones() { mpsyt pl PL0404DAD1AD037666 ;}
@@ -2932,7 +2683,7 @@ mpsyt-game-cinemassacre() { mpsyt user cinemassacre ;}
 mpsyt-game-craigslistgamefinds() { mpsyt user craigslistgamefinds ;}
 mpsyt-game-happyconsolegamer() { mpsyt user happyconsolegamer ;}
 mpsyt-game-jamesnintendonerd() { mpsyt user jamesnintendonerd ;}
-mpsyt-game-mcfrosticles() { mpsyt user mcfrosticles ;}
+mpsyt-game-gaminghistorian() { mpsyt user mcfrosticles ;}
 mpsyt-game-metaljesusrocks() { mpsyt user metaljesusrocks ;}
 mpsyt-game-retroliberty() { mpsyt user retroliberty ;}
 mpsyt-game-lazygamereviews() { mpsyt user phreakindee ;}
@@ -3128,28 +2879,28 @@ date-global() {
 k810-battery() { echo Logitech K810 Battery: $(cat /sys/class/power_supply/hid-00:1f:20:a8:08:47-battery/capacity) ;}
 k810-resync() { echo -e 'connect 00:1F:20:A8:08:47 \nexit' | bluetoothctl ;}
 
-hdd-poo() { 
-# list hdd drives
-lsblk
-
-files=(ls /sys/block/)	
-
-while read line
-do
-  drivez=$line
-  echo "$drivez"
-  cat /sys/block/"$drivez"/queue/rotational
-done <<($files)
-
-
-;}
+# hdd-poo() { 
+# # list hdd drives
+# lsblk
+#
+# files=(ls /sys/block/)	
+#
+# while read line
+# do
+#   drivez=$line
+#   echo "$drivez"
+#   cat /sys/block/"$drivez"/queue/rotational
+# done <<($files)
+#
+#
+# }
 
 
 
 convert-pix() { 
 	# convert-pix bmp jpg
 	for i in *."$1"; do convert ${i} ${i%"$1"}"$2"; done
-;}
+}
 
 
 tmsu-add() { tmsu tag --tags "$@" ;}
@@ -3164,26 +2915,297 @@ fzf-tmsu() {
 	then
 	 	exit
 	fi
-;}
+}
 
 # http://unix.stackexchange.com/a/46921
 file-chmod() { stat --format '%a' "$@" ;}
 lsp() { stat -c "%a %n" * ;}
 
 #lower case bash/zsh
-lowercase() { 
-	# [bash] https://www.garron.me/en/bits/rename-files-from-uppercase-to-lowercase.html
-	for i in *; do mv $i `echo $i | tr [:upper:] [:lower:]`; done
-	# [zsh] https://lorenzod8n.wordpress.com/category/zsh/
-	for file in *; do mv $file ${file:l}; done
-;}
+# lowercase() { 
+# 	# [bash] https://www.garron.me/en/bits/rename-files-from-uppercase-to-lowercase.html
+# 	for i in *; do mv $i `echo $i | tr [:upper:] [:lower:]`; done
+# 	# [zsh] https://lorenzod8n.wordpress.com/category/zsh/
+# 	for file in *; do mv $file ${file:l}; done
+# ;}
 
 # http://stackoverflow.com/a/11824856
-lowercase-extension() {
-	find . -name '*.*' -exec sh -c ' a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/"); [ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
-;}
+lowercase-extension() { find . -name '*.*' -exec sh -c ' a=$(echo "$0" | sed -r "s/([^.]*)\$/\L\1/"); [ "$a" != "$0" ] && mv "$0" "$a" ' {} \; ;}
 
 
+# concat  = joinning files in a series (like a train)
+# mux     = flatting files such as video and audio track in parallel
+# demux   = extraction of video and sound tracks
+# slice   = cut files into peices (video, sound)
+# split   = split into peiceses (archive)
+# combine = join files together again (usually for splited archive files like 001, zip ..etc)
+
+#-------- Convert to Android Devices {{{
+#------------------------------------------------------
+# http://linuxconfig.org/ffmpeg-audio-format-conversions
+# http://develop.participatoryculture.org/index.php/ConversionMatrix
+
+handbrake_to_android()       { HandBrakeCLI -i "$1" -o "${1%.*}.android.mp4" --preset="Android" ;}
+handbrake_to_androidtablet() { HandBrakeCLI -i "$1" -o "${1%.*}.androidtablet.mp4" --preset="Android Tablet" ;}
+
+
+HTC_DEVICE=(-acodec aac -ab 160k -vcodec libx264 -preset slow -profile:v baseline -level 30 -maxrate 10000000 -bufsize 10000000 -f mp4 -threads 0 -strict experimental)
+convert_to_htc_wildfire()        { ffmpeg -i "$1" -s 240x320 ${HTC_DEVICE[*]} "${1%.*}".htc_wildfire.mp4 ;}
+convert_to_htc_desire()          { ffmpeg -i "$1" -s 480x800 ${HTC_DEVICE[*]} "${1%.*}".htc_desire.mp4 ;}
+convert_to_htc_droidincredible() { ffmpeg -i "$1" -s 480x800 ${HTC_DEVICE[*]} "${1%.*}".htc_droidincredible.mp4 ;}
+convert_to_htc_thunderbolt()     { ffmpeg -i "$1" -s 480x800 ${HTC_DEVICE[*]} "${1%.*}".htc_thunderbolt.mp4 ;}
+convert_to_htc_evo4g()           { ffmpeg -i "$1" -s 480x800 ${HTC_DEVICE[*]} "${1%.*}".htc_evo4g.mp4 ;}
+convert_to_htc_sensation()       { ffmpeg -i "$1" -s 540x960 ${HTC_DEVICE[*]} "${1%.*}".htc_sensation.mp4 ;}
+convert_to_htc_rezound()         { ffmpeg -i "$1" -s 720x1280 ${HTC_DEVICE[*]} "${1%.*}".htc_rezound.mp4 ;}
+convert_to_htc_onex()            { ffmpeg -i "$1" -s 720x1280 ${HTC_DEVICE[*]} "${1%.*}".htc_onex.mp4 ;}
+
+
+MOTOROLA_DEVICE=(-acodec aac -ab 160k -vcodec libx264 -preset slow -profile:v baseline -level 30 -maxrate 10000000 -bufsize 10000000 -f mp4 -threads 0 -strict experimental)
+convert_to_motorola_droidx()  { ffmpeg -i "$1" -s 854x480 ${MOTOROLA_DEVICE[*]} "${1%.*}".motorola_droidx.mp4 ;}
+convert_to_motorola_droidx2() { ffmpeg -i "$1" -s 1280x720 ${MOTOROLA_DEVICE[*]} "${1%.*}".motorola_droidx2.mp4 ;}
+convert_to_motorola_razr()    { ffmpeg -i "$1" -s 960x540 ${MOTOROLA_DEVICE[*]} "${1%.*}".motorola_razr.mp4 ;}
+convert_to_motorola_xoom()    { ffmpeg -i "$1" -s 1280x800 ${MOTOROLA_DEVICE[*]} "${1%.*}".motorola_xoom.mp4 ;}
+
+
+SAMSUNG_DEVICE=(-acodec aac -ab 160k -vcodec libx264 -preset slow -profile:v baseline -level 30 -maxrate 10000000 -bufsize 10000000 -f mp4 -threads 0 -strict experimental)
+convert_to_samsung_galaxy_s2()    { ffmpeg -i "$1" -s 480x800 ${SAMSUNG_DEVICE[*]} "${1%.*}".samsung_galaxy_s2.mp4 ;}
+convert_to_samsung_galaxy_s3()    { ffmpeg -i "$1" -s 720x1280 ${SAMSUNG_DEVICE[*]} "${1%.*}".samsung_galaxy_s3.mp4 ;}
+convert_to_samsung_galaxy_nexus() { ffmpeg -i "$1" -s 720x1280 ${SAMSUNG_DEVICE[*]} "${1%.*}".samsung_galaxy_nexus.mp4 ;}
+convert_to_samsung_galaxy_note2() { ffmpeg -i "$1" -s 1080x1920 ${SAMSUNG_DEVICE[*]} "${1%.*}".samsung_galaxy_note2.mp4 ;}
+convert_to_samsung_galaxy_tab()   { ffmpeg -i "$1" -s 600×1024 ${SAMSUNG_DEVICE[*]} "${1%.*}".samsung_galaxy_tab.mp4 ;}
+convert_to_samsung_galaxy_tab10() { ffmpeg -i "$1" -s 800×1280 ${SAMSUNG_DEVICE[*]} "${1%.*}".samsung_galaxy_tab10.mp4 ;}
+
+
+convert_to_kindlefire() { ffmpeg -i "$1" -s 1024x600 -acodec aac -ab 96k -vcodec libx264 -preset slow -f mp4 -crf 22 -strict experimental "${1%.*}".mp4 ;}
+
+convert_to_sanyo_zio() { ffmpeg -i "$1" -acodec aac -ab 160k -s 480x800 -vcodec libx264 -preset slow -profile:v baseline -level 30 -maxrate 10000000 -bufsize 10000000 -f mp4 -threads 0 -strict experimental "${1%.*}".sanyo_zio.mp4 ;}
+
+# }}}
+#-------- Convert to iOS Devices {{{
+#------------------------------------------------------
+# https://trac.handbrake.fr/wiki/BuiltInPresets
+
+handbrake_to_ipodclassic()  { HandBrakeCLI -i "$1" -o "${1%.*}.ipodclassic.mp4" --preset="iPod" ;} #ipod5g or higher classic
+handbrake_to_iphone()       { HandBrakeCLI -i "$1" -o "${1%.*}.iphone.mp4" --preset="iPhone & iPod touch" ;}
+handbrake_to_ipodtouch()    { HandBrakeCLI -i "$1" -o "${1%.*}.ipodtouch.mp4" --preset="iPhone & iPod touch" ;}
+handbrake_to_ipad()         { HandBrakeCLI -i "$1" -o "${1%.*}.ipad.mp4" --preset="iPad" ;}
+handbrake_to_appletv()      { HandBrakeCLI -i "$1" -o "${1%.*}.appletv.mp4" --preset="AppleTV" ;}
+handbrake_to_appletv2()     { HandBrakeCLI -i "$1" -o "${1%.*}.appletv2.mp4" --preset="AppleTV 2" ;}
+handbrake_to_appletv3()     { HandBrakeCLI -i "$1" -o "${1%.*}.appletv3.mp4" --preset="AppleTV 3" ;}
+
+APPLE_DEVICE=(-acodec aac -ac 2 -strict experimental -ab 160k -vcodec libx264 -preset slow -profile:v baseline -level 30 -maxrate 10000000 -bufsize 10000000 -b:v 1200k -f mp4 -threads 0)
+convert_to_ipodclassic()    { ffmpeg -i "$1" -s 320x240 ${APPLE_DEVICE[*]} "${1%.*}".ipodclassic.mp4 ;}
+convert_to_iphone()         { ffmpeg -i "$1" -s 960x640 ${APPLE_DEVICE[*]} "${1%.*}".iphone.mp4 ;}
+convert_to_ipodtouch()      { ffmpeg -i "$1" -s 960x640 ${APPLE_DEVICE[*]} "${1%.*}".ipodtouch.mp4 ;}
+convert_to_ipad()           { ffmpeg -i "$1" -s 1280x720 ${APPLE_DEVICE[*]} "${1%.*}".ipad.mp4 ;}
+convert_to_appletv()        { ffmpeg -i "$1" -s 960x720 ${APPLE_DEVICE[*]} "${1%.*}".appletv.mp4 ;}
+convert_to_appletv2()       { ffmpeg -i "$1" -s 1280x720 ${APPLE_DEVICE[*]} "${1%.*}".appletv2.mp4 ;}
+convert_to_appletv3()       { ffmpeg -i "$1" -s 1920x1080 ${APPLE_DEVICE[*]} "${1%.*}".appletv3.mp4 ;}
+
+# }}}
+#-------- Convert to Misc Devices {{{
+#------------------------------------------------------
+
+convert_to_psp() { ffmpeg -i "$1" -s 320x240 -b:v 512000 -ar 24000 -ab 64000 -f psp -r 29.97 -strict experimental "${1%.*}".psp.mp4 ;}
+
+handbrake_to_windowsphone8() { HandBrakeCLI -i "$1" -o "${1%.*}.winphone8.mp4" --preset="Windows Phone 8" ;}
+
+# }}}
+#-------- Convert to Video Formats {{{
+#------------------------------------------------------
+
+handbrake_to_normal()    { HandBrakeCLI -i "$1" -o "${1%.*}.normal.mp4" --preset="Normal" ;}
+handbrake_to_high()      { HandBrakeCLI -i "$1" -o "${1%.*}.high.mp4" --preset="High Profile" ;}
+handbrake_to_universal() { HandBrakeCLI -i "$1" -o "${1%.*}.universal.mp4" --preset="Universal" ;}
+
+convert_to_avi()  { ffmpeg -i "$1" -codec:v mpeg4 -vtag xvid -qscale:v 3 -codec:a libmp3lame -qscale:a 4 "${1%.*}".avi ;}
+convert_to_ogv()  { ffmpeg -i "$1" -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 "${1%.*}".ogv ;}
+convert_to_mpg()  { ffmpeg -i "$1" -codec:v mpeg2video -qscale:v 2 -codec:a mp2 -b:a 192k "${1%.*}".mpg ;}
+convert_to_mkv()  { ffmpeg -i "$1" -codec:v libx264 -preset medium -crf 22 -codec:a libvorbis -qscale:a 5 "${1%.*}".mkv ;}
+convert_to_webm() { ffmpeg -i "$1" -codec:v libvpx -crf 10 -b:v 1M -codec:a libvorbis "${1%.*}".webm ;}
+convert_to_mp4()  { ffmpeg -i "$1" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${1%.*}".mp4 ;}
+
+# }}}
+
+#-------- Convert to Audio Formats {{{
+#------------------------------------------------------
+
+convert_to_mp3()       { ffmpeg -i "$1" -codec:a libmp3lame -qscale:a 2 "${1%.*}".mp3 ;}
+convert_to_m4a()       { ffmpeg -i "$1" -codec:a aac -qscale:a 6 -strict experimental "${1%.*}".m4a ;} 
+convert_to_ogg()       { ffmpeg -i "$1" -codec:a libvorbis -qscale:a 5 -vn "${1%.*}".ogg ;}
+convert_to_wav()       { ffmpeg -i "$1" "${1%.*}".wav ;}
+convert_to_wavmono()   { ffmpeg -i "$1" -codec:a pcm_mulaw -ar 8000 -ac 1 "${1%.*}".wav ;} #8bit mono; ringtone
+convert_to_webmaudio() { ffmpeg -i "$1" -codec:a libvorbis -qscale:a 5 -vn "${1%.*}".webm ;} 
+normalizeaudio()       { sox --norm "$1" "${1%.*}"-output."${1##*.}" ;}
+
+# }}}
+#-------- Hardcoded Subtitles to Videos {{{
+#------------------------------------------------------
+# https://trac.ffmpeg.org/wiki/HowToBurnSubtitlesIntoVideo
+# https://www.bunkus.org/videotools/mkvtoolnix/samples/
+# install ttf-ms-fonts
+# ffmpeg with --enable-libass
+
+convert_to_ass() { ffmpeg -i "$1" "${1%.*}".ass ;} # srt --> ass
+convert_to_srt() { ffmpeg -i "$1" "${1%.*}".srt ;} # ass --> srt
+
+# The first 2 are alpha
+# AABBGGRR = &HAABBGGRR
+# http://www.zonums.com/gmaps/kml_color/
+
+# usage: aliasname filename subtitles(srt/ass)
+# convert_to_hardsubs() { ffmpeg -y -i "$1" -vf subtitles="$2":force_style="'Fontsize=35;FontName=DejaVu Serif,PrimaryColour=&H5014F0FF'" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${1%.*}"-hardsubs.mp4 ;}
+
+convert_to_hardsubs() { 
+if [  $# -le 1 ] 
+then 
+	echo -e "Use ffmpeg to slice videos with starting and endpoint" 
+	echo -e "\nUsage:\n$0 [file] [begintime] [endtime] \n" 
+	echo -e "\nexample:\n$0 filename.mp4 00:01:00 00:05:00 \n" 
+	
+	exit 1
+fi 
+
+ffmpeg -y -i "$1" -vf subtitles="$2":force_style="'Fontsize=${3:-25},PrimaryColour=&H${4:-5014F0FF},FontName=${5:-DejaVu Sans Mono}'" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${1%.*}"-hardsubs.mp4
+}
+
+# 1min video testing
+convert_to_testing() { ffmpeg -y -i "$1" -ss 00:05:00 -t 00:01:00 -vf subtitles="$2":force_style="'Fontsize=35;FontName=DejaVu Serif,PrimaryColour=&H5014F0FF'" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${1%.*}"-testing.mp4 ;}
+
+# mkvinfo filename.mkv
+# mkvextract tracks filename.mkv 2:subs.ass
+# mkvextract tracks filename.mkv 2:subs.srt
+# mkvextract attachments filename.mkv 1:BAARS___.TTF
+# put the font files into ~/.fonts and then run `fc-cache -vf'
+
+# }}}
+#-------- Slice Videos {{{
+#------------------------------------------------------
+kimboslice() { 
+    if [  $# -le 3 ] 
+    then 
+        echo -e "Use ffmpeg to slice videos with beginning and endpoint" 
+        echo -e "\nUsage:\n$0 [file] [begintime] [endtime] \n" 
+        echo -e "\nexample:\n$0 filename.avi 00:01:00 00:05:00 \n" 
+
+        exit 1
+    fi 
+    
+    # code
+    BEGINTIME=${2}
+    ENDTIME=${3}
+    
+    # Convert the times to seconds from the Epoch
+    SEC1=`date +%s -d ${BEGINTIME}`
+    SEC2=`date +%s -d ${ENDTIME}`
+    
+    # Use expr to do the math, let's say TIME1 was the start and TIME2 was the finish
+    DIFFSEC=`expr ${SEC2} - ${SEC1}`
+    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
+    
+    ffmpeg -i "$1" -ss ${BEGINTIME} -t ${DURATIONTIME} -codec:v copy -codec:a copy "${1%.*}"-sliced."${1##*.}"
+
+}
+
+# }}}
+#-------- Concatenate Files {{{
+#------------------------------------------------------
+
+# tutorial video: http://www.youtube.com/watch?v=eQoOk5Xbt3M
+concat_multiplepdf() { gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile="${1%.*}".concat.pdf -f "$@" ;}
+
+# tutorial video: https://www.youtube.com/watch?v=EAWGFJoZXAU
+concat_avi() { avimerge -o "${1%.*}".concat.avi -i "$@" ;}
+
+concat_videos() { 
+	appendfile=$(echo "$@" | sed 's: : --append :g')
+	avidemux2_cli --nogui --audio-codec copy --video-codec copy --output-format "${1##*.}" --load $(echo $appendfile) --save "${1%.*}"-appended."${1##*.}" 
+}
+
+
+# usage: combine-zip file.zip -- join splited zip (z01, z02 ..etc)
+unsplit_zip() { zip -s- "$1" -O "${1%.*}"-unsplited.zip ;}
+
+# usage: combine-001 file.avi.001 -- only requires the 1st file
+unsplit_001() { lxsplit -j "$1" ;}
+
+# }}}
+#-------- Disc to Files {{{
+#------------------------------------------------------
+
+#http://www.reddit.com/r/commandline/comments/19ept5/open_discussion_cool_trick_thursday_what_are_your/c8neljz
+convert_audiocd_to_mp3() { cdparanoia -B ; for f in *.wav ; do sox -S $f "${f%.wav}.mp3" ; rm $f ; done ;}
+convert_audiocd_to_flac() { cdparanoia -B ; for f in *.wav ; do sox -S $f "${f%.wav}.flac" ; rm $f ; done ;}
+convert_audiocd_to_ogg() { cdparanoia -B ; for f in *.wav ; do sox -S $f "${f%.wav}.ogg" ; rm $f ; done ;}
+convert_audiocd_to_iso() { use dd or ddrescure or readom ;}
+
+
+# has CDDB tags?
+ripit-mydefault() { 
+	ripit -o ~/Downloads -p 0 -c 0 --nointeraction "$@"
+	# -p ; playlist (m3u file) 0=disable
+	# --nointeraction; use 1st CDDB it finds
+	# -c ; 0 - Lame (for mp3), 1 - Oggenc, 2 - Flac, 3 - Faac,
+	# 	4 - mp4als, 5 - Musepack, 6 - Wavpack, 7 - ffmpeg
+	# $@ ; specfic tracks like 1-4,5,8
+}
+
+rip_to_mp3() { mkdir -p ~/Downloads/audiocd ; ripit -o ~/Downloads/audiocd -p 0 -c 0 --nointeraction "$@" ;}
+rip_to_ogg() { mkdir -p ~/Downloads/audiocd ; ripit -o ~/Downloads/audiocd -p 0 -c 1 --nointeraction "$@" ;}
+rip_to_flac() { mkdir -p ~/Downloads/audiocd ; ripit -o ~/Downloads/audiocd -p 0 -c 2 --nointeraction "$@" ;}
+rip_to_aac() { mkdir -p ~/Downloads/audiocd ; ripit -o ~/Downloads/audiocd -p 0 -c 3 --nointeraction "$@" ;}
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+
+merge_to_mkv() { 
+	# mkvmerge -o newfile.mkv part1.mkv +part2.mkv
+	file="$1"
+	# appendfile=$echo ${@} | sed 's: : +:g')
+        appendfile=$(echo "$@" | sed 's/ /\ +/g')
+
+	# mkvmerge -o "${1%.*}".merged.mkv "$clean"
+	# mkvmerge -o "${file%.*}".merged.mkv $appendfile
+	mkvmerge -o merged.mkv $appendfile
+	echo $appendfile
+
+	}
+# extract pdf pages
+# http://www.linuxjournal.com/content/tech-tip-extract-pages-pdf
+pdfpextr()
+{
+    # this function uses 3 arguments:
+    #     $1 is the first page of the range to extract
+    #     $2 is the last page of the range to extract
+    #     $3 is the input file
+    #     output file will be named "inputfile_pXX-pYY.pdf"
+    #     example: pdfpextr 22 36 inputfile.pdf
+    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+       -dFirstPage=${1} \
+       -dLastPage=${2} \
+       -sOutputFile=${3%.pdf}_p${1}-p${2}.pdf \
+       ${3}
+}
+
+
+
+
+
+
+# }}}
+
+# cd to flac
+# flac to wav
+# wav to cd
+# split bin/cue audio
+
+# -b = -b:v
+# -av = audio bitrate
+
+# gifv, gif, vob, m4v, mov, wmv, wma, vob, cd_mp3, cd_flac, avi
+# mp4 subtitles burn in hardcoded
 
 # remove bulk packages wildcard
 # https://bbs.archlinux.org/viewtopic.php?id=135649
@@ -3195,6 +3217,72 @@ git-sync-ignorelist() { git rm --cached `git ls-files -i --exclude-from=.gitigno
 mp3cut() { 
 
 	# example: cut from 5s to 10s; mpgtx -s file.mp3 "[00:05-00:10]" -b file-output
-	mpgtx -s "$1" "["$2":"$3"-"$4":"$5"]" -b "${1%.*}-output"
-	
-	;}
+	mpgtx -s "$1" "["$2":"$3"-"$4":"$5"]" -b "${1%.*}"-output."${1##*.}"
+
+	}
+
+
+#-------- iPod 5G Device {{{
+#------------------------------------------------------
+# convert to ipod 5g compatible video format
+# tutorial video: http://www.youtube.com/watch?v=gVVeR9KizBk
+
+ipod5g() { HandBrakeCLI -i "$1" -o "${1%.*}.ipod5g.mp4" --preset="iPod" ;}
+ipod5g-tsp() { tsp HandBrakeCLI -i "$1" -o "${1%.*}.ipod5g.mp4" --preset="iPod" ;}
+ipod5g-rsync() { 
+# https://gist.github.com/nekobato/5998548
+# including trailing slashes on $SRC
+# rsync $SRC/Music/ $DEST/media/Ipod
+rsync -avrm --delete-excluded --modify-window=2 --include '*/' --include '*.mp3' --exclude '*' "$1" "$2" 
+}
+
+tsp-handbrake-normal() { tsp HandBrakeCLI -i "$1" -o "${1%.*}.normal.mp4" --preset="Normal" ;}
+tsp-handbrake-high() { tsp HandBrakeCLI -i "$1" -o "${1%.*}.high.mp4" --preset="High Profile" ;}
+
+# }}}
+
+update-grub() { sudo grub-mkconfig -o /boot/grub/grub.cfg ;}
+grub-list() { 
+	RED='\033[0;31m'
+	sudo grep "menuentry '" /boot/grub/grub.cfg | less -N 
+	echo -e "${RED} REMINDER: GRUB number starts at zero not one"
+	} 
+
+# Ignorepkgs= linux linux-headers linux-lts linux-lts-headers virtualbox virtualbox-guest-iso virtualbox-host-modules virtualbox-host-modules-lts
+#
+#
+# I also use paccache and it works beautifully. This keeps the last two versions of packages. I run it as a root cronjob which emails me the output daily:  
+# paccache -r -k 2
+# https://wiki.archlinux.org/index.php/Pacman#Cleaning_the_package_cache
+
+
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Plowshare {{{
+#------------------------------------------------------
+# d/l cyberlocker files like rapidshare, mediafire ..etc
+# tutorial video: http://www.youtube.com/watch?v=5AzFdX-EyeI
+# http://code.google.com/p/plowshare/
+# PPA: https://launchpad.net/~plowsharepackagers
+plowdown-depositfiles() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/depositfiles.txt ;}
+plowdown-uploaded() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/uploaded.txt ;}
+plowdown-netloadin() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/netloadin.txt ;}
+plowdown-rapidgator() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/rapidgator.txt ;}
+plowdown-rapidshare() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/rapidshare.txt ;}
+plowdown-random() { plowdown -r 3 --max-rate 900K -m ~/.config/plowshare/random.txt ;}
+
+#}}}
