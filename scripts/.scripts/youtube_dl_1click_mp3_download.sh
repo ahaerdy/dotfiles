@@ -11,6 +11,7 @@
 #       https://github.com/gotbletu
 #       gotbleu@gmail.com
 
+# tutorial video: https://www.youtube.com/watch?v=nGSGlc9bTAg
 # a script to copy link and convert youtube videos to mp3
 # just create a shortcut launcher on the panel and click on it while on the youtube page you want to download the mp3 from
 
