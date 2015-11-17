@@ -26,7 +26,7 @@ WAIT=`zenity --entry --title="Timer" \
 sleep $WAIT
 
 # optional sound, comment out if needed
-# (sleep 1 && mplayer ~/.soundeffects/batman_rachel_dawes_defines.ogg) &
+(sleep 1 && mplayer ~/.soundeffects/batman_rachel_dawes_defines.ogg) &
 # (sleep 1 && mplayer ~/.soundeffects/metalgear_alert.ogg) &
 
 # always on top

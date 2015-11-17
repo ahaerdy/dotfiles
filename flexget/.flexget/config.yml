@@ -12,7 +12,7 @@
 
 # Setting up Flexget: https://www.youtube.com/playlist?list=PLB60EF62FBFCCD208
 # Using Movie Queue: https://www.youtube.com/watch?v=g31cCEervTw
-
+      # - rss: http://torrentz.eu/feed_verified?q=arrow
 tasks:
   movie_queue_release:
     movie_queue: yes
@@ -57,11 +57,16 @@ tasks:
     series:
       - 'Arrow'
       - 'Avengers Assemble'
+      - 'Blindspot'
       - 'Castle'
+      - 'Dark Matter'
       - 'Dual Survival'
       - 'Game of Thrones'
       - 'Live Free or Die'
+      - 'Mr Robot'
+      - 'Quantico'
       - 'Scorpion'
+      - 'Star Wars Rebels'
       - 'The Blacklist'
       - 'The Flash'
       - 'The Walking Dead'
@@ -70,16 +75,21 @@ tasks:
     download: ~/Downloads/
     verify_ssl_certificates: no
     inputs:
-      - rss: http://torrentz.eu/feed_verified?q=arrow
+      - rss: http://kat.cr/usearch/Arrow%20category%3Atv%20verified%3A1/?rss=1
       - rss: http://torrentz.eu/feed?q=avengers+assemble
       - rss: http://torrentz.eu/feed_verified?q=the+blacklist
+      - rss: http://torrentz.eu/feed_verified?q=blindspot
       - rss: http://torrentz.eu/feed_verified?q=castle
+      - rss: http://torrentz.eu/feed_verified?q=dark+matter
       - rss: http://torrentz.eu/feed_verified?q=defiance
       - rss: http://kickass.so/usearch/dual+survival/?rss=1
       - rss: http://torrentz.eu/feed_verified?q=falling+skies
       - rss: http://torrentz.eu/feed_verified?q=the+flash
       - rss: http://torrentz.eu/feed_verified?q=game+of+thrones
       - rss: http://kickass.so/usearch/Live%20Free%20or%20Die%20-Breaking%20-Bad%20category%3Atv%20verified%3A1/?rss=1
+      - rss: http://torrentz.eu/feed_verified?q=mr+robot
+      - rss: http://torrentz.eu/feed_verified?q=quantico
+      - rss: http://torrentz.eu/feed_verified?q=star+wars+rebels
       - rss: http://torrentz.eu/feed_verified?q=scorpion
       - rss: http://torrentz.eu/feed_verified?q=under+the+dome
       - rss: http://torrentz.eu/feed_verified?q=the+walking+dead

@@ -1,4 +1,5 @@
 #!/usr/bin/env python2
+# https://code.google.com/p/bones7456/source/browse/trunk/SimpleHTTPServerWithUpload.py
 # https://github.com/tualatrix/tools/blob/master/SimpleHTTPServerWithUpload.py
 """Simple HTTP Server With Upload.
 

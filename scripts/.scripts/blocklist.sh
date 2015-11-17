@@ -19,7 +19,7 @@
 # Transmission does not allow multiple blocklist by default or is not simple.
 # This script merges multiple blocklist into one file.
 # Be sure to restart your bt client/daemon to use the new iplist.
-# Make sure to enable the blocklist and keep the url empty in your config file.
+# Make sure to enable the blocklist to true and keep the blocklist-url empty in your config file.
 
 # Example:
 # vim ~/.config/transmission-daemon/settings.json

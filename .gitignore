@@ -11,8 +11,6 @@
 # no Calibre
 # no centerim5
 # no !keepass/.keepass/*.kdb
-# no !mutt
-# no !newsbeuter
 # no !pianobar
 # no !purple
 # no !pyload
@@ -37,10 +35,12 @@
 # nzbget
 # wegorc
 # hintsrc
+# wikimd
+
 
 # Allowed Folders/Files
 !.gitignore
-#!README.md
+!README.md
 
 !aliasrc
 !aliasrc/.aliasrc
@@ -58,6 +58,12 @@
 !cmus/.cmus/*.theme
 !cmus/.cmus/themes-screenshot
 !cmus/.cmus/themes-screenshot/*.png
+!custom_actions
+!custom_actions/.custom_actions
+!custom_actions/.custom_actions/**
+!easystroke
+!easystroke/.easystroke
+!easystroke/.easystroke/**
 !easytag
 !easytag/.easytag
 !easytag/.easytag/easytagrc
@@ -89,6 +95,10 @@
 !mcomix/.config
 !mcomix/.config/mcomix
 !mcomix/.config/mcomix/*.conf
+!mutt
+!mutt/.mutt
+!mutt/.mutt/*.example
+!mutt/.muttrc.example
 !mpd
 !mpd/.mpd
 !mpd/.mpd/mpd.conf
@@ -108,6 +118,11 @@
 !musicbrainz/.config/MusicBrainz/Picard/plugins/*.py
 !nanorc
 !nanorc/.nanorc
+!newsbeuter
+!newsbeuter/.newsbeuter
+!newsbeuter/.newsbeuter/config
+# !newsbeuter/.newsbeuter/urls
+!newsbeuter/.newsbeuter/themes/*.theme
 !ncmpcpp
 !ncmpcpp/.ncmpcpp
 !ncmpcpp/.ncmpcpp/config
@@ -143,16 +158,14 @@
 !surfraw/.config/surfraw/elvi/*
 !tmux
 !tmux/.tmux.conf
-!transmission-daemon
-!transmission-daemon/.config
-!transmission-daemon/.config/transmission-daemon
-!transmission-daemon/.config/transmission-daemon/settings.json
-!transmission-daemon/.config/transmission-daemon/blocklists
-!transmission-daemon/.config/transmission-daemon/blocklists/*.bin
-!transmission-remote-cli
-!transmission-remote-cli/.config
-!transmission-remote-cli/.config/transmission-remote-cli
-!transmission-remote-cli/.config/transmission-remote-cli/settings.cfg
+!transmission
+!transmission/.config
+!transmission/.config/transmission-daemon
+!transmission/.config/transmission-daemon/settings.json.example
+!transmission/.config/transmission-daemon/blocklists
+!transmission/.config/transmission-daemon/blocklists/*.bin
+!transmission/.config/transmission-remote-cli
+!transmission/.config/transmission-remote-cli/settings.cfg
 !urlview
 !urlview/.urlview
 !vim

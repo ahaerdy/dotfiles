@@ -5,7 +5,7 @@
 color_index() {
 echo -e "\n              Usage: \\\e[*;**m or \\\033[*;**m or \\\033[*;**(;**)m"
 echo -e   "            Default: \\\e[0m or \\\033[0m"
-echo -e "          Example: echo -e '\\\e[*;**mHelloWorld'"
+echo -e "          Example: echo -e '\\\e[1;33mHelloWorld'"
 local blank_line="\033[0m\n     \033[0;30;40m$(printf "%41s")\033[0m"
 echo -e "$blank_line" # Top border
 for STYLE in 2 0 1 4 9; do

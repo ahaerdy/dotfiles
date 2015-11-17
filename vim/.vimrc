@@ -5,6 +5,9 @@
 set autoindent
 set smartindent
 
+map <leader>? :verbose map <CR><CR>
+
+
 "-------- plugins {{{
 "------------------------------------------------------
 " pathogen - vim plugin manager
@@ -259,6 +262,15 @@ map <leader>wg :exec '!cd ~/Downloads; wget -N -c ' . shellescape(getline('.')) 
 "------------------------------------------------------
 "}}}
 
+"-------- bookmarks {{{
+"------------------------------------------------------
+" save bookmarks on exit
+" http://stackoverflow.com/a/8958141
+" Uppercase or numeric marks will be remember.
+" Lowercase marks are temporary. 'a to 'z
+set viminfo='1000,f1
+
+"}}}
 
 
 "------------------------------------------////
@@ -392,7 +404,17 @@ set lbr
 
 "}}}
 
-
+" Ranger File Browser in Vim
+" http://www.everythingcli.org/use-ranger-as-a-file-explorer-in-vim/
+function RangerExplorer()
+    exec "silent !ranger --choosefile=/tmp/vim_ranger_current_file " . expand("%:p:h")
+    if filereadable('/tmp/vim_ranger_current_file')
+        exec 'edit ' . system('cat /tmp/vim_ranger_current_file')
+        call system('rm /tmp/vim_ranger_current_file')
+    endif
+    redraw!
+endfun
+map <Leader>x :call RangerExplorer()<CR>
 
 
 

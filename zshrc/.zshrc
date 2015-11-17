@@ -58,9 +58,6 @@ DISABLE_AUTO_TITLE=true
 if [ -f ~/.aliasrc ]; then
     . ~/.aliasrc
 fi
-if [ -f ~/.hintsrc ]; then
-    . ~/.hintsrc
-fi
 
 # }}}
 

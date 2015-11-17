@@ -14,13 +14,10 @@
 # WebUI
 - asus-router		http://192.168.1.1
 - obihai		http://192.168.1.99
-- calibre-comic   	http://192.168.1.100:57770 (default: 8080)
-  - calibre-dojinshi	http://192.168.1.100:57771
-  - calibre-eurotica	http://192.168.1.100:57772
-  - calibre-anime   	http://192.168.1.100:57773
-  - calibre-normal  	http://192.168.1.100:57774
-  - calibre-textbook   	http://192.168.1.100:57775
-  - calibre-fleshink   	http://192.168.1.100:57776
+- calibre-book  	http://192.168.1.100:57770 (default: 8080)
+- calibre-comic   	http://192.168.1.100:57771
+- calibre-dojinshi	http://192.168.1.100:57772
+- calibre-super  	http://192.168.1.100:57773
 - cups	         	http://192.168.1.100:631
 - nzbget	       	http://192.168.1.100:6789
 - simplehttpserver     	http://192.168.1.100:8000

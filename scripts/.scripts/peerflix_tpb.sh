@@ -10,7 +10,8 @@
 # magnet link to torrent will be appended
 # you can add -- at the end to indicate end of options
 # (if your program supports it, most do)
-program='/usr/bin/transmission-remote -a'
+program='peerflix -p 55055'
+TPB="https://thepiratebay.gd"
 
 # show N first matches by default
 limit=35
@@ -24,6 +25,14 @@ peercolor='\x1b[1;32m'
 errocolor='\x1b[1;31m'
 mesgcolor='\x1b[1;37m'
 nonecolor='\x1b[0m'
+
+# default ordering method
+# 1 - name ascending; 2 - name descending;
+# 3 - recent first; 4 - oldest first;
+# 5 - size descending; 6 - size ascending;
+# 7 - seeds descending; 8 - seeds ascending;
+# 9 - leechers descending; 10 - leechers ascending;
+orderby=7
 ### END CONFIGURATION ###
 
 thisfile="$0"
@@ -35,7 +44,7 @@ printhelp() {
 	echo
 	echo -e "Available options:"
 	echo -e "\t-h\t\tShow help"
-	echo -e "\t-n [num]\tShow only first N results (default 15; max 50)"
+	echo -e "\t-n [num]\tShow only first N results (default 15; max 100 [top] or 30 [search])"
 	echo -e "\t-C\t\tDo not use colors"
 	echo -e "\t-P [prog]\tSet torrent client command (\`-P torrent-client\` OR \`-P \"torrent-client --options\"\`)"
 	echo
@@ -70,18 +79,24 @@ shift `expr $OPTIND - 1`
 # correctly encode query
 q=`echo "$*" | tr -d '\n' | od -t x1 -A n | tr ' ' '%'`
 
+# if not searching, show top torrents
+if [ -z "$q" ] ; then
+	url="top/all"
+else
+	url='search/'"$q"'/0/'"$orderby"'/0'
+fi
+
 # get results
 # Here be dragons!
-cookie=`date +"%a %b %d %Y %T GMT%z (%Z)"`
-r=`curl -A Mozilla -b "_SESS=$cookie" -m 15 -s "https://torrentz.eu/search?f=$q" \
-	| grep -v '<a href=\"/z/' \
-	| grep -Eo '<dl><dt><a href=\"\/[[:alnum:]]*\">.*</a>|<span class=\"[speud]*\">[^<]*</span>' \
-	| sed  's!<dl><dt><a href=\"/!!; \
-		s!\">!|!; \
-		s!<[/]*b>!!g; \
-		N;N;N;s!\n<span class=\"[pesud]*\">!|!g; \
-		s!</span>!!g; \
-		s!</a>!!'`
+r=`curl -k -A Mozilla -b "lw=s" -m 15 -s "$TPB/$url" \
+	| grep -Eo '^<td><a href=\"/torrent/[^>]*>.*|^<td><nobr><a href=\"[^"]*|<td align=\"right\">[^<]*' \
+	| sed  's!^<td><a href=\"/torrent/[^>]*>!!; \
+		s!</a>$!!; \
+		s!^<td><nobr><a href=\"!!; \
+		s!^<td [^>]*>!!; \
+		s!&nbsp;!\ !g; \
+		s/|/!/g' \
+	| sed  'N;N;N;N;s!\n!|!g'`
 
 # number of results
 n=`echo "$r" | wc -l`
@@ -99,7 +114,7 @@ echo "$r" \
 		-v PE="$peercolor" \
 		-v NO="$nonecolor" \
 		-F '|' \
-		'{print NU N ") " NA $2 " " SI $3 " " SE $4 " " PE $5 NO; N++}'
+		'{print NU N ") " NA $1 " " SI $3 " " SE $4 " " PE $5 NO; N++}'
 
 # read ID(s), expand ranges, ignore everything else
 read -p ">> Torrents to download (eg. 1 3 5-7): " selection
@@ -132,7 +147,7 @@ for torrent in $down ; do
 	if [ $torrent -ge 1 ] ; then
 		if [ $torrent -le $limit ] ; then
 			echo -n "$torrent "
-			command="$program `echo "$r" | awk -F '|' 'NR=='$torrent'{print "magnet:?xt=urn:btih:" $1; exit}'`"
+			command="$program `echo "$r" | awk -F '|' 'NR=='$torrent'{print $2; exit}'`"
 			status=$(eval "$command" 2>&1)
 			if [ $? -ne 0 ] ; then
 				echo -n '(failed!) '
