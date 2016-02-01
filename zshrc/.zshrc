@@ -1,88 +1,155 @@
+#              _   _     _      _                   _
+#   __ _  ___ | |_| |__ | | ___| |_ _   _   _______| |__
+#  / _` |/ _ \| __| '_ \| |/ _ \ __| | | | |_  / __| '_ \
+# | (_| | (_) | |_| |_) | |  __/ |_| |_| |  / /\__ \ | | |
+#  \__, |\___/ \__|_.__/|_|\___|\__|\__,_| /___|___/_| |_|
+#  |___/
+#
+#       DESC: ZSH Configurations
+#
+#       http://www.youtube.com/user/gotbletu
+#       https://twitter.com/gotbletu
+#       https://plus.google.com/+gotbletu
+#       https://github.com/gotbletu
+#       gotbletu@gmail.com
 
-#-------- ZSH Shell Only {{{
+# http://stackoverflow.com/questions/171563/whats-in-your-zshrc
+
+#-------- ZSH Modules {{{
 #------------------------------------------------------
-# ignore duplicates from ~/.zsh_history
-setopt histignoredups
+#
+
+# autoload -U zcalc zsh-mime-setup
+# zsh-mime-setup
+
+# }}}
+#-------- Prompt {{{
+#------------------------------------------------------
+# https://wiki.archlinux.org/index.php/Zsh#Prompts
+
+autoload -U promptinit && promptinit
+prompt fade    # set prompt theme (for listing: $ prompt -p)
+
+# }}}
+#-------- History {{{
+#------------------------------------------------------
+# get more info: $man zshoptions
+
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_NO_STORE
+setopt HIST_REDUCE_BLANKS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+# setopt HIST_VERIFY
+setopt SHARE_HISTORY
+setopt INTERACTIVE_COMMENTS        # pound sign in interactive prompt
+HISTFILE=~/.zsh_history            # where to save zsh history
+HISTSIZE=10000
+SAVEHIST=10000
+
 cfg-history() { $EDITOR $HISTFILE ;}
-# }}}
-#-------- Oh My ZSH {{{
-#------------------------------------------------------
-# Path to your oh-my-zsh configuration.
-ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="gallois"
-# ZSH_THEME="wezm"
-ZSH_THEME="nicoulaj"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git 
-npm
-pip
-zsh-syntax-highlighting
-#command-not-found 
-)
-
-
-source $ZSH/oh-my-zsh.sh
-#source $ZSH/custom/plugins/auto-fu.zsh/auto-fu.zsh
-
-DISABLE_AUTO_TITLE=true
-
-# }}}
-
-
-
-
-#-------- Include External Files {{{
-#------------------------------------------------------
-if [ -f ~/.aliasrc ]; then
-    . ~/.aliasrc
-fi
-
-# }}}
-
-#-------- Auto Start Tmux Session {{{
-#------------------------------------------------------
-# https://wiki.archlinux.org/index.php/Tmux#Start_tmux_on_every_shell_login
-# TMUX
-#if which tmux 2>&1 >/dev/null; then
-#    # if no session is started, start a new session
-#    test -z ${TMUX} && tmux
 #
-#    # when quitting tmux, try to attach
-#    while test -z ${TMUX}; do
-#        tmux attach || break
-#    done
-#fi
-#
-#}}}
-
-
-#		ZSH Stuff
-#======================================================
-#-------- Commands {{{
+# }}}
+#-------- Globbing {{{
 #------------------------------------------------------
-# Show dots if tab compeletion is taking long to load
+#
+setopt extendedglob
+unsetopt caseglob
+
+# }}}
+#-------- Vim Mode {{{
+#------------------------------------------------------
+# enable vim mode on commmand line
+bindkey -v
+
+# edit command with editor
+# http://stackoverflow.com/a/903973
+# usage: type someshit then hit Esc+v
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+
+
+# no delay entering normal mode
+# https://github.com/pda/dotzsh/blob/master/keyboard.zsh#L10
+# 10ms for key sequences
+KEYTIMEOUT=1
+
+# show vim status
+# http://zshwiki.org/home/examples/zlewidgets
+function zle-line-init zle-keymap-select {
+    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
+    RPS2=$RPS1
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+# add missing vim hotkeys
+# fixes backspace deletion issues
+# http://zshwiki.org/home/zle/vi-mode
+bindkey -a u undo
+# bindkey -a '^R' redo	# conflicts with history search hotkey
+bindkey -a '^T' redo
+bindkey '^?' backward-delete-char	#backspace
+
+# history search in vim mode
+# http://zshwiki.org./home/zle/bindkeys#why_isn_t_control-r_working_anymore
+bindkey -M viins '^r' history-incremental-search-backward
+bindkey -M vicmd '^r' history-incremental-search-backward
+
+# vim mode status cursor color change
+# http://andreasbwagner.tumblr.com/post/804629866/zsh-cursor-color-vi-mode
+# http://reza.jelveh.me/2011/09/18/zsh-tmux-vi-mode-cursor
+
+# bug; 112 ascii randomly showing up
+
+#zle-keymap-select () {
+#  if [ $KEYMAP = vicmd ]; then
+#    if [[ $TMUX = '' ]]; then
+#      echo -ne "\033]12;Red\007"
+#    else
+#      printf '\033Ptmux;\033\033]12;red\007\033\\'
+#    fi
+#  else
+#    if [[ $TMUX = '' ]]; then
+#      echo -ne "\033]12;Grey\007"
+#    else
+#      printf '\033Ptmux;\033\033]12;grey\007\033\\'
+#    fi
+#  fi
+#}
+#zle-line-init () {
+#  zle -K viins
+#  echo -ne "\033]12;Grey\007"
+#}
+#zle -N zle-keymap-select
+#zle -N zle-line-init
+
+# }}}
+#-------- Autocomplete {{{
+#------------------------------------------------------
+# http://www.refining-linux.org/archives/40/ZSH-Gem-5-Menu-selection/
+# https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/completion.zsh
+
+autoload -U compinit && compinit        # enable autocompletion
+zstyle ':completion:*' menu select      # to activate the menu, press tab twice
+unsetopt menu_complete                  # do not autoselect the first completion entry
+setopt completealiases                  # autocompletion CLI switches for aliases
+zstyle ':completion:*' list-colors ''   # show colors on menu completion
+# setopt auto_menu         # show completion menu on succesive tab press
+# setopt complete_in_word
+# setopt always_to_end
+
+# show dots if tab compeletion is taking long to load
 expand-or-complete-with-dots() {
   echo -n "\e[31m......\e[0m"
   zle expand-or-complete
@@ -91,10 +158,16 @@ expand-or-complete-with-dots() {
 zle -N expand-or-complete-with-dots
 bindkey "^I" expand-or-complete-with-dots
 
+# autocomplete case-insensitive (all),partial-word and then substring
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+# better completion for killall
+zstyle ':completion:*:killall:*' command 'ps -u $USER -o cmd'
+
 #}}}
 #-------- Global Alias {{{
 #------------------------------------------------------
-# usage: cp NF ND, cd ND, xdg-open NF, ...etc
+# http://www.zzapper.co.uk/zshtips.html
 alias -g ND='*(/om[1])' 		# newest directory
 alias -g NF='*(.om[1])' 		# newest file
 
@@ -159,86 +232,97 @@ alias -s {tar,bz2,gz,xz}="tar tvf"	#tar.bz2,tar.gz,tar.xz
 alias -s zip="unzip -l"
 
 #}}}
-#-------- Vim Mode {{{
+#-------- External Files {{{
 #------------------------------------------------------
-# enable vim mode on commmand line
-bindkey -v
+
+# load alias/functions that works with both zsh/bash
+if [[ -f ~/.aliasrc ]]; then
+    source ~/.aliasrc
+fi
+
+#}}}
+
+#-------- Keybinding {{{
+#------------------------------------------------------
+# manpages for keybindings: $man zshzle
+
+# partial history search using up and down arrow keys
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
+
+# Bang! Previous Command Hotkeys
+# print previous command but only the first nth arguments
+# Alt+1, Alt+2 ...etc
+bindkey -s '\e1' "!:0 \t"
+bindkey -s '\e2' "!:0-1 \t"
+bindkey -s '\e3' "!:0-2 \t"
+bindkey -s '\e4' "!:0-3 \t"
+bindkey -s '\e5' "!:0-4 \t"
+bindkey -s '\e`' "!:-1 \t"     # all but the last word
 
 
-# edit command with editor ( good for long commands )
-# http://stackoverflow.com/a/903973
-# usage: type someshit then Esc+v or v
-autoload -U edit-command-line
-zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
+#}}}
+#-------- ZMV {{{
+#------------------------------------------------------
+# http://onethingwell.org/post/24608988305/zmv
+autoload zmv
+
+# }}}
 
 
+#-------- Fuzzy Finder {{{
+#------------------------------------------------------
+#
 
-# no delay entering normal mode
-# https://coderwall.com/p/h63etq
-# https://github.com/pda/dotzsh/blob/master/keyboard.zsh#L10
-# 10ms for key sequences
-KEYTIMEOUT=1
+# function bind to a hotkey
+fzf_history() { zle -I; eval $(history | fzf +s | sed 's/ *[0-9]* *//') ; }; zle -N fzf_history; bindkey '^F' fzf_history
 
-# show vim status
-# http://zshwiki.org/home/examples/zlewidgets
-function zle-line-init zle-keymap-select {
-    RPS1="${${KEYMAP/vicmd/-- NORMAL --}/(main|viins)/-- INSERT --}"
-    RPS2=$RPS1
-    zle reset-prompt
+fzf_killps() { zle -I; ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9} ; }; zle -N fzf_killps; bindkey '^Q' fzf_killps
+
+fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
+# }}}
+#-------- Emacs Mode {{{
+#------------------------------------------------------
+# enable emacs mode on commmand line
+# bindkey -e
+
+# use text editor to edit commands
+# autoload -U edit-command-line
+# zle -N edit-command-line
+# bindkey '\C-x\C-e' edit-command-line
+
+# }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
+
+
+# }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
+
+
+# }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
+
+
+# }}}
+
+#-------- Autocomplete Custom {{{
+#------------------------------------------------------
+# autocomplete surfraw bookmarks
+# usage: srb <bookmark_name>
+_cmpl_surfraw() {
+	reply=($(awk 'NF != 0 && !/^#/ {print $1}' ~/.config/surfraw/bookmarks | sort -n))
 }
-zle -N zle-line-init
-zle -N zle-keymap-select
-
-# add missing vim hotkeys
-# fixes backspace deletion issues
-# http://zshwiki.org/home/zle/vi-mode
-bindkey -a u undo
-# bindkey -a '^R' redo	# conflicts with history search hotkey
-bindkey -a '^T' redo
-bindkey '^?' backward-delete-char	#backspace
-bindkey '^H' backward-delete-char
+compctl -K _cmpl_surfraw srb
 
 
-# history search in vim mode
-# http://zshwiki.org./home/zle/bindkeys#why_isn_t_control-r_working_anymore
-bindkey -M viins '^r' history-incremental-search-backward
-bindkey -M vicmd '^r' history-incremental-search-backward
+# fzf_surfraw() { zle -I; surfraw $(cat ~/.config/surfraw/bookmarks | fzf | awk 'NF != 0 && !/^#/ {print $1}' ) ; }; zle -N fzf_surfraw; bindkey '^W' fzf_surfraw
 
-
-
-
-
-
-
-
-# vim mode status cursor color change
-# http://andreasbwagner.tumblr.com/post/804629866/zsh-cursor-color-vi-mode
-# http://reza.jelveh.me/2011/09/18/zsh-tmux-vi-mode-cursor
-
-# bug; 112 ascii randomly showing up
-
-#zle-keymap-select () {
-#  if [ $KEYMAP = vicmd ]; then
-#    if [[ $TMUX = '' ]]; then
-#      echo -ne "\033]12;Red\007"
-#    else
-#      printf '\033Ptmux;\033\033]12;red\007\033\\'
-#    fi
-#  else
-#    if [[ $TMUX = '' ]]; then
-#      echo -ne "\033]12;Grey\007"
-#    else
-#      printf '\033Ptmux;\033\033]12;grey\007\033\\'
-#    fi
-#  fi
-#}
-#zle-line-init () {
-#  zle -K viins
-#  echo -ne "\033]12;Grey\007"
-#}
-#zle -N zle-keymap-select
-#zle -N zle-line-init
 
 # }}}
 #--------------------------------------------------------------------------
@@ -246,23 +330,16 @@ bindkey -M vicmd '^r' history-incremental-search-backward
 ## http://zshwiki.org/home/examples/compctl
 
 # ZSH completions# {{{
-compdef _pids cpulimit
-setopt completealiases
+# compdef _pids cpulimit
+# setopt completealiases
 
 # calibredb
 # _cmpl_calibredb() {
 # alias -g search="list -s"
-# 		
+#
 #     reply=(add remove search)
 # }
 # compctl -K _cmpl_calibredb cmx-comic cmx-dojinshi cmx-eurotica cmx-hanime cmx-normal cmx-textbook $@
-
-# surfraw bookmarks
-_cmpl_surfraw() {
-	reply=($(awk 'NF != 0 && !/^#/ {print $1}' ~/.config/surfraw/bookmarks | sort -n))
-}
-compctl -K _cmpl_surfraw srb
-fzf_surfraw() { zle -I; surfraw $(cat ~/.config/surfraw/bookmarks | fzf | awk 'NF != 0 && !/^#/ {print $1}' ) ; }; zle -N fzf_surfraw; bindkey '^W' fzf_surfraw
 
 # playonlinux
 _cmpl_playonlinux_run() {
@@ -286,52 +363,293 @@ compctl -K _cmpl_playonlinux_run pol
 
 # bindkey -s '^O' "fzf-dmenu\n"
 
-#-------- Keybinding {{{
-#------------------------------------------------------
+bindkey -s '^O' "fzf-dmenu\n"
 
-# history search using up and down arrow keys
-bindkey '^[[A' history-search-backward
-bindkey '^[[B' history-search-forward
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# function bind to a hotkey
-fzf_history() { zle -I; eval $(history | fzf +s | sed 's/ *[0-9]* *//') ; }; zle -N fzf_history; bindkey '^F' fzf_history
-
-fzf_killps() { zle -I; ps -ef | sed 1d | fzf -m | awk '{print $2}' | xargs kill -${1:-9} ; }; zle -N fzf_killps; bindkey '^Q' fzf_killps
-
-fzf_cd() { zle -I; DIR=$(find ${1:-*} -path '*/\.*' -prune -o -type d -print 2> /dev/null | fzf) && cd "$DIR" ; }; zle -N fzf_cd; bindkey '^E' fzf_cd
-
-#}}}
 
 
 # disable zsh autocorrect
 # https://coderwall.com/p/jaoypq
-unsetopt correct_all
+# unsetopt correct_all
+
+# ----------------------------
+
+# Autoload screen if we aren't in it.  (Thanks Fjord!)
+# if [[ $STY = '' ]] then screen -xR; fi
 
 
+# #-------- Options {{{
+# #------------------------------------------------------
+# # http://linux.die.net/man/1/zshoptions
+#
+# # Options
+# # http://stackoverflow.com/a/171564
+# setopt AUTO_CD           # instead of 'cd folder' if you could just type 'folder'
+# setopt MULTIOS           # now we can pipe to multiple outputs!
+# setopt CORRECT           # spell check commands!  (Sometimes annoying)
+# setopt AUTO_PUSHD        # This makes cd=pushd
+# setopt AUTO_NAME_DIRS    # This will use named dirs when possible
+#
+# # If we have a glob this will expand it
+# setopt GLOB_COMPLETE
+# setopt PUSHD_MINUS
+#
+# # No more annoying pushd messages...
+# # setopt PUSHD_SILENT
+#
+# # blank pushd goes to home
+# setopt PUSHD_TO_HOME
+#
+# # this will ignore multiple directories for the stack.  Useful?  I dunno.
+# setopt PUSHD_IGNORE_DUPS
+#
+# # 10 second wait if you do something that will delete everything.  I wish I'd had this before...
+# setopt RM_STAR_WAIT
+#
+# # use magic (this is default, but it can't hurt!)
+# setopt ZLE
+#
+# setopt NO_HUP
+#
+# setopt VI
+#
+# # only fools wouldn't do this ;-)
+# export EDITOR="vi"
+#
+#
+# setopt IGNORE_EOF
+#
+# # If I could disable Ctrl-s completely I would!
+# setopt NO_FLOW_CONTROL
+#
+# # beeps are annoying
+# setopt NO_BEEP
+#
+# # Keep echo "station" > station from clobbering station
+# setopt NO_CLOBBER
+#
+# # Case insensitive globbing
+# setopt NO_CASE_GLOB
+#
+# # Be Reasonable!
+# setopt NUMERIC_GLOB_SORT
+#
+# # I don't know why I never set this before.
+# setopt EXTENDED_GLOB
+#
+# # hows about arrays be awesome?  (that is, frew${cool}frew has frew surrounding all the variables, not just first and last
+# setopt RC_EXPAND_PARAM
+#
+# #
+#
+# # }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
 
-# ==== WITHOUT OHMYZSH# {{{
 
-# menu selection /menu completion
-# http://www.refining-linux.org/archives/40/ZSH-Gem-5-Menu-selection/
-#autoload -U compinit && compinit
-#zstyle ':completion:*' menu select
-#setopt menu_complete
 # }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
+
+
+# }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
+
+
+# }}}
+#-------- Empty {{{
+#------------------------------------------------------
+#
+
+
+# }}}
+
+
+
+
+# #{{{ Completion Stuff
+#
+# bindkey -M viins '\C-i' complete-word
+#
+# # Faster! (?)
+# zstyle ':completion::complete:*' use-cache 1
+#
+# # case insensitive completion
+# zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+#
+# zstyle ':completion:*' verbose yes
+# zstyle ':completion:*:descriptions' format '%B%d%b'
+# zstyle ':completion:*:messages' format '%d'
+# zstyle ':completion:*:warnings' format 'No matches for: %d'
+# zstyle ':completion:*' group-name ''
+# #zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete
+# zstyle ':completion:*' completer _expand _force_rehash _complete _approximate _ignored
+#
+# # generate descriptions with magic.
+# zstyle ':completion:*' auto-description 'specify: %d'
+#
+# # Don't prompt for a huge list, page it!
+# zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+#
+# # Don't prompt for a huge list, menu it!
+# zstyle ':completion:*:default' menu 'select=0'
+#
+# # Have the newer files last so I see them first
+# zstyle ':completion:*' file-sort modification reverse
+#
+# # color code completion!!!!  Wohoo!
+# zstyle ':completion:*' list-colors "=(#b) #([0-9]#)*=36=31"
+#
+# unsetopt LIST_AMBIGUOUS
+# setopt  COMPLETE_IN_WORD
+#
+# # Separate man page sections.  Neat.
+# zstyle ':completion:*:manuals' separate-sections true
+#
+# # Egomaniac!
+# zstyle ':completion:*' list-separator 'fREW'
+#
+# # complete with a menu for xwindow ids
+# zstyle ':completion:*:windows' menu on=0
+# zstyle ':completion:*:expand:*' tag-order all-expansions
+#
+# # more errors allowed for large words and fewer for small words
+# zstyle ':completion:*:approximate:*' max-errors 'reply=(  $((  ($#PREFIX+$#SUFFIX)/3  ))  )'
+#
+# # Errors format
+# zstyle ':completion:*:corrections' format '%B%d (errors %e)%b'
+#
+# # Don't complete stuff already on the line
+# zstyle ':completion::*:(rm|vi):*' ignore-line true
+#
+# # Don't complete directory we are already in (../here)
+# zstyle ':completion:*' ignore-parents parent pwd
+#
+# zstyle ':completion::approximate*:*' prefix-needed false
+#
+# #}}}
+
+# #{{{ Key bindings
+#
+# # Who doesn't want home and end to work?
+# bindkey '\e[1~' beginning-of-line
+# bindkey '\e[4~' end-of-line
+#
+# # Incremental search is elite!
+# bindkey -M vicmd "/" history-incremental-search-backward
+# bindkey -M vicmd "?" history-incremental-search-forward
+#
+# # Search based on what you typed in already
+# bindkey -M vicmd "//" history-beginning-search-backward
+# bindkey -M vicmd "??" history-beginning-search-forward
+#
+# bindkey "\eOP" run-help
+#
+# # oh wow!  This is killer...  try it!
+# bindkey -M vicmd "q" push-line
+#
+# # Ensure that arrow keys work as they should
+# bindkey '\e[A' up-line-or-history
+# bindkey '\e[B' down-line-or-history
+#
+# bindkey '\eOA' up-line-or-history
+# bindkey '\eOB' down-line-or-history
+#
+# bindkey '\e[C' forward-char
+# bindkey '\e[D' backward-char
+#
+# bindkey '\eOC' forward-char
+# bindkey '\eOD' backward-char
+#
+# bindkey -M viins 'jj' vi-cmd-mode
+# bindkey -M vicmd 'u' undo
+#
+# # Rebind the insert key.  I really can't stand what it currently does.
+# bindkey '\e[2~' overwrite-mode
+#
+# # Rebind the delete key. Again, useless.
+# bindkey '\e[3~' delete-char
+#
+# bindkey -M vicmd '!' edit-command-output
+#
+# # it's like, space AND completion.  Gnarlbot.
+# bindkey -M viins ' ' magic-space
+#
+# #}}}
+
+
+# #{{{ Prompt!
+#
+# host_color=cyan
+# history_color=yellow
+# user_color=green
+# root_color=red
+# directory_color=magenta
+# error_color=red
+# jobs_color=green
+#
+# host_prompt="%{$fg_bold[$host_color]%}%m%{$reset_color%}"
+#
+# jobs_prompt1="%{$fg_bold[$jobs_color]%}(%{$reset_color%}"
+#
+# jobs_prompt2="%{$fg[$jobs_color]%}%j%{$reset_color%}"
+#
+# jobs_prompt3="%{$fg_bold[$jobs_color]%})%{$reset_color%}"
+#
+# jobs_total="%(1j.${jobs_prompt1}${jobs_prompt2}${jobs_prompt3} .)"
+#
+# history_prompt1="%{$fg_bold[$history_color]%}[%{$reset_color%}"
+#
+# history_prompt2="%{$fg[$history_color]%}%h%{$reset_color%}"
+#
+# history_prompt3="%{$fg_bold[$history_color]%}]%{$reset_color%}"
+#
+# history_total="${history_prompt1}${history_prompt2}${history_prompt3}"
+#
+# error_prompt1="%{$fg_bold[$error_color]%}<%{$reset_color%}"
+#
+# error_prompt2="%{$fg[$error_color]%}%?%{$reset_color%}"
+#
+# error_prompt3="%{$fg_bold[$error_color]%}>%{$reset_color%}"
+#
+# error_total="%(?..${error_prompt1}${error_prompt2}${error_prompt3} )"
+#
+# case "$TERM" in
+#   (screen)
+#     function precmd() { print -Pn "\033]0;S $TTY:t{%100<...<%~%<<}\007" }
+#   ;;
+#   (xterm)
+#     directory_prompt=""
+#   ;;
+#   (*)
+#     directory_prompt="%{$fg[$directory_color]%}%~%{$reset_color%} "
+#   ;;
+# esac
+#
+# if [[ $USER == root ]]; then
+#     post_prompt="%{$fg_bold[$root_color]%}%#%{$reset_color%}"
+# else
+#     post_prompt="%{$fg_bold[$user_color]%}%#%{$reset_color%}"
+# fi
+#
+# PS1="${host_prompt} ${jobs_total}${history_total} ${directory_prompt}${error_total}${post_prompt} "
+#
+#
+# #if [[ $TERM == screen]; then
+#      #function precmd() {
+#           #print -Pn "\033]0;S $TTY:t{%100<...<%~%<<}\007"
+#              #}
+# #elsif [[ $TERM == linux ]]; then
+#     #precmd () { print -Pn "\e]0;%m: %~\a" }
+# #fi
+#
+# #}}}
+
+
+
+
+
+

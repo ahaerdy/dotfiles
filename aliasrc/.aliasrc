@@ -1,9 +1,12 @@
-#             _   _     _      _         
-#  __ _  ___ | |_| |__ | | ___| |_ _   _ 
-# / _` |/ _ \| __| '_ \| |/ _ \ __| | | |
-#| (_| | (_) | |_| |_) | |  __/ |_| |_| |
-# \__, |\___/ \__|_.__/|_|\___|\__|\__,_|
-# |___/                                  
+#             _   _     _      _                 _ _           
+#  __ _  ___ | |_| |__ | | ___| |_ _   _    __ _| (_) __ _ ___ 
+# / _` |/ _ \| __| '_ \| |/ _ \ __| | | |  / _` | | |/ _` / __|
+#| (_| | (_) | |_| |_) | |  __/ |_| |_| | | (_| | | | (_| \__ \
+# \__, |\___/ \__|_.__/|_|\___|\__|\__,_|  \__,_|_|_|\__,_|___/
+# |___/
+#
+#       DESC: ZSH/BASH Compatible Alias/Functions
+#
 #       http://www.youtube.com/user/gotbletu
 #       https://twitter.com/gotbletu
 #       https://plus.google.com/+gotbletu
@@ -11,27 +14,26 @@
 #       gotbletu@gmail.com
 
 
-#    ___  __     __  _                   __   _     __ 
-#   / _ \/ /__ _/ /_(_)__  __ ____ _    / /  (_)__ / /_
-#  / ___/ / _ `/ __/ / _ \/ // /  ' \  / /__/ (_-</ __/
-# /_/  /_/\_,_/\__/_/_//_/\_,_/_/_/_/ /____/_/___/\__/ 
+##############################
+####### PLATINUM LIST ########
+##############################
 
-#-------- Environment Variable {{{
-#------------------------------------------------------
-export HISTCONTROL=ignoreboth			#Remove Extra Commands
-export HISTCONTROL=erasedups			#Erase duplicates across the whole history
-HISTCONTROL=ignorespace				#Space follow by a cmd,will not be saved in history
-HISTCONTROL=ignoredups				#Rm Dupes, the continuous repeated entry from history 
-HISTFILESIZE=3000				#Bash history size limit
-HISTSIZE=1000
-export HISTTIMEFORMAT="%d/%m/%y %T "		#History list shows digital time and date
-# Set 256 Colors
-# http://blog.sanctum.geek.nz/256-colour-terminals/
-# if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-#    export TERM='xterm-256color'
-# fi
-
-#}}}
+# #-------- Environment Variable {{{
+# #------------------------------------------------------
+# export HISTCONTROL=ignoreboth			#Remove Extra Commands
+# export HISTCONTROL=erasedups			#Erase duplicates across the whole history
+# HISTCONTROL=ignorespace				#Space follow by a cmd,will not be saved in history
+# HISTCONTROL=ignoredups				#Rm Dupes, the continuous repeated entry from history 
+# HISTFILESIZE=3000				#Bash history size limit
+# HISTSIZE=1000
+# export HISTTIMEFORMAT="%d/%m/%y %T "		#History list shows digital time and date
+# # Set 256 Colors
+# # http://blog.sanctum.geek.nz/256-colour-terminals/
+# # if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+# #    export TERM='xterm-256color'
+# # fi
+#
+# #}}}
 #-------- Exports {{{
 #------------------------------------------------------
 # set display
@@ -51,7 +53,7 @@ export EDITOR=$(find_alt vim emacs nano leafpad gedit pluma $OPENER )
 export FILEMANAGER=$(find_alt pcmanfm thunar nautilus dolphin spacefm enlightenment_filemanager $OPENER )
 export MUSICER=$(find_alt mplayer mpg123 mpv cvlc $OPENER )
 export PAGER=$(find_alt less more most)
-export PLAYER=$(find_alt mpv mplayer cvlc $OPENER )
+export PLAYER=$(find_alt mplayer mpv cvlc $OPENER )
 export READER=$(find_alt mupdf zathura evince $OPENER )
 export ROOTER=$(find_alt gksudo kdesudo )
 export IMAGEVIEWER=$(find_alt ristretto feh display eog $OPENER )
@@ -168,7 +170,7 @@ fi
 #-------- Configurations {{{
 #------------------------------------------------------
 cfg-aliasrc() { $EDITOR ~/.aliasrc ;}
-cfg-bashrc() { $EDITOR ~/.bashrc ;}
+cfg-bashrc() { $EDITOR ~/.bashrc && source ~/.bashrc ;}   # edit and source on exit
 cfg-blocklist() { $EDITOR ~/.scripts/blocklist.sh ;}
 # https://wiki.archlinux.org/index.php/Cursor_Themes#Choosing_and_Configuring_Cursor_Themes
 cfg-cursor() { $EDITOR ~/.icons/default/index.theme ;}
@@ -189,6 +191,8 @@ cfg-kodi-keyboard() { $EDITOR ~/.kodi/userdata/keymaps/keyboard.xml ;}
 cfg-kodi-confluencethumbnailview() { sudo $EDITOR /usr/share/kodi/addons/skin.confluence/720p/MyVideoNav.xml ;}
 cfg-lgogdownloader() { $EDITOR ~/.config/lgogdownloader/config.cfg ;}
 cfg-livestreamer() { $EDITOR ~/.livestreamerrc ;}
+cfg-mailcap() { $EDITOR ~/.mailcap ;}
+cfg-mbsyncrc() { $EDITOR ~/.mbsyncrc ;}
 cfg-mcomix() { $EDITOR ~/.config/mcomix/keybindings.conf ;}
 cfg-mpd() { $EDITOR ~/.mpd/mpd.conf ;}
 cfg-mplayer() { $EDITOR ~/.mplayer/config ;}
@@ -196,6 +200,7 @@ cfg-mpv() { $EDITOR ~/.config/mpv/input.conf ;}
 cfg-muttrc() { $EDITOR ~/.muttrc ;}
 cfg-nanorc() { $EDITOR ~/.nanorc;}
 cfg-ncmpcpp() { $EDITOR ~/.ncmpcpp/config ;}
+cfg-ncmpcpp-bindings() { $EDITOR ~/.ncmpcpp/bindings ;}
 cfg-newsbeuter() { $EDITOR ~/.newsbeuter/config ;}
 cfg-newsbeuter-queue() { $EDITOR ~/.newsbeuter/queue ;}
 cfg-newsbeuter-urls() { $EDITOR ~/.newsbeuter/urls ;}
@@ -236,7 +241,7 @@ cfg-wegorc() { $EDITOR ~/.wegorc ;}
 cfg-xboxdrv() { sudo $EDITOR /etc/default/xboxdrv ;}
 cfg-xresources() { $EDITOR ~/.Xresources ;}
 cfg-yaourtrc() { $EDITOR ~/.yaourtrc ;}
-cfg-zshrc() { $EDITOR ~/.zshrc ;}
+cfg-zshrc() { $EDITOR ~/.zshrc && source ~/.zshrc ;}   # edit and source on exit
 #}}}
 #-------- Configurations Reload {{{
 #------------------------------------------------------
@@ -261,6 +266,7 @@ alias emacs='emacs -nw'					# cli mode
 alias feh='feh --auto-zoom --scale-down -g 1360x768 -B white'
 alias free='free -h'					# human readable
 alias info='info --vi-keys'				# GNU info act like man command
+alias ln='ln -iv'
 alias lsblk='lsblk -o "NAME,SIZE,FSTYPE,TYPE,LABEL,MOUNTPOINT,UUID"'    # combo use lsblk or lsblk -f
 alias mkdir='mkdir -p -v'				# create if not exist, verbose
 alias mount='mount | column -t'				# align in column
@@ -269,12 +275,14 @@ alias nano='nano -c -$'					# word wrapping
 alias nvlc='nvlc --no-color'				# vlc black/white color
 alias pdfgrep='pdfgrep -in'				# ignorecase, page number
 alias pyradio='pyradio -s ~/.pyradio.csv'
-alias rm='rm -i'					# rm interactive
+alias rm='rm -Iv --preserve-root'			# rm interactive, prompt once only
 # alias sudo='sudo '					# make aliases work with sudo
 alias sr='sr -browser=$BROWSERCLI'			# cli browser
 alias surfraw='surfraw -browser=$BROWSER'		# gui browser
+alias sudo='sudo -i'
 alias wget='wget -c'					# continues/resumes
 alias youtube-viewer='youtube-viewer -C -f -4 --results=6'	# color, fullscreen, 480p, number of results
+# alias visudo='sudo EDITOR="$EDITOR" visudo'
 
 # color for common commands
 # tutorial video: http://www.youtube.com/watch?v=RbVCzxnKJL4
@@ -315,15 +323,17 @@ m-ip() {
         ifconfig | awk '/inet addr/ {print $4}' | awk -F: '{print $1,$2}'
         ifconfig | awk '/HWaddr/ {print $4,$5}'
         ifconfig | awk '/Scope:Link/ {print $1,$3}' | cut -d\/ -f1
-	echo Current IP $(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+")
+	# echo External IP $(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+")
+	echo External IP: $(curl -s http://ipecho.net/plain)
         echo "---------------------------------------------------"
 }
 #}}}
 #-------- Fasd {{{
 #------------------------------------------------------
-# jump/open recent files and folder quickly
-# https://github.com/clvv/fasd
-# tutorial video: http://www.youtube.com/watch?v=ur81Y-mV5Us
+# demo: http://www.youtube.com/watch?v=ur81Y-mV5Us
+# url:  https://github.com/clvv/fasd
+# desc: jump to path or open recent files quickly from cli, better than autojump
+
 if which fasd >/dev/null; then
 	eval "$(fasd --init auto)"	# get fasd working, initialization code
 	alias m='f -e $PLAYER'		# open with video player
@@ -331,97 +341,23 @@ if which fasd >/dev/null; then
 	alias v='f -e $EDITOR'		# open with text editor
 fi
 #}}}
-#-------- FFMPEG X11GRAB Screencasting {{{
+#-------- PulseAudio Switcher CLI v2 {{{
 #------------------------------------------------------
-# record desktop using ffmpeg
-# tutorial video: http://www.youtube.com/watch?v=mNz5Lrc06_s
-# http://ubuntuforums.org/showthread.php?t=1392026
-# https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
-# https://trac.ffmpeg.org/wiki/Capture/ALSA
-# https://trac.ffmpeg.org/wiki/Capture/Desktop
-# http://nowardev.wordpress.com/2011/05/23/how-to-screencast/
-# https://dl.dropboxusercontent.com/u/28788188/cast.sh (Xpander69)
-# https://github.com/gotbletu/wikimd/blob/master/ffmpeg-compile.md
+# demo: https://www.youtube.com/watch?v=jhv-2pNWfr4
+# desc: switch audio stream to different output (HDMI, Headphone, Speakers ...etc)
+# ref:  http://askubuntu.com/a/18210
 
-# ffmpeg location
-# FF_RECORDER=/usr/bin/ffmpeg
-FF_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
+pa-global() { 
+	if [  $# -lt 1 ]; then
+        echo -e "pulseaudio redirect audio of all running app to another device" 
+        echo -e "\nUsage:\n$0 <device_index_number>" 
+        echo -e "\nExample:\n$0 0 \n" 
+	echo "==============="
+	echo "Sound Devices"
+	pacmd list-sinks | awk '/index/ || /name:/'
+        return 1
+	fi
 
-# use "arecord -l" or "arecord -L" to find mic
-# pavucontrol if using pulseaudio
-# FF_MIC=pulse
-# FF_MIC=hw:4,0
-FF_MIC=front:CARD=Snowball
-
-# scale down resolution if needed
-# ${FF_SCALE[*]}
-# FF_SCALE=(-vf scale=1280:720)
-
-
-FF_OUTPUT_MOVIE=~/Public/screencast/mm_movie_baking.mkv
-FF_OUTPUT_VIDEO=~/Public/screencast/vv_video_baking.mkv
-FF_OUTPUT_AUDIO=~/Public/screencast/aa_audio_baking.mp3
-
-# movie = video and audio
-# videotrack = video only
-# audiotrack = audio only
-ffcast_fullscreen_movie() { 
-	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
-	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
-	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
-	-acodec libmp3lame -ab 128k -threads 0 -y $FF_OUTPUT_MOVIE 
-}
-
-ffcast_fullscreen_videotrack() { 
-	$FF_RECORDER -f x11grab -r 30 \
-	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
-	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
-	-threads 0 -y $FF_OUTPUT_VIDEO
-}
-
-ffcast_audiotrack() { 
-	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC \
-	-acodec libmp3lame -ab 128k \
-	-threads 0 -y $FF_OUTPUT_AUDIO
-}
-
-# single window: select a window with mouse cursor to record
-ffcast_window_movie() { 
-	INFO=$(xwininfo -frame)
-	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
-	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
-
-	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
-	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
-	-preset ultrafast -crf 0 -acodec libmp3lame -ab 128k \
-	-threads 0 -y $FF_OUTPUT_MOVIE
-}
-
-ffcast_window_videotrack() { 
-	INFO=$(xwininfo -frame)
-	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
-	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
-
-	$FF_RECORDER -f x11grab -r 30 \
-	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
-	-preset ultrafast -crf 0 \
-	-threads 0 -y $FF_OUTPUT_VIDEO
-}
-
-
-# example references
-# worked well on ffmpeg 0.11.1
-# ffmpeg -f pulse -ac 1 -i hw:3,0 -async 1 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -y ~/Public/screencast/aa_screencast_baking.mkv 
-
-# }}}
-#-------- PulseAudio Switcher CLI {{{
-#------------------------------------------------------
-# switch audio stream to different output (HDMI, Headphone, Speakers ...etc)
-# tutorial video: https://www.youtube.com/watch?v=jhv-2pNWfr4
-# http://askubuntu.com/a/18210
-
-pa-list() { pacmd list-sinks | awk '/index/ || /name:/' ;}
-pa-set() { 
 	# list all apps in playback tab (ex: cmus, mplayer, vlc)
 	inputs=($(pacmd list-sink-inputs | awk '/index/ {print $2}')) 
 	# set the default output device
@@ -429,18 +365,20 @@ pa-set() {
 	# apply the changes to all running apps to use the new output device
 	for i in ${inputs[*]}; do pacmd move-sink-input $i $1 &> /dev/null; done
 }
-pa-playbacklist() { 
-	# list individual apps
+pa-solo() { 
+	if [  $# -lt 2 ]; then
+        echo -e "pulseaudio redirect audio of one running app to another device" 
+        echo -e "\nUsage:\n$0 <app_index_number> <device_index_number>" 
+        echo -e "\nExample:\n$0 2302 0 \n" 
 	echo "==============="
 	echo "Running Apps"
 	pacmd list-sink-inputs | awk '/index/ || /application.name /'
-
-	# list all sound device
 	echo "==============="
 	echo "Sound Devices"
 	pacmd list-sinks | awk '/index/ || /name:/'
-}
-pa-playbackset() { 
+        return 1
+	fi
+
 	# set the default output device
 	pacmd set-default-sink "$2" &> /dev/null
 	# apply changes to one running app to use the new output device
@@ -448,38 +386,87 @@ pa-playbackset() {
 }
 
 #}}}
-#-------- Calibre CLI v2 {{{
+#-------- Calibre CLI v3 {{{
 #------------------------------------------------------
-# cross platform ebook manager supports many formats and devices
-# tutorial video: http://www.youtube.com/watch?v=FeoVsC4U_0A
-# http://manual.calibre-ebook.com/cli/calibredb.html
-# zshrc has autocompletion
-# usage:	cmx-list <library>
-# 		cmx-add <library> <file>
-# 		cmx-remove <library> <id> ; cmx-remove <library> <range>
-# 					23,50-55; last number dont count
-# 		cmx-search <library> <string> ; cmx-search <library> "<multi strings>"
-# 		cmx-search $cbcomic walking dead
+# demo: http://www.youtube.com/watch?v=FeoVsC4U_0A
+# desc: ebook manager supports many formats and devices; interfaces with cli, webui, gui
+# url:  http://manual.calibre-ebook.com/cli/calibredb.html
 
-# library
+# define your library path
 cbbook=~/MA_Calibre/Book
 cbcomic=~/MA_Calibre/Comic
 cbdojinshi=~/MA_Calibre/Dojinshi
 cbsuper=~/MA_Calibre/Super
 
-# <command> <library> <input>
-cmx-list() { calibredb list -f authors,title,tags,rating --library-path "$1" ;}
-cmx-search() { calibredb list -s "${@:2}" -f authors,title,tags,rating --library-path "$1" ;}
-cmx-add() { calibredb add "${@:2}" --library-path "$1" ;}
-cmx-remove() { calibredb remove "${@:2}" --library-path "$1" ;}
-cmx-show() { calibredb show_metadata "${@:2}" --library-path "$1" | html2text ;} #id number
+cmx-list() { 
+	if [  $# -lt 1 ]; then
+        echo -e "calibredb list files of a library" 
+        echo -e "\nUsage:\n$0 <library>" 
+        echo -e "\nExample:\n$0 \$cbcomic\n" 
+        return 1
+	fi
+
+	calibredb list -f authors,title,tags,rating --library-path "$1" 
+}
+
+cmx-search() { 
+	if [  $# -lt 2 ]; then
+        echo -e "calibredb search files of a library" 
+        echo -e "\nUsage:\n$0 <library> <keywords>" 
+        echo -e "\nExample:\n$0 \$cbcomic marvel" 
+        echo -e "$0 \$cbcomic 'the walking dead'\n" 
+        return 1
+	fi
+	
+	calibredb list -s "${@:2}" -f authors,title,tags,rating --library-path "$1" 
+}
+
+cmx-add() { 
+	if [  $# -lt 2 ]; then
+        echo -e "calibredb add new files to a library" 
+        echo -e "\nUsage:\n$0 <library> <file>" 
+        echo -e "\nExample:\n$0 \$cbcomic file.cbz" 
+        echo -e "$0 \$cbcomic file1.cbz file2.cbz"
+	echo -e "$0 \$cbcomic file.epub file2.pdf file3.cbr\n" 
+        return 1
+	fi
+	
+	calibredb add "${@:2}" --library-path "$1" 
+}
+
+cmx-remove() { 
+	if [  $# -lt 2 ]; then
+        echo -e "calibredb remove files from a library" 
+        echo -e "\nUsage:\n$0 <library> <id>" 
+        echo -e "$0 <library> <range>"
+        echo -e "\nExample:\n$0 \$cbcomic 100" 
+        echo -e "$0 \$cbcomic 50-55"
+        echo -e "$0 \$cbcomic 100,120-127"
+        return 1
+	fi
+	
+	calibredb remove "${@:2}" --library-path "$1" 
+}
+
+cmx-show() { 
+	if [  $# -lt 2 ]; then
+        echo -e "calibredb show file metadata from a library" 
+        echo -e "\nUsage:\n$0 <library> <id>" 
+        echo -e "\nExample:\n$0 \$cbcomic 16"
+        return 1
+	fi
+
+	calibredb show_metadata "${@:2}" --library-path "$1" | html2text 
+}
+
 cmx-recipes() { ebook-convert --list-recipes | less ;}
 
-# content server
+# WebUI content server
 # http://manual.calibre-ebook.com/cli/calibre-server.html
 # http://192.168.1.xxx:port
 cmx-quit() { kill $(ps -ef | grep -i '[C]alibre-server' | awk '{print $2}') ;}
 cmx-server() { 
+	# start all content server on different ports
 	calibre-server -p 57770 --daemonize --with-library "$cbbook"
 	calibre-server -p 57771 --daemonize --with-library "$cbcomic"
 	calibre-server -p 57772 --daemonize --with-library "$cbdojinshi"
@@ -487,12 +474,13 @@ cmx-server() {
 }
 
 #}}}
-#-------- Transmission CLI {{{
+#-------- Transmission CLI v2 {{{
 #------------------------------------------------------
-# lightweight torrent daemon, has option for cli, webui, ncurses, and gui frontend 
-# tutorial video: http://www.youtube.com/watch?v=ee4XzWuapsE
+# demo: http://www.youtube.com/watch?v=ee4XzWuapsE
+# desc: lightweight torrent client; interface from cli, webui, ncurses, and gui
 # WebUI:	http://localhost:9091/transmission/web/
 # 		http://192.168.1.xxx:9091/transmission/web/
+
 tsm-clearcompleted() {
         transmission-remote -l | grep 100% | grep Done | \
         awk '{print $1}' | xargs -n 1 -I % transmission-remote -t % -r ;}
@@ -503,7 +491,8 @@ tsm-count() { echo "Blocklist rules:" $(curl -s --data \
 	"$(curl -s -D - localhost:9091/transmission/rpc | grep X-Transmission-Session-Id)" \
 	| cut -d: -f 11 | cut -d, -f1) ;}
 
-# tutorial video: http://www.youtube.com/watch?v=TyDX50_dC0M
+# demo: http://www.youtube.com/watch?v=TyDX50_dC0M
+# desc: merge multiple ip blocklist into one
 tsm-blocklist() { 
 	echo -e "${Red} Stopping Transmission Daemon ${Color_Off}"
 	killall transmission-daemon
@@ -515,7 +504,7 @@ tsm-blocklist() {
         echo -e "${Red}--------------- Number of IP Blocking -------------${Color_Off}"
 	tsm-count
 }
-tsm-altdownloadspeed() { transmission-remote --downlimit "${@:-900}" ;}	# upload default to 900K, else enter your own
+tsm-altdownloadspeed() { transmission-remote --downlimit "${@:-900}" ;}	# download default to 900K, else enter your own
 tsm-altdownloadspeedunlimited() { transmission-remote --no-downlimit ;}	
 tsm-limitupload() { transmission-remote --uplimit "${@:-10}" ;}	# upload default to 10kpbs, else enter your own
 tsm-limituploadunlimited() { transmission-remote --no-uplimit ;}
@@ -532,16 +521,18 @@ tsm-speed() { while true;do clear; transmission-remote -t"$1" -i | grep Speed;sl
 tsm-grep() { transmission-remote --list | grep -i "$1" ;}
 tsm() { transmission-remote --list ;}
 
-# https://github.com/fagga/transmission-remote-cli
-# tutorial video: http://www.youtube.com/watch?v=hLz7ditUwY8
+# demo: http://www.youtube.com/watch?v=hLz7ditUwY8
+# url:  https://github.com/fagga/transmission-remote-cli
+# desc: ncurses frontend to transmission-daemon
 tsm-ncurse() { transmission-remote-cli ;}
 
 #}}}
 #-------- Ubooquity Comic Server # {{{
 #------------------------------------------------------
-# personal comic and ebook server
-# tutorial Video: https://www.youtube.com/watch?v=qfLG9nKt3ew
-# http://vaemendis.net/ubooquity/
+# demo: https://www.youtube.com/watch?v=qfLG9nKt3ew
+# url:  http://vaemendis.net/ubooquity/
+# desc: personal comic and ebook server
+
 PATH_UBOOQUITY=~/.ubooquity
 ubooquity() { cd $PATH_UBOOQUITY && nohup java -jar $PATH_UBOOQUITY/Ubooquity.jar -webadmin -headless >/dev/null 2>&1& }
 ubooquity-gui() { cd $PATH_UBOOQUITY && nohup java -jar $PATH_UBOOQUITY/Ubooquity.jar -webadmin >/dev/null 2>&1& }
@@ -557,20 +548,23 @@ ubooquity-status() {
 }
 
 # }}}
-#-------- Sopcast CLI (Streaming P2P Videos) {{{
+#-------- Sopcast CLI v2 (Streaming P2P Videos) {{{
 #------------------------------------------------------
-# tutorial Video: http://www.youtube.com/watch?v=Dm7cFjhzgHo
+# demo: http://www.youtube.com/watch?v=Dm7cFjhzgHo
+# desc: watch movies/tv shows over p2p
+
+# ref:
 # http://www.sopcast.com/chlist.xml
 # http://sopcast.ucoz.com
 # http://streams.magazinmixt.ro
 # google keyword: sop://broker.sopcast
 
-# install sopcast commandline version
-# 	Archlinux: sopcast ( x64 https://www.archlinux.org/packages/multilib/x86_64/sopcast/)
-# 	Archlinux: sopcast ( x32 https://www.archlinux.org/packages/community/i686/sopcast/)
-# 	Ubuntu/Debian: sp-auth (https://launchpad.net/~jason-scheunemann/+archive/ppa)
+# package:
+# Archlinux: sopcast ( x64 https://www.archlinux.org/packages/multilib/x86_64/sopcast/)
+# Archlinux: sopcast ( x32 https://www.archlinux.org/packages/community/i686/sopcast/)
+# Ubuntu/Debian: sp-auth (https://launchpad.net/~jason-scheunemann/+archive/ppa)
 
-# choose a players (cvlc is default)
+# choose a player (cvlc is default)
 # SP_VIDPLAYER=cvlc
 SP_VIDPLAYER=(cvlc --file-caching=10000)
 # SP_VIDPLAYER=vlc
@@ -616,12 +610,13 @@ spp-tv-foxsports2.eng,ro() { sppc "sop://124.232.150.188:3920/5730" ;}
 #}}}
 #-------- Peerflix (Popcorntime CLI) {{{
 #------------------------------------------------------
-# popcorntime from terminal
-# tutorial video: https://www.youtube.com/watch?v=NG13yOTPgfY
-# https://github.com/saironiq/shellscripts
+# demo: https://www.youtube.com/watch?v=NG13yOTPgfY
+# url:  https://github.com/saironiq/shellscripts
+# desc: popcorntime from terminal
 PFLIX_PORT=55055
 peerflix-vlc() { vlc http://localhost:$PFLIX_PORT ;}
 peerflix-mplayer() { mplayer http://localhost:$PFLIX_PORT ;}	
+
 # }}}
 #-------- Convert to Audio {{{
 #------------------------------------------------------
@@ -640,9 +635,9 @@ convert2audio_mp3() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".mp3 ]
+		while [ ! -f "${arg%.*}"-audiotrack.mp3 ]
 		do
-			ffmpeg -i "$arg" -codec:a libmp3lame -qscale:a 2 "${arg%.*}".mp3
+			ffmpeg -i "$arg" -codec:a libmp3lame -qscale:a 2 "${arg%.*}"-audiotrack.mp3
 		done
 	done
 }
@@ -658,9 +653,9 @@ convert2audio_m4a() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".m4a ]
+		while [ ! -f "${arg%.*}"-audiotrack.m4a ]
 		do
-			ffmpeg -i "$arg" -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}".m4a
+			ffmpeg -i "$arg" -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}"-audiotrack.m4a
 		done
 	done
 }
@@ -675,9 +670,9 @@ convert2audio_ogg() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".ogg ]
+		while [ ! -f "${arg%.*}"-audiotrack.ogg ]
 		do
-			ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}".ogg
+			ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}"-audiotrack.ogg
 		done
 	done
 }
@@ -693,9 +688,9 @@ convert2audio_wav() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".wav ]
+		while [ ! -f "${arg%.*}"-audiotrack.wav ]
 		do
-			ffmpeg -i "$arg" "${arg%.*}".wav
+			ffmpeg -i "$arg" "${arg%.*}"-audiotrack.wav
 		done
 	done
 }
@@ -711,9 +706,9 @@ convert2audio_webm() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".webm ]
+		while [ ! -f "${arg%.*}"-audiotrack.webm ]
 		do
-			ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}".webm
+			ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}"-audiotrack.webm
 		done
 	done
 }
@@ -729,9 +724,9 @@ convert2audio_wavmono() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".wav ]
+		while [ ! -f "${arg%.*}"-monoaudiotrack.wav ]
 		do
-			ffmpeg -i "$arg" -codec:a pcm_mulaw -ar 8000 -ac 1 "${arg%.*}".wav
+			ffmpeg -i "$arg" -codec:a pcm_mulaw -ar 8000 -ac 1 "${arg%.*}"-monoaudiotrack.wav
 		done
 	done
 }
@@ -747,28 +742,133 @@ convert2audio_wma() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".wma ]
+		while [ ! -f "${arg%.*}"-audiotrack.wma ]
 		do
-			ffmpeg -i "$arg" -codec:a wmav2 -b:a 128k "${arg%.*}".wma
+			ffmpeg -i "$arg" -codec:a wmav2 -b:a 128k "${arg%.*}"-audiotrack.wma
 		done
 	done
 }
 
 # }}}
+#-------- Simple HTTP Server {{{
+#------------------------------------------------------
+# demo: http://www.youtube.com/watch?v=FFIjMYzkHhc
+# desc: python http server, host files and folders
 
-#  _      __     _ __  _             __   _     __ 
-# | | /| / /__ _(_) /_(_)__  ___ _  / /  (_)__ / /_
-# | |/ |/ / _ `/ / __/ / _ \/ _ `/ / /__/ (_-</ __/
-# |__/|__/\_,_/_/\__/_/_//_/\_, / /____/_/___/\__/ 
-#                          /___/                   
+SimpleHTTPserver() {
+	if which python2 >/dev/null; then
+		python2 -m SimpleHTTPServer "${1:-8000}"
+	else
+		python3 -m http.server "${1:-8000}"
+	fi
+}
+#}}}
 
+##############################
+####### WAITING LIST #########
+##############################
+
+#-------- FFMPEG X11GRAB Screencasting v2 {{{
+#------------------------------------------------------
+# desc: record desktop using ffmpeg X11grab
+
+# ref:
+# MrWhat record mic & speakers: https://www.youtube.com/watch?v=mEV2O8C272g
+# MrWhat keep audio sync: https://www.youtube.com/watch?v=Xbzh-T2kfJk
+# https://ask.fedoraproject.org/en/question/65662/recording-audio-from-mic-and-speakers-from-commandline/
+
+# list all audio sources
+pa-sources() { pactl list sources | awk '/Source #/ ||/Name:/ || /Description:/ || /Sample Specification:/' ;}
+
+# ffmpeg location
+# FFX_RECORDER=/usr/bin/ffmpeg
+FFX_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
+# FFX_RECORDER=/usr/bin/avconv
+
+# speakers audio source (PC speakers or Headphones)
+# note: using headphones since pc speakers will have audio feedback to mic
+# FFX_SPEAKER="alsa_output.pci-0000_00_14.2.analog-stereo.monitor"
+# FFX_SPEAKER_CH="2"
+# FFX_SPEAKER_FREQ="44100"
+FFX_SPEAKER="alsa_output.usb-NA_Lenovo_Wireless_Headset_W770-00.analog-stereo.monitor"
+FFX_SPEAKER_CH="2"
+FFX_SPEAKER_FREQ="32000"
+
+# mic audio source
+# note: when routed to pulseaudio the mic is very low
+# so open pavucontrol > input device > [name of mic]
+# then slide volume all the way to the right
+# example: http://i.imgur.com/GFkifqB.png
+FFX_MIC="alsa_input.usb-BLUE_MICROPHONES_Blue_Snowball-00.analog-mono"
+FFX_MIC_CH="1"
+FFX_MIC_FREQ="44100"
+
+# sound system
+FFX_SOUNDSYS="pulse"
+# FFX_SOUNDSYS="alsa"
+
+# resolution
+FFX_RESO_FULL=$(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1)
+
+# output location
+FFX_OUTPUT_MOVIE=~/Public/screencast/mm_movie_baking.mkv
+FFX_OUTPUT_VIDEO=~/Public/screencast/vv_video_baking.mkv
+FFX_OUTPUT_AUDIO=~/Public/screencast/aa_audio_baking.mp3
+
+ffxcast_fullscreen_movie() {
+	$FFX_RECORDER \
+	-f $FFX_SOUNDSYS -ac $FFX_SPEAKER_CH -ar $FFX_SPEAKER_FREQ -i $FFX_SPEAKER \
+	-f $FFX_SOUNDSYS -ac $FFX_MIC_CH -ar $FFX_MIC_FREQ -i $FFX_MIC \
+	-f x11grab -r 30 -s $FFX_RESO_FULL -i :0.0 \
+	-filter_complex \
+	"[0]asyncts[spkr], \
+	[1]asyncts[mic], \
+	[spkr][mic]amix=inputs=2" \
+	-c:v libx264 -pix_fmt yuv420p -preset ultrafast -crf 0 \
+	-c:a libmp3lame -ac 2 -ar 44100 -b:a 320k \
+	-y $FFX_OUTPUT_MOVIE 
+}
+
+# -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
+# -acodec libmp3lame -ab 128k -ar 44100 -threads 0 -y $FF_OUTPUT_MOVIE 
+
+# ffmpeg \
+# -f pulse -ac 2 -ar 44100 -i alsa_input.usb-BLUE_MICROPHONE_Blue_Snow­ball_201306-00-Snowball.analog-stereo \
+# -f pulse -ac 2 -ar 44100 -i alsa_output.pci-0000_00_1b.0.analog-ster­eo.monitor \
+# -f pulse -ac 2 -ar 44100 -i alsa_output.usb-Logitech_Inc_Logitech_US­B_Headset_H540_00000000-00-H540.iec958-s­tereo.monitor \
+# -f x11grab -framerate 30 -video_size 1920x1080 -i :0 \
+# -filter_complex \
+# "[0]asyncts[m], \
+# [1]asyncts[d], \
+# [2]asyncts[h], \
+# [m][d][h]amix=inputs=3" \
+# -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p \
+# -c:a libmp3lame -ac 2 -ar 44100 -b:a 320k \
+# /home/b/Videos/AudioSync/AsyncTS_20150206.mkv
+
+# different PRESET
+# 1. -c:v libx264 -preset ultrafast -crf 18: Produced a 120.9 MB file at ~34-48% CPU load
+# 2. -c:v libx264 -preset superfast -crf 18: Produced a 40.4 MB file at ~48-53% CPU load
+# 3. -c:v libx264 -preset veryfast -crf 18: Produced a 26.1 MB file at ~62-78% CPU load
+
+# different CRF
+# 1. -c:v libx264 -preset ultrafast -crf 0 (Lossless): Produced a 471.7 MB file at ~32-50% CPU load
+# 2. -c:v libx264 -preset ultrafast -crf 18: Produced a 120.9 MB file at ~34-48% CPU load
+# 3. -c:v libx264 -preset ultrafast -crf 23: Produced a 67.1 MB file at ~32-45% CPU load
+# 4. -c:v libx264 -preset ultrafast -crf 28: Produced a 31.1 MB file at ~30-40% CPU load
+
+# image quality each setting produces (images are zoomed to in 285%)
+# https://imgur.com/XF6t2Cv
+
+
+# }}}
 #-------- Alias Custom {{{
 #------------------------------------------------------
 # alias ps="ps aux | grep -v grep | grep "
 
 alias f="find . |grep "
 alias p="ps aux |grep "
-alias o="xdg-open "
+# alias o="xdg-open "
 
 # For emergencies
 alias asdf='setxkbmap fr bepo'
@@ -784,6 +884,8 @@ alias empty='gvfs-trash --empty'			# empty trash globally (all partitions)
 alias garbage='gvfs-trash -f'
 alias garbage-list='gvfs-ls -h trash://'
 alias garbage-empty='gvfs-trash --empty'		# empty trash globally (all partitions)
+alias psg='ps aux|grep -v grep|grep -i '
+psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 alias sshxforwarding='ssh -XCc blowfish-cbc,arcfour'
 alias sshxtrusted='ssh -Y'
 alias stackexchange='lynx http://column80.com'		# lookup information
@@ -793,15 +895,21 @@ alias xev-keycode="xev | grep 'keycode\|button'"
 alias weechat='weechat-curses'
 alias lsd='ls -1d */'					# ls folders only
 alias l='ls -l'
-alias lst='ls -Ggthrc'					# list by time and change, newest at bottom
-alias lsa='ls -GghA'	
+alias lsf='ls --color=always -p | grep -v '/$''		# ls files only
+alias lsa='ls -GghA'
 # list and grep
 lsg() {
 	keyword=$(echo "$@" |  sed 's/ /.*/g')
 	ls -GgthrA | grep -iE $keyword
 }
 
-
+# ls recent items at bottom with green TODAY yellow YESTERDAY substituted
+# https://www.reddit.com/r/archlinux/comments/41s1w4/what_is_your_favorite_one_liner_to_use/cz50y1m
+lst() {
+    ls -vAFq --color=yes -got --si --time-style=long-iso "$@" \
+    | sed "s/$(date +%Y-%m-%d)/\x1b[32m     TODAY\x1b[m/;s/$(date +'%Y-%m-%d' -d yesterday)/\x1b[33m YESTERDAY\x1b[m/" | tac
+}
+# alias lst='ls -Ggthrc'				# ls by time/changes, newest at bottom
 
 # }}}
 #-------- Functions {{{
@@ -880,9 +988,13 @@ manned() { for arg in "$@"; do man $arg 2> /dev/null \
 # press Ctrl+D to quit
 # http://docs.python.org/library/math.html
 # tutorial video: http://www.youtube.com/watch?v=JkyodHenTuc
-calc() { python2 -ic "from __future__ import division; from math import *; from random import *" ;}
-calc3() { python3 -ic "from math import *; import cmath" ;}
-
+calc() {
+	if which python2 >/dev/null; then
+		python2 -ic "from __future__ import division; from math import *; from random import *"
+	else
+		python3 -ic "from math import *; import cmath"
+	fi
+}
 
 # change font size (guake terminal)
 # tutorial video: http://www.youtube.com/watch?v=i9aKFgxOjwQ
@@ -929,57 +1041,6 @@ webcam-mplayer() { mplayer tv:// -tv driver=v4l2:width=640:height=360:device=/de
 webcam-mplayer-noborder() { mplayer tv:// -tv driver=v4l2:width=640:height=360:device=/dev/video0 -fps 30 -vf screenshot -geometry "98%:98%" -ontop -noborder ;}
 
 webcam-mplayer-screenshot() { mplayer tv:// -tv driver=v4l2:width=1920:height=1080:device=/dev/video0 -fps 30 -vf screenshot -ontop ;}
-
-#}}}
-#-------- Binary / Shell Scripts {{{
-#------------------------------------------------------
-
-
-# lightweight image viewer
-# tutorial video: https://www.youtube.com/watch?v=OMOIZlOEfb8
-# https://wiki.archlinux.org/index.php/Feh#File_Browser_Image_Launcher
-feh-browser() { ~/.scripts/feh_browser.sh $@ -B white -g 1280x800 & }
-feh-slideshow() { ~/.scripts/feh_browser.sh $@ -B white -g 1280x800 -D 3 & }
-
-# http://code.google.com/p/imgur-cli
-# imgur image uploader http://imgur.com
-imgur() { python2 ~/.scripts/imgur-cli/imgur.py $@ ;}
-
-# manual tiling (similar compiz grid plugin)
-# tutorial video: https://www.youtube.com/watch?v=ZF76DELEpjM
-# http://ssokolow.com/quicktile
-quicktile() { python2.7 ~/.config/quicktile/quicktile.py $@ ;}
-quicktile-daemonize() { nohup python2.7 ~/.config/quicktile/quicktile.py -d >/dev/null 2>&1& }
-quicktile-kill () { kill $(ps -ef | grep '[q]uicktile.py' | awk '{print $2}') ;}
-
-# http://bash.cyberciti.biz/multimedia/linux-rip-audio-cd/
-rip-audio-cd() { ~/.scripts/rip_audio_cd.sh ;}
-
-# screenshot gallery generator 
-# tutorial video: https://www.youtube.com/watch?v=_4G4nMUTzX8
-# http://cli-apps.org/content/show.php/Movie+Thumbnailer?content=74676
-shot() { ~/.scripts/shot.sh -n 30 -r 80% -s $@ ;}
-
-# take screenshot fullscreen, window, area selection using import command
-# http://en.gentoo-wiki.com/wiki/Screenshot
-sshot() { ~/.scripts/screenshot.sh area ;}
-
-# Vim as a pager ( similar to the less command )
-# tutorial video: https://www.youtube.com/watch?v=RefWl8I3nBg
-	# issue: gg hotkey does not jump to exact line
-	vlessold() { /usr/share/vim/vim73/macros/less.sh "$1" ;}
-	
-	# http://technotales.wordpress.com/2009/05/24/using-vim-as-a-pager/
-	# vim readonly; to force write use :w!
-	vless() { vim -R "$@" ;}
-
-# https://bitbucket.org/antocuni/tty2gif
-# convert ttyrec to gif files
-tty2gif() { python3 ~/.scripts/tty2gif/tty2gif.py $@ ;}
-
-# https://github.com/saironiq/shellscripts/blob/master/wolframalpha_com/wa.sh 
-# http://www.wolframalpha.com
-wolframalpha() { ~/.scripts/shellscripts/wolframalpha_com/was.sh ;}
 
 #}}}
 #-------- Slice Videos {{{
@@ -1066,7 +1127,9 @@ slice_audiotrack() {
 # }}}
 #-------- Gotbletu Universal Package Manager {{{
 #------------------------------------------------------
-# tutorial video: https://www.youtube.com/watch?v=N8CZhlIssdk
+# demo: https://www.youtube.com/watch?v=N8CZhlIssdk
+# desc: auto detect package manager and loads proper alias for it
+
 # legends# {{{
 # https://wiki.archlinux.org/index.php/Pacman_Rosetta
 # http://old-en.opensuse.org/Software_Management_Command_Line_Comparison
@@ -1309,9 +1372,10 @@ elif [ "$PKMGR" = "zypper" ]; then
 	pkm-upgrade() { sudo zypper update ;}
 fi
 # }}}
+
 #}}}
 #-------- Internet Music {{{
-# http://whatnotlinux.blogspot.com/2013/02/somafm-and-digitally-imported-bash.html
+# url: http://whatnotlinux.blogspot.com/2013/02/somafm-and-digitally-imported-bash.html
 somafm() {
 while true; do local station;echo "Select a station to listen to:";select station in "Doomed" "Groove Salad" "Lush" "Suburbs of Goa" "Secret Agent" "Drone Zone" "Space Station" "cliqhop idm" "Digitalis" "Sonic Universe" "Boot Liquor" "Covers" "Illinois Street Lounge" "indie pop rocks" "PopTron" "Tags Trip" "Beat Bender" "Mission Control";do station=$(echo -n "$station"|tr '[:upper:]' '[:lower:]'|sed 's/ //g');break;done; mplayer -playlist http://somafm.com/startstream=${station}.pls; done;
 }
@@ -1323,33 +1387,43 @@ while true; do local station;echo "Select a station to listen to:";select statio
 #}}}
 #-------- Clipboard and Upload {{{
 #------------------------------------------------------
-# copy/paste for linux machines (Mac style)
-# tutorial video: http://www.youtube.com/watch?v=fKP0FLp3uW0
+# demo: http://www.youtube.com/watch?v=fKP0FLp3uW0 (xclip)
+# 	https://www.youtube.com/watch?v=Ww7Sl4d8F8A (pastebinit)
+# desc: copy/paste for linux machines (Mac style)
+
+
 alias pbcopy='xclip -selection clipboard'	# copy to clipboard, ctrl+c, ctrl+shift+c
 alias pbpaste='xclip -selection clipboard -o'	# paste from clipboard, ctrl+v, ctrl+shitt+v
 alias pbselect='xclip -selection primary -o'	# paste from highlight, middle click, shift+insert
-alias pbdump='pbpaste | pastebinit | pbcopy'	# dump text from clipboard to pastebin server and copy link
 alias pbnoformatting='xclip -selection clipboard -o | xclip -selection clipboard'
 
-# cli pastebin client
-# tutorial video: http://www.youtube.com/watch?v=Ww7Sl4d8F8A
 
-# paste to http://ix.io
-pastebinit-ixio() { "$@" | curl -F 'f:1=<-' ix.io ;}
+# dump text from clipboard to pastebin server and copy link
+alias pbdumpslexy='pbpaste | pastebinit -b "slexy.org" | pbcopy && echo "URL has been copied to clipboard" && pbpaste'
+alias pbdumpsprungeus="pbpaste | curl -F 'sprunge=<-' http://sprunge.us | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+alias pbdumpixio="pbpaste | curl -F 'f:1=<-' ix.io | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+
+
+alias pbuploadslexy='pbpaste | pastebinit -b "slexy.org" | pbcopy && echo "URL has been copied to clipboard" && pbpaste'
+
+alias pbuploadsprungeus="cat "$@" | curl -F 'sprunge=<-' http://sprunge.us | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+alias pbuploadixio="cat "$1" | curl -F 'f:1=<-' ix.io | pbcopy && echo 'URL has been copied to clipboard' && pbpaste"
+
+
 
 # }}}
 #-------- Screenshot and Upload {{{
 #------------------------------------------------------
-# take screenshot fullscreen, single window or draw a box
-# tutorial video: http://www.youtube.com/watch?v=Hh8G1aBp8gc
-export PATH_SCREENSHOT=~/Public/screenshots
+# demo: http://www.youtube.com/watch?v=Hh8G1aBp8gc
+# desc: take screenshot fullscreen, single window or draw a box
+export PATH_SCREENSHOT=~/Pictures/screenshots
 pix() { scrot -d 2 "$PATH_SCREENSHOT/fullscr_`date +'%F_%Hh%Ms%S'`.png" ;}
 pix-area() { sleep 2 && scrot -s "$PATH_SCREENSHOT/windowed_`date +'%F_%Hh%Ms%S'`.png" ;}
 
 
-# upload to imgur.com
-# tutorial video: http://www.youtube.com/watch?v=7-9uYSGyvU0
-# http://www.commandlinefu.com/commands/view/9341
+# demo: http://www.youtube.com/watch?v=7-9uYSGyvU0
+# desc: upload to imgur.com
+# ref:  http://www.commandlinefu.com/commands/view/9341
 upl-imgur() { 
 	curl -# -F image=@"$1" -F "key=1913b4ac473c692372d108209958fd15" \
 	http://api.imgur.com/2/upload.xml | grep -Eo "<original>(.)*</original>" \
@@ -1359,8 +1433,10 @@ upl-imgur() {
 # }}}
 #-------- Fuzzy Finder {{{
 #------------------------------------------------------
-# https://github.com/junegunn/fzf
-# tutorial video: https://www.youtube.com/playlist?list=PLqv94xWU9zZ2fMsMMDF4PjtNHCeBFbggD
+# demo: https://www.youtube.com/playlist?list=PLqv94xWU9zZ2fMsMMDF4PjtNHCeBFbggD
+# desc: interactive fuzzy string matching
+# url:  https://github.com/junegunn/fzf
+
 fzf-dmenu() { 
 	# note: xdg-open has a bug with .desktop files, so we cant use that shit
 	selected="$(ls /usr/share/applications | fzf -e -i )"
@@ -1368,7 +1444,9 @@ fzf-dmenu() {
 	# disown if exit 0 successfully
 	if [[ $? = 0 ]] ; then disown; fi
 }
+
 fzf-surfraw() { surfraw "$(cat ~/.config/surfraw/bookmarks | sed '/^$/d' | sort -n | fzf -e -i )" ;}
+
 fzf-locate() {
 	xdg-open "$(locate "*" | fzf -e -i )"
 
@@ -1381,6 +1459,7 @@ fzf-locate() {
 	#  	exit
 	# fi
 }
+
 fzf-playonlinux() { playonlinux --run '$(ls ~/.PlayOnLinux/shortcuts | fzf -e -i )' ;}
 
 # http://www.reddit.com/r/commandline/comments/3abtup/fzfr_fzf_bash_function/
@@ -1417,8 +1496,10 @@ fzf-multisnippet() {
 #}}}
 #-------- Flexget (Torrent RSS) {{{
 #------------------------------------------------------
-# auto download torrent similar to how a DVR works
-# tutorial video: http://www.youtube.com/playlist?list=PLqv94xWU9zZ0pVGrgKtMuhFHun8-MahSY
+# demo: http://www.youtube.com/playlist?list=PLqv94xWU9zZ0pVGrgKtMuhFHun8-MahSY
+# desc: auto download torrent similar to how a DVR works
+# url:  http://flexget.com/
+
 alias flexget='~/.virtualenv/flexget/bin/flexget'
 flexget-list() { flexget series list && flexget movie-queue list waiting && flexget movie-queue list downloaded ;}
 flexget-check() { flexget check ;}			# check if config file has any errors
@@ -1430,11 +1511,13 @@ flexget-learnall() { flexget execute --learn ;}		#bypass dling old torrents
 flexget-add() { flexget movie-queue add "$@" ;}
 flexget-del() { flexget movie-queue del "$@" ;}
 flexget-forget() { flexget movie-queue forget "$@" ;}	# allow redownloading on waiting list
+
 #}}}
-#-------- Podcast {{{
+#-------- Podcast RSS (NVLC) {{{
 #------------------------------------------------------
-# vlc ncurses, play local and internet media
-# tutorial video: https://www.youtube.com/watch?v=7y_58wpHuFE
+# demo: https://www.youtube.com/watch?v=7y_58wpHuFE
+# desc: play local and internet media using ncurses VLC
+
 nvlc-player() { nvlc ${1:-cdda://} ;}		# other cdrom; cdda:///dev/cdrom ; cdda:///dev/sr0 ; cdda:///dev/sr1
 nvlc-podcast() { nvlc -S podcast --podcast-urls "$@" ;}
 podcast-nba-shaq() { nvlc-podcast "http://www.podcastone.com/podcast?categoryID2=779" ;}
@@ -1449,6 +1532,7 @@ podcast-wwf-stonecold() { nvlc-podcast "http://www.podcastone.com/podcast?catego
 podcast-wwf-chrisjericho() { nvlc-podcast "http://www.podcastone.com/podcast?categoryID2=593" ;}
 podcast-wwf-liveaudiowrestling() { nvlc-podcast "http://staticv3.fightnetwork.com/xml/itunes_law.rss" ;}
 podcast-wwf-solomonster() { nvlc-podcast "http://solomonster.podbean.com/feed/" ;}
+podcast-wwf-bookert() { nvlc-podcast "https://api.radio.com/v2/podcast/rss/1240?format=MP3_128K" ;}
 podcast-movie-schmoesknow() { nvlc-podcast "http://feeds.feedburner.com/SchmoesKnowMoviesPodcast" ;}
 podcast-movie-dcmovienews() { nvlc-podcast "http://popcorntalknetwork.com/category/shows/dc-movie-news-podcast/feed/" ;}
 podcast-fitness-jillianmichaels() { nvlc-podcast "http://feeds.sideshownetwork.tv/JillianMichaels" ;}
@@ -1463,21 +1547,14 @@ podcast-linux-techtalktoday() { nvlc-podcast "http://feedpress.me/t3ogg" ;}
 podcast-linux-everydaylinux() { nvlc-podcast "http://elementopie.com/feeds/everydaylinux/feed.xml" ;}
 podcast-linux-goinglinux() { nvlc-podcast "http://goinglinux.com/oggpodcast.xml" ;}
 podcast-linux-hackerpublicradio() { nvlc-podcast "http://hackerpublicradio.org/hpr_total_ogg_rss.php" ;}
-
-#}}}
-#-------- Simple HTTP Server {{{
-#------------------------------------------------------
-# python http server, host files and folders
-# tutorial video: http://www.youtube.com/watch?v=FFIjMYzkHhc
-# default port = 8000
-alias SimpleHTTPServer2="python2 -m SimpleHTTPServer"
-alias SimpleHTTPServer3="python3 -m http.server"
+podcast-science-nprradiolab() { nvlc-podcast "http://feeds.wnyc.org/radiolab" ;}
+podcast-science-startalk() { nvlc-podcast "http://feeds.soundcloud.com/users/soundcloud:users:38128127/sounds.rss" ;}
+podcast-science-thisweekinscience() { nvlc-podcast "http://feeds.feedburner.com/twis/science/" ;}
 
 #}}}
 #-------- Convert to Video {{{
 #------------------------------------------------------
 # http://linuxconfig.org/ffmpeg-audio-format-conversions
-
 convert2video_mp4() {
 	if [  $# -lt 1 ]; then
 		echo -e "Usage: $0 <file_name>"
@@ -1489,9 +1566,9 @@ convert2video_mp4() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".mp4 ]
+		while [ ! -f "${arg%.*}"-movie.mp4 ]
 		do
-			ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}".mp4
+			ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}"-movie.mp4
 		done
 	done
 }
@@ -1507,9 +1584,9 @@ convert2video_avi() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".avi ]
+		while [ ! -f "${arg%.*}"-movie.avi ]
 		do
-			ffmpeg -i "$arg" -codec:v mpeg4 -vtag xvid -qscale:v 3 -codec:a libmp3lame -qscale:a 4 "${arg%.*}".avi
+			ffmpeg -i "$arg" -codec:v mpeg4 -vtag xvid -qscale:v 3 -codec:a libmp3lame -qscale:a 4 "${arg%.*}"-movie.avi
 		done
 	done
 }
@@ -1526,9 +1603,9 @@ convert2video_ogv() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".ogv ]
+		while [ ! -f "${arg%.*}"-movie.ogv ]
 		do
-			ffmpeg -i "$arg" -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 "${arg%.*}".ogv
+			ffmpeg -i "$arg" -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 "${arg%.*}"-movie.ogv
 		done
 	done
 }
@@ -1544,9 +1621,9 @@ convert2video_mpg() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".mpg ]
+		while [ ! -f "${arg%.*}"-movie.mpg ]
 		do
-			ffmpeg -i "$arg" -codec:v mpeg2video -qscale:v 2 -codec:a mp2 -b:a 192k "${arg%.*}".mpg
+			ffmpeg -i "$arg" -codec:v mpeg2video -qscale:v 2 -codec:a mp2 -b:a 192k "${arg%.*}"-movie.mpg
 		done
 	done
 }
@@ -1562,9 +1639,9 @@ convert2video_mkv() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".mkv ]
+		while [ ! -f "${arg%.*}"-movie.mkv ]
 		do
-			ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a libvorbis -qscale:a 5 "${arg%.*}".mkv
+			ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a libvorbis -qscale:a 5 "${arg%.*}"-movie.mkv
 		done
 	done
 }
@@ -1580,9 +1657,9 @@ convert2video_webm() {
 
 	myArray=( "$@" )
 	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".webm ]
+		while [ ! -f "${arg%.*}"-movie.webm ]
 		do
-			ffmpeg -i "$arg" -codec:v libvpx -crf 10 -b:v 1M -codec:a libvorbis "${arg%.*}".webm
+			ffmpeg -i "$arg" -codec:v libvpx -crf 10 -b:v 1M -codec:a libvorbis "${arg%.*}"-movie.webm
 		done
 	done
 }
@@ -1764,8 +1841,6 @@ convert2iOS_appletv3() {
 	done
 }
 
-
-
 # }}}
 #-------- Convert to Devices (Other, Gaming Device) {{{
 #------------------------------------------------------
@@ -1808,12 +1883,228 @@ convert2windowsphone8() {
 }
 
 # }}}
+#-------- Convert to Archive {{{
+#------------------------------------------------------
 
-#   ____  __            __    __        __   _     __ 
-#  / __ \/ /  ___ ___  / /__ / /____   / /  (_)__ / /_
-# / /_/ / _ \(_-</ _ \/ / -_) __/ -_) / /__/ (_-</ __/
-# \____/_.__/___/\___/_/\__/\__/\__/ /____/_/___/\__/ 
+# to see required install for different formats
+# $ patool formats
+convert2archive_7z() { patool repack "$1" "${1%.*}".7z ;}
+convert2archive_ace() { patool repack "$1" "${1%.*}".ace ;}
+convert2archive_jar() { patool repack "$1" "${1%.*}".jar ;}
+convert2archive_rar() { patool repack "$1" "${1%.*}".rar ;}
+convert2archive_tar() { patool repack "$1" "${1%.*}".tar ;}
+convert2archive_xz() { patool repack "$1" "${1%.*}".xz ;}
+convert2archive_zip() { patool repack "$1" "${1%.*}".zip ;}
+convert2archive_targz() { patool repack "$1" "${1%.*}".tar.gz ;}
+convert2archive_tarbz2() { patool repack "$1" "${1%.*}".tar.bz2 ;}
+convert2archive_tarlzma() { patool repack "$1" "${1%.*}".tar.lzma ;}
 
+# https://en.wikipedia.org/wiki/Comic_book_archive
+convert2archive_cbz() {
+	if [  $# -lt 1 ]; then
+		echo -e "Usage: $0 <file_name>"
+		echo -e "\nsingle:   $0 file.gz" 
+		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+		echo -e "\nwildcard: $0 *.gz" 
+	return 1
+	fi 
+
+	myArray=( "$@" )
+	for arg in "${myArray[@]}"; do
+		if [[ ! -f "${arg%.*}".zip && ! -f "${arg%.*}".cbz ]]; then
+			patool repack "$arg" "${arg%.*}".zip && mv "${arg%.*}".zip "${arg%.*}".cbz
+		else
+			if [[ -f "${arg%.*}".zip ]]; then
+			mv -v -- "${arg%.*}".zip "${arg%.*}".cbz
+			fi
+		fi
+	done
+}
+convert2archive_cb7() {
+	if [  $# -lt 1 ]; then
+		echo -e "Usage: $0 <file_name>"
+		echo -e "\nsingle:   $0 file.gz" 
+		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+		echo -e "\nwildcard: $0 *.gz" 
+	return 1
+	fi 
+
+	myArray=( "$@" )
+	for arg in "${myArray[@]}"; do
+		if [[ ! -f "${arg%.*}".7z && ! -f "${arg%.*}".cb7 ]]; then
+			patool repack "$arg" "${arg%.*}".7z && mv "${arg%.*}".7z "${arg%.*}".cb7
+		else
+			if [[ -f "${arg%.*}".7z ]]; then
+			mv -v -- "${arg%.*}".7z "${arg%.*}".cb7
+			fi
+		fi
+	done
+}
+convert2archive_cba() {
+	if [  $# -lt 1 ]; then
+		echo -e "Usage: $0 <file_name>"
+		echo -e "\nsingle:   $0 file.gz" 
+		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+		echo -e "\nwildcard: $0 *.gz" 
+	return 1
+	fi 
+
+	myArray=( "$@" )
+	for arg in "${myArray[@]}"; do
+		if [[ ! -f "${arg%.*}".ace && ! -f "${arg%.*}".cba ]]; then
+			patool repack "$arg" "${arg%.*}".ace && mv "${arg%.*}".ace "${arg%.*}".cba
+		else
+			if [[ -f "${arg%.*}".ace ]]; then
+			mv -v -- "${arg%.*}".ace "${arg%.*}".cba
+			fi
+		fi
+	done
+}
+convert2archive_cbt() {
+	if [  $# -lt 1 ]; then
+		echo -e "Usage: $0 <file_name>"
+		echo -e "\nsingle:   $0 file.gz" 
+		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+		echo -e "\nwildcard: $0 *.gz" 
+	return 1
+	fi 
+
+	myArray=( "$@" )
+	for arg in "${myArray[@]}"; do
+		if [[ ! -f "${arg%.*}".tar && ! -f "${arg%.*}".cbt ]]; then
+			patool repack "$arg" "${arg%.*}".tar && mv "${arg%.*}".tar "${arg%.*}".cbt
+		else
+			if [[ -f "${arg%.*}".tar ]]; then
+			mv -v -- "${arg%.*}".tar "${arg%.*}".cbt
+			fi
+		fi
+	done
+}
+convert2archive_cbr() {
+	if [  $# -lt 1 ]; then
+		echo -e "Usage: $0 <file_name>"
+		echo -e "\nsingle:   $0 file.gz" 
+		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+		echo -e "\nwildcard: $0 *.gz" 
+	return 1
+	fi 
+
+	myArray=( "$@" )
+	for arg in "${myArray[@]}"; do
+		if [[ ! -f "${arg%.*}".rar && ! -f "${arg%.*}".cbr ]]; then
+			patool repack "$arg" "${arg%.*}".rar && mv "${arg%.*}".rar "${arg%.*}".cbr
+		else
+			if [[ -f "${arg%.*}".rar ]]; then
+			mv -v -- "${arg%.*}".rar "${arg%.*}".cbr
+			fi
+		fi
+	done
+}
+
+
+# }}}
+#-------- VimWiki {{{
+#------------------------------------------------------
+wikiapps()   { $EDITOR ~/.vimwiki/wikiapps/index.wiki ;}
+wikidroid()  { $EDITOR ~/.vimwiki/wikidroid/index.wiki ;}
+wikigame()   { $EDITOR ~/.vimwiki/wikigame/index.wiki ;}
+wikihaiku()  { $EDITOR ~/.vimwiki/wikihaiku/index.md ;}
+wikimd()     { $EDITOR ~/.vimwiki/wikimd/index.md ;}
+wikinote()   { $EDITOR ~/.vimwiki/wikinote/index.wiki ;}
+wikislitaz() { $EDITOR ~/.vimwiki/wikislitaz/index.md ;}
+wikisuper()  { $EDITOR ~/.vimwiki/wikisuper/index.wiki ;}
+wikivista()  { $EDITOR ~/.vimwiki/wikivista/index.wiki ;}
+# }}}
+
+##############################
+####### OBSOLETE LIST ########
+##############################
+# Code that is still useful but I no longer use it, still here for references
+
+#-------- FFMPEG X11GRAB Screencasting {{{
+#------------------------------------------------------
+# record desktop using ffmpeg
+# tutorial video: http://www.youtube.com/watch?v=mNz5Lrc06_s
+# http://ubuntuforums.org/showthread.php?t=1392026
+# https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
+# https://trac.ffmpeg.org/wiki/Capture/ALSA
+# https://trac.ffmpeg.org/wiki/Capture/Desktop
+# http://nowardev.wordpress.com/2011/05/23/how-to-screencast/
+# https://dl.dropboxusercontent.com/u/28788188/cast.sh (Xpander69)
+# https://www.youtube.com/watch?v=mEV2O8C272g
+# https://github.com/gotbletu/wikimd/blob/master/ffmpeg-compile.md
+
+# ffmpeg location
+# FF_RECORDER=/usr/bin/ffmpeg
+FF_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
+
+# use "arecord -l" or "arecord -L" to find mic
+# pavucontrol if using pulseaudio
+# FF_MIC=pulse
+# FF_MIC=hw:4,0
+FF_MIC=front:CARD=Snowball
+
+# scale down resolution if needed
+# ${FF_SCALE[*]}
+# FF_SCALE=(-vf scale=1280:720)
+
+
+FF_OUTPUT_MOVIE=~/Public/screencast/mm_movie_baking.mkv
+FF_OUTPUT_VIDEO=~/Public/screencast/vv_video_baking.mkv
+FF_OUTPUT_AUDIO=~/Public/screencast/aa_audio_baking.mp3
+
+# movie = video and audio
+# videotrack = video only
+# audiotrack = audio only
+ffcast_fullscreen_movie() { 
+	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
+	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
+	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
+	-acodec libmp3lame -ab 320k -threads 0 -y $FF_OUTPUT_MOVIE 
+}
+
+ffcast_fullscreen_videotrack() { 
+	$FF_RECORDER -f x11grab -r 30 \
+	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
+	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
+	-threads 0 -y $FF_OUTPUT_VIDEO
+}
+
+ffcast_audiotrack() { 
+	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC \
+	-acodec libmp3lame -ab 320k \
+	-threads 0 -y $FF_OUTPUT_AUDIO
+}
+
+# single window: select a window with mouse cursor to record
+ffcast_window_movie() { 
+	INFO=$(xwininfo -frame)
+	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
+	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
+
+	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
+	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
+	-preset ultrafast -crf 0 -acodec libmp3lame -ab 320k \
+	-threads 0 -y $FF_OUTPUT_MOVIE
+}
+
+ffcast_window_videotrack() { 
+	INFO=$(xwininfo -frame)
+	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
+	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
+
+	$FF_RECORDER -f x11grab -r 30 \
+	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
+	-preset ultrafast -crf 0 \
+	-threads 0 -y $FF_OUTPUT_VIDEO
+}
+
+
+# example references
+# worked well on ffmpeg 0.11.1
+# ffmpeg -f pulse -ac 1 -i hw:3,0 -async 1 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -y ~/Public/screencast/aa_screencast_baking.mkv 
+
+# }}}
 #-------- Recordmydesktop CLI {{{
 #------------------------------------------------------
 # http://www.pclinuxos.com/forum/index.php/topic,97181.msg822796.html#msg822796
@@ -2080,48 +2371,139 @@ tsniff-begin() { sudo tcpdump -ieth0 -nn -A | grep -e"rtmp" -e"connect" -e"play"
 tsniff-less() { less /tmp/tcpoutput.txt ;}
 #}}}
 
-#  ______        __  _             __   _     __ 
-# /_  __/__ ___ / /_(_)__  ___ _  / /  (_)__ / /_
-#  / / / -_|_-</ __/ / _ \/ _ `/ / /__/ (_-</ __/
-# /_/  \__/___/\__/_/_//_/\_, / /____/_/___/\__/ 
-#                        /___/                   
+##############################
+####### TESTING LIST #########
+##############################
+# New code dump, stuff I am creating or copy from others
 
-cprt() { 
-    if [  $# -lt 1 ] 
-    then 
-        echo -e "rsync copy using task spooler queue" 
-        echo -e "\nUsage:\n$0 <source> <destination>" 
+# https://www.reddit.com/r/archlinux/comments/42784v/what_are_your_bash_aliasesfunctions_for_ffmpeg/cz88h5f
+ffmpeg-stereo () {
+	        ffmpeg -i "$1" -i "$2" -filter_complex "[0:a][1:a]amerge=inputs=2[aout]" -map "[aout]" -c:a flac "$3"
+}
+
+# https://www.reddit.com/r/archlinux/comments/423wr9/is_anyone_having_trouble_with_reflector/
+alias updatemirrors='sudo reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist' 
+
+mpd-kill() { kill -9 $(cat ~/.mpd/mpd.pid) ;}
+mpd-restart() { kill -9 $(cat ~/.mpd/mpd.pid) && mpd ;}
+
+#-------- Battery Status {{{
+#------------------------------------------------------
+# https://www.reddit.com/r/debian/comments/41sw7g/checking_battery_status_in_terminal/cz68iwq
+alias batterystatus="upower -i /org/freedesktop/UPower/devices/........ | grep time"
+alias batteryshow='cat /sys/class/power_supply/BAT1/status'
+
+
+
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Binary / Shell Scripts {{{
+#------------------------------------------------------
+
+
+# lightweight image viewer
+# tutorial video: https://www.youtube.com/watch?v=OMOIZlOEfb8
+# https://wiki.archlinux.org/index.php/Feh#File_Browser_Image_Launcher
+feh-browser() { ~/.scripts/feh_browser.sh $@ -B white -g 1280x800 & }
+feh-slideshow() { ~/.scripts/feh_browser.sh $@ -B white -g 1280x800 -D 3 & }
+
+# http://code.google.com/p/imgur-cli
+# imgur image uploader http://imgur.com
+imgur() { python2 ~/.scripts/imgur-cli/imgur.py $@ ;}
+
+# manual tiling (similar compiz grid plugin)
+# tutorial video: https://www.youtube.com/watch?v=ZF76DELEpjM
+# http://ssokolow.com/quicktile
+quicktile() { python2.7 ~/.config/quicktile/quicktile.py $@ ;}
+quicktile-daemonize() { nohup python2.7 ~/.config/quicktile/quicktile.py -d >/dev/null 2>&1& }
+quicktile-kill () { kill $(ps -ef | grep '[q]uicktile.py' | awk '{print $2}') ;}
+
+# http://bash.cyberciti.biz/multimedia/linux-rip-audio-cd/
+rip-audio-cd() { ~/.scripts/rip_audio_cd.sh ;}
+
+# screenshot gallery generator 
+# tutorial video: https://www.youtube.com/watch?v=_4G4nMUTzX8
+# http://cli-apps.org/content/show.php/Movie+Thumbnailer?content=74676
+shot() { ~/.scripts/shot.sh -n 30 -r 80% -s $@ ;}
+
+# take screenshot fullscreen, window, area selection using import command
+# http://en.gentoo-wiki.com/wiki/Screenshot
+sshot() { ~/.scripts/screenshot.sh area ;}
+
+# Vim as a pager ( similar to the less command )
+# tutorial video: https://www.youtube.com/watch?v=RefWl8I3nBg
+	# issue: gg hotkey does not jump to exact line
+	vlessold() { /usr/share/vim/vim73/macros/less.sh "$1" ;}
+	
+	# http://technotales.wordpress.com/2009/05/24/using-vim-as-a-pager/
+	# vim readonly; to force write use :w!
+	vless() { vim -R "$@" ;}
+
+# https://bitbucket.org/antocuni/tty2gif
+# convert ttyrec to gif files
+tty2gif() { python3 ~/.scripts/tty2gif/tty2gif.py $@ ;}
+
+# https://github.com/saironiq/shellscripts/blob/master/wolframalpha_com/wa.sh 
+# http://www.wolframalpha.com
+wolframalpha() { ~/.scripts/shellscripts/wolframalpha_com/was.sh ;}
+
+#}}}
+#-------- Copy Move {{{
+#------------------------------------------------------
+cpr() {
+	if [  $# -lt 1 ]; then
+        echo -e "rsync copying files using task spooler queue" 
+        echo -e "\nUsage:\n$0 [-h help] [-t task-spooler] <source> <destination>" 
         echo -e "\nInclude Parent Folder:\n$0 <source> <destination>" 
         echo -e "\nExclude Parent Folder:\n$0 <source>/ <destination>" 
         echo -e "\nRequirements: rsync task-spooler" 
-
         return 1
-    fi 
-    tsp rsync -a "$@"
+	else
+		case "$1" in
+		  -t) tsp rsync -a "$@" ;;
+		  -h) $0 ;;
+		  -*) $0 ;;
+		  *) rsync -av --progress "$@" ;;
+		esac
+	fi
 }
-mvrt() { 
-    if [  $# -lt 1 ] 
-    then 
-        echo -e "rsync move using task spooler queue" 
-        echo -e "\nUsage:\n$0 <source> <destination>" 
+mvr() {
+	if [  $# -lt 1 ]; then
+        echo -e "rsync moving files using task spooler queue" 
+        echo -e "\nUsage:\n$0 [-h help] [-t task-spooler] <source> <destination>" 
+        echo -e "\nInclude Parent Folder:\n$0 <source> <destination>" 
+        echo -e "\nExclude Parent Folder:\n$0 <source>/ <destination>" 
         echo -e "\nRequirements: rsync task-spooler" 
-
         return 1
-    fi 
-    tsp rsync -a --remove-source-files "$@"
+	else
+		case "$1" in
+		  -t) tsp rsync -a --remove-source-files "$@" ;;
+		  -h) $0 ;;
+		  -*) $0 ;;
+		  *) rsync -av --progress --remove-source-files "$@" ;;
+		esac
+	fi
 }
-
-#-------- Empty Template {{{
-#------------------------------------------------------
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
 # }}}
 #-------- VirtualEnv (Python Isolated Environment) {{{
 #------------------------------------------------------
@@ -2137,50 +2519,6 @@ virtwrap-activate() {
 	cd ~/.virtualenv
 	source "$1"/bin/activate
 }
-
-# }}}
-#-------- Convert to Archive {{{
-#------------------------------------------------------
-
-# to see required install for different formats
-# $ patool formats
-convert2archive_7z() { patool repack "$1" "${1%.*}".7z ;}
-convert2archive_ace() { patool repack "$1" "${1%.*}".ace ;}
-convert2archive_jar() { patool repack "$1" "${1%.*}".jar ;}
-convert2archive_rar() { patool repack "$1" "${1%.*}".rar ;}
-convert2archive_tar() { patool repack "$1" "${1%.*}".tar ;}
-convert2archive_xz() { patool repack "$1" "${1%.*}".xz ;}
-convert2archive_zip() { patool repack "$1" "${1%.*}".zip ;}
-convert2archive_targz() { patool repack "$1" "${1%.*}".tar.gz ;}
-convert2archive_tarbz2() { patool repack "$1" "${1%.*}".tar.bz2 ;}
-convert2archive_tarlzma() { patool repack "$1" "${1%.*}".tar.lzma ;}
-
-# https://en.wikipedia.org/wiki/Comic_book_archive
-convert2archive_cbz() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.tar" 
-		echo -e "\nmultiple: $0 file1.m4a file2.m4a file3.m4a" 
-		echo -e "\nwildcard: $0 *.m4a" 
-	return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		if [[ ! -f "${arg%.*}".zip && ! -f "${arg%.*}".cbz ]]; then
-			patool repack "$arg" "${arg%.*}".zip && mv "${arg%.*}".zip "${arg%.*}".cbz
-		else
-			if [[ -f "${arg%.*}".zip ]]; then
-			mv -v -- "${arg%.*}".zip "${arg%.*}".cbz
-			fi
-		fi
-	done
-}
-
-convert_to_cb7() { patool repack "$1" "${1%.*}".7z && mv "${1%.*}".7z "${1%.*}".cb7 ;} #comic format 7z
-convert_to_cba() { patool repack "$1" "${1%.*}".ace && mv "${1%.*}".ace "${1%.*}".cba ;} #comic format ace
-convert_to_cbr() { patool repack "$1" "${1%.*}".rar && mv "${1%.*}".rar "${1%.*}".cbr ;} #comic format rar
-convert_to_cbt() { patool repack "$1" "${1%.*}".tar && mv "${1%.*}".tar "${1%.*}".cbt ;} #comic format tar
 
 # }}}
 #-------- Convert to Image {{{
@@ -2919,18 +3257,6 @@ tag-full() {
 
 
 
-# }}}
-#-------- VimWiki {{{
-#------------------------------------------------------
-wikiapps()   { $EDITOR ~/.vimwiki/wikiapps/index.wiki ;}
-wikidroid()  { $EDITOR ~/.vimwiki/wikidroid/index.wiki ;}
-wikigame()   { $EDITOR ~/.vimwiki/wikigame/index.wiki ;}
-wikihaiku()  { $EDITOR ~/.vimwiki/wikihaiku/index.md ;}
-wikimd()     { $EDITOR ~/.vimwiki/wikimd/index.md ;}
-wikinote()   { $EDITOR ~/.vimwiki/wikinote/index.wiki ;}
-wikislitaz() { $EDITOR ~/.vimwiki/wikislitaz/index.md ;}
-wikisuper()  { $EDITOR ~/.vimwiki/wikisuper/index.wiki ;}
-wikivista()  { $EDITOR ~/.vimwiki/wikivista/index.wiki ;}
 # }}}
 #-------- Plowshare {{{
 #------------------------------------------------------
@@ -4009,8 +4335,6 @@ function daemon
   # Do something and receive a desktop alert when it completes `sudo apt-get install something | alert`
   alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-  # Search process by name and highlight !
-  function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 
   # Search for files and page it
   function search() { find . -iname "*$@*" | less; }
@@ -4210,4 +4534,83 @@ function ii()   # get current host related info
     echo -e "\n${RED}LAN Information :$NC" ; netinfoLAN
     echo
 }
+
+dd_clone() {
+	if [  $# -lt 2 ]; then
+		echo -e "image or clone <image|drive|parition> including free space and verify data"
+		echo -e "\nUsage: $0 <input> <output>"
+		echo -e "\nExample: $0 /dev/sdX /tmp/output.dd" 
+		echo -e "\n$0 /dev/sdX /dev/sdY" 
+		echo -e "\n$0 /tmp/output.img /dev/sdX"
+		echo -e "\n$0 /dev/cdrom /tmp/output.iso" 
+		echo -e "\nList All Drives: sudo fdisk -l" 
+		echo -e "\nRequirement: pv dcfldd" 
+		return 1
+	fi 
+
+	sudo sh -c "
+		# clone
+		pv -tpreb "$1" | dcfldd of="$2" bs=4M 
+		# verify data match or mismatch
+		dcfldd if="$1" vf="$2"
+	"
+}
+
+verify_md5sum() { pv "$1" | md5sum ;}
+
+formatme() {
+	sudo mkdosfs -n 'Label' -I /dev/sdd
+}
+
+
+### Full Disk Clone and Restore
+clonezilla_disk_cloning() {
+	if [  $# -lt 2 ]; then
+		echo -e "clone fulldisk device to image"
+		echo -e "\nUsage: $0 <output_file> <device>"
+		echo -e "\nExample: $0 laptop_fulldisk_2015_12_25_img sdx" 
+		echo -e "\nNote: device does not have numbers at the end (sdx)"
+		return 1
+	fi 
+	sudo /usr/sbin/ocs-sr -q2 -c -j2 -z1p -i 5000000 -sc -p true savedisk "$1" "$2"
+}
+
+clonezilla_disk_restore() { 
+	if [  $# -lt 2 ]; then
+		echo -e "restore fulldisk image to device"
+		echo -e "\nUsage: $0 <input_file> <device>"
+		echo -e "\nExample: $0 laptop_fulldisk_2015_12_25_img sdx1" 
+		echo -e "\nNote: partitions usually have numbers at the end (sdx1)"
+		return 1
+	fi 
+	sudo /usr/sbin/ocs-sr -g auto -e1 auto -e2 -c -r -j2 -p true restoredisk "$1" "$2"
+}
+
+### Partition Clone and Restore
+clonezilla_partition_cloning() {
+	if [  $# -lt 2 ]; then
+		echo -e "clone device partition to image"
+		echo -e "\nUsage: $0 <output_file> <device>"
+		echo -e "\nExample: $0 desktop_partition_2016_12_25_img sdx" 
+		echo -e "\nNote: device does not have numbers at the end (sdx)"
+		return 1
+	fi 
+	sudo /usr/sbin/ocs-sr -q2 -c -j2 -z1p -i 5000000 -sc -p true saveparts "$1" "$2"
+}
+
+clonezilla_partition_restore() {
+	if [  $# -lt 2 ]; then
+		echo -e "restore image to device partition"
+		echo -e "\nUsage: $0 <input_file> <device>"
+		echo -e "\nExample: $0 desktop_partition_2016_12_25_img sdx1" 
+		echo -e "\nNote: partitions usually have numbers at the end (sdx1)"
+		return 1
+	fi 
+	sudo /usr/sbin/ocs-sr -g auto -e1 auto -e2 -c -r -j2 -k -p true restoreparts "$1" "$2"
+}
+
+# http://stackoverflow.com/a/22049344
+killall-zombies() { kill -HUP $(ps -A -ostat,ppid | grep -e '[zZ]'| awk '{ print $2 }') ;}
+
+
 

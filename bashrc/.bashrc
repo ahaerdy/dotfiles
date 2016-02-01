@@ -1,3 +1,21 @@
+#             _   _     _      _           _               _
+#  __ _  ___ | |_| |__ | | ___| |_ _   _  | |__   __ _ ___| |__
+# / _` |/ _ \| __| '_ \| |/ _ \ __| | | | | '_ \ / _` / __| '_ \
+#| (_| | (_) | |_| |_) | |  __/ |_| |_| | | |_) | (_| \__ \ | | |
+# \__, |\___/ \__|_.__/|_|\___|\__|\__,_| |_.__/ \__,_|___/_| |_|
+# |___/
+#
+#       DESC: BASH Configuration
+#
+#       http://www.youtube.com/user/gotbletu
+#       https://twitter.com/gotbletu
+#       https://plus.google.com/+gotbletu
+#       https://github.com/gotbletu
+#       gotbletu@gmail.com
+
+
+
+
 #prompt with lines
 # http://www.reddit.com/r/linux/comments/12wxsl/whats_in_your_bashrc/
 # export PROMPT_COMMAND='q="- $(date +%T)"; while [[ ${#q} -lt $COLUMNS ]]; do q="${q:0:1}$q"; done; echo -e "\033[0;90m$q";'
@@ -87,7 +105,7 @@ On_IWhite='\e[0;107m'   # White
 # Bash Prompts 2012
 #PS1="\[$BBlue\]\u \t \[$BWhite\]\w \n\[$BRed\]$\[$BGreen\] "
 
-#  \n \[\e[1;37m\]+-[\[\e[1;36m\] \d \[\e[1;31m\]\T \[\e[1;37m\]] \n\[\e[1;37m\] +-[ \[\e[1;34m\]@ \[\e[1;32m\]\w \[\e[1;37m\]]\[\e[1;35m\]---> \[\e[0;37m\]  
+#  \n \[\e[1;37m\]+-[\[\e[1;36m\] \d \[\e[1;31m\]\T \[\e[1;37m\]] \n\[\e[1;37m\] +-[ \[\e[1;34m\]@ \[\e[1;32m\]\w \[\e[1;37m\]]\[\e[1;35m\]---> \[\e[0;37m\]
 
 
 # Newest, use man strftime - Tron
@@ -98,53 +116,70 @@ PS1="\[\e[30;1m\](\[\e[34;1m\]\u@\h\[\e[30;1m\])-(\[\e[34;1m\]\t\[\e[30;1m\])-(\
 
 
 
-prompt () {
-    [[ $# = 1 ]] || exit 255
-    mode="$1"
+# prompt () {
+#     [[ $# = 1 ]] || exit 255
+#     mode="$1"
+#
+#     case "$mode" in
+#     none)
+#         export PS1=""
+#         ;;
+#     off)
+#         export PS1="$ "
+#         ;;
+#     date)
+#         export PS1="[\t]\$ "
+#         ;;
+#     basic)
+#         export PS1="\u:\w$ "
+#         ;;
+#     full)
+#         export PS1="[\t]\u:\w$ "
+#         ;;
+#     esac
+# }
+#
+#prompt basic
 
-    case "$mode" in
-    none)
-        export PS1=""
-        ;;
-    off)
-        export PS1="$ "
-        ;;
-    date)
-        export PS1="[\t]\$ "
-        ;;
-    basic)
-        export PS1="\u:\w$ "
-        ;;
-    full)
-        export PS1="[\t]\u:\w$ "
-        ;;
-    esac
+
+fh() {
+eval $(history | fzf +s | sed 's/ *[0-9]* *//')
 }
 
-#prompt basic
+bind '"\C-F":"fh\n"'	# fzf history
 
 
 #-------- BASH External Loading {{{
 #------------------------------------------------------
-# Bash Auto Completion
+# autocompletion
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
+# alias
 if [ -f ~/.aliasrc ]; then
     . ~/.aliasrc
 fi
 
-#Add Auto Complete to commands that dont work
+# adds autoomplete to commands that dont work
 if [ "$PS1" ]; then
 	complete -cf sudo man
 fi
 #}}}
 #-------- BASH Exports {{{
 #------------------------------------------------------
-shopt -s histappend	#Writes session to history on exit
-shopt -s checkwinsize	#Check window on resize; for word wrapping
+# http://www.gnu.org/software/bash/manual/html_node/The-Shopt-Builtin.html
+shopt -s histappend	# append history not overwrite it
+shopt -s checkwinsize	# check window on resize; for word wrapping
 shopt -s autocd		# instead of 'cd Pictures', just run Pictures
+shopt -s cdspell	# auto correct cd; cd /sur/src/linus' >> 'cd /usr/src/linux'
+shopt -s cmdhist	# If set, Bash attempts to save all lines of a multiple-line command in the same history entry. This allows easy re-editing of multi-line commands.
+
+HISTCONTROL=erasedups:ignoreboth
+HISTSIZE=1000000
+HISTFILESIZE=1000000
+HISTIGNORE="&:ls:[bf]g:history:exit"  #ignore these commands from history
+
 # setopt autocd
 # appendhistory all your open shells share the same history which is handy if you want to refer commands from one shell in another with say Ctrl+R(reverse-history-search)
 # extendedglob
@@ -166,36 +201,27 @@ bind '"\e[Z":menu-complete-backward'	# Shift+Tab: Cycle backwards
 bind '"\e[A": history-search-backward'	# ArrowUp: history completion backwards
 bind '"\e[B": history-search-forward'	# ArrowDown: history completion forward
 
+# enable history verification:
+# bang commands (!, !!, !?) will print to shell and not be auto executed
+# http://superuser.com/a/7416
+shopt -s histverify
+
+# Bang! Previous Command Hotkeys
+# print previous command but only the first nth arguments
+# Alt+1, Alt+2 ...etc
+bind '"\e1": "!:0 \n"'
+bind '"\e2": "!:0-1 \n"'
+bind '"\e3": "!:0-2 \n"'
+bind '"\e4": "!:0-3 \n"'
+bind '"\e5": "!:0-4 \n"'
+bind '"\e`": "!:-1 \n"'     # all but the last word
+
+##
+
+
 # bind '"\C-O":"fzf-dmenu\n"'
 
 ## }}}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-fh() {
-eval $(history | fzf +s | sed 's/ *[0-9]* *//')
-}
-
-bind '"\C-F":"fh\n"'	# fzf history
 
 
 
