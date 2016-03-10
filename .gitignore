@@ -139,6 +139,9 @@
 !quicktile
 !quicktile/.config
 !quicktile/.config/quicktile.cfg
+!ranger
+#!ranger/.config
+!ranger/.config/ranger/rc.conf
 !retroarch
 !retroarch/.config
 !retroarch/.config/retroarch

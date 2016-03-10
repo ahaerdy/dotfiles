@@ -209,12 +209,13 @@ shopt -s histverify
 # Bang! Previous Command Hotkeys
 # print previous command but only the first nth arguments
 # Alt+1, Alt+2 ...etc
+# http://www.softpanorama.org/Scripting/Shellorama/bash_command_history_reuse.shtml#Bang_commands
 bind '"\e1": "!:0 \n"'
 bind '"\e2": "!:0-1 \n"'
 bind '"\e3": "!:0-2 \n"'
 bind '"\e4": "!:0-3 \n"'
 bind '"\e5": "!:0-4 \n"'
-bind '"\e`": "!:-1 \n"'     # all but the last word
+bind '"\e`": "!:0- \n"'     # all but the last word
 
 ##
 
@@ -224,6 +225,26 @@ bind '"\e`": "!:-1 \n"'     # all but the last word
 ## }}}
 
 
+# autocomplete surfraw bookmarks
+# usage: srb <bookmark_name>
+# _cmpl_surfraw() {
+# 	reply=($(awk 'NF != 0 && !/^#/ {print $1}' ~/.config/surfraw/bookmarks | sort -n))
+# }
+# compctl -K _cmpl_surfraw srb
+#
+
+# http://fahdshariff.blogspot.com/2011/04/writing-your-own-bash-completion.html
+# http://askubuntu.com/a/345150
+# https://www.debian-administration.org/article/317/An_introduction_to_bash_completion_part_2
+_cmpl_surfraw() {
+	# reply=($(awk 'NF != 0 && !/^#/ {print $1}' ~/.config/surfraw/bookmarks | sort -n))
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    COMPREPLY=($(awk 'NF != 0 && !/^#/ {print $1}' ~/.config/surfraw/bookmarks | sort -n))
+	# COMPREPLY=($(awk 'NF != 0 && !/^#/ {print $1}' ~/.config/surfraw/bookmarks | sort -n))
+    # local cur=${COMP_WORDS[COMP_CWORD]}
+    # COMPREPLY=( $(compgen -W "fooOption barOption" -- $cur) )
+}
+complete -F _cmpl_surfraw srb
 
 
 

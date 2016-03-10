@@ -46,13 +46,12 @@ setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FIND_NO_DUPS
-# setopt HIST_VERIFY
+setopt HIST_VERIFY
 setopt SHARE_HISTORY
 setopt INTERACTIVE_COMMENTS        # pound sign in interactive prompt
 HISTFILE=~/.zsh_history            # where to save zsh history
 HISTSIZE=10000
 SAVEHIST=10000
-
 cfg-history() { $EDITOR $HISTFILE ;}
 
 #
@@ -106,7 +105,7 @@ bindkey '^?' backward-delete-char	#backspace
 bindkey -M viins '^r' history-incremental-search-backward
 bindkey -M vicmd '^r' history-incremental-search-backward
 
-# vim mode status cursor color change
+# use cursor blinker color as indicator of vi mode
 # http://andreasbwagner.tumblr.com/post/804629866/zsh-cursor-color-vi-mode
 # http://reza.jelveh.me/2011/09/18/zsh-tmux-vi-mode-cursor
 
@@ -140,7 +139,9 @@ bindkey -M vicmd '^r' history-incremental-search-backward
 # http://www.refining-linux.org/archives/40/ZSH-Gem-5-Menu-selection/
 # https://github.com/robbyrussell/oh-my-zsh/blob/master/lib/completion.zsh
 
+
 autoload -U compinit && compinit        # enable autocompletion
+fpath+=(~/.zsh/completion)              # set path to custom autocompletion
 zstyle ':completion:*' menu select      # to activate the menu, press tab twice
 unsetopt menu_complete                  # do not autoselect the first completion entry
 setopt completealiases                  # autocompletion CLI switches for aliases
@@ -164,6 +165,9 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*'
 # better completion for killall
 zstyle ':completion:*:killall:*' command 'ps -u $USER -o cmd'
 
+# when new programs is installed, auto update autocomplete without reloading shell
+zstyle ':completion:*' rehash true
+
 #}}}
 #-------- Global Alias {{{
 #------------------------------------------------------
@@ -174,6 +178,7 @@ alias -g NF='*(.om[1])' 		# newest file
 #alias -g NE='2>|/dev/null'
 alias -g NO='&>|/dev/null'
 alias -g P='2>&1 | $PAGER'
+alias -g V='| vim -R -'
 alias -g L='| less'
 alias -g M='| most'
 alias -g C='| wc -l'
@@ -253,12 +258,13 @@ bindkey '^[[B' history-search-forward
 # Bang! Previous Command Hotkeys
 # print previous command but only the first nth arguments
 # Alt+1, Alt+2 ...etc
+# http://www.softpanorama.org/Scripting/Shellorama/bash_command_history_reuse.shtml#Bang_commands
 bindkey -s '\e1' "!:0 \t"
 bindkey -s '\e2' "!:0-1 \t"
 bindkey -s '\e3' "!:0-2 \t"
 bindkey -s '\e4' "!:0-3 \t"
 bindkey -s '\e5' "!:0-4 \t"
-bindkey -s '\e`' "!:-1 \t"     # all but the last word
+bindkey -s '\e`' "!:0- \t"     # all but the last word
 
 
 #}}}
@@ -268,7 +274,6 @@ bindkey -s '\e`' "!:-1 \t"     # all but the last word
 autoload zmv
 
 # }}}
-
 
 #-------- Fuzzy Finder {{{
 #------------------------------------------------------
@@ -321,6 +326,21 @@ _cmpl_surfraw() {
 compctl -K _cmpl_surfraw srb
 
 
+# cheat
+_cmpl_cheat() {
+	reply=($(cheat -l | cut -d' ' -f1))
+}
+compctl -K _cmpl_cheat cheat
+
+# playonlinux
+_cmpl_playonlinux() {
+	myarray=($(ls ~/.PlayOnLinux/shortcuts | sed 's:\ :\\\ :g'))
+	reply=(printf "%s\n" ${myarray[@]})
+	# reply=(${myarray[@]})
+}
+compctl -K _cmpl_playonlinux playonlinux
+
+
 # fzf_surfraw() { zle -I; surfraw $(cat ~/.config/surfraw/bookmarks | fzf | awk 'NF != 0 && !/^#/ {print $1}' ) ; }; zle -N fzf_surfraw; bindkey '^W' fzf_surfraw
 
 
@@ -341,11 +361,6 @@ compctl -K _cmpl_surfraw srb
 # }
 # compctl -K _cmpl_calibredb cmx-comic cmx-dojinshi cmx-eurotica cmx-hanime cmx-normal cmx-textbook $@
 
-# playonlinux
-_cmpl_playonlinux_run() {
-	reply=(ls -1 ~/.PlayOnLinux/shortcuts)
-}
-compctl -K _cmpl_playonlinux_run pol
 # fzf_playonlinux_run() { zle -I; playonlinux --run $(ls -1 ~/.PlayOnLinux/shortcuts | fzf) ; }; zle -N fzf_playonlinux_run; bindkey '^P' fzf_playonlinux_run
 
 # fzf_hotkey_playonlinux() { zle -I; @dmenu ; }; zle -N fzf_hotkey_playonlinux; bindkey '^ ' fzf_hotkey_playonlinux
@@ -383,10 +398,10 @@ bindkey -s '^O' "fzf-dmenu\n"
 #
 # # Options
 # # http://stackoverflow.com/a/171564
-# setopt AUTO_CD           # instead of 'cd folder' if you could just type 'folder'
+setopt AUTO_CD           # instead of 'cd folder' if you could just type 'folder'
 # setopt MULTIOS           # now we can pipe to multiple outputs!
 # setopt CORRECT           # spell check commands!  (Sometimes annoying)
-# setopt AUTO_PUSHD        # This makes cd=pushd
+setopt AUTO_PUSHD        # This makes cd=pushd
 # setopt AUTO_NAME_DIRS    # This will use named dirs when possible
 #
 # # If we have a glob this will expand it
@@ -579,77 +594,5 @@ bindkey -s '^O' "fzf-dmenu\n"
 # bindkey -M viins ' ' magic-space
 #
 # #}}}
-
-
-# #{{{ Prompt!
-#
-# host_color=cyan
-# history_color=yellow
-# user_color=green
-# root_color=red
-# directory_color=magenta
-# error_color=red
-# jobs_color=green
-#
-# host_prompt="%{$fg_bold[$host_color]%}%m%{$reset_color%}"
-#
-# jobs_prompt1="%{$fg_bold[$jobs_color]%}(%{$reset_color%}"
-#
-# jobs_prompt2="%{$fg[$jobs_color]%}%j%{$reset_color%}"
-#
-# jobs_prompt3="%{$fg_bold[$jobs_color]%})%{$reset_color%}"
-#
-# jobs_total="%(1j.${jobs_prompt1}${jobs_prompt2}${jobs_prompt3} .)"
-#
-# history_prompt1="%{$fg_bold[$history_color]%}[%{$reset_color%}"
-#
-# history_prompt2="%{$fg[$history_color]%}%h%{$reset_color%}"
-#
-# history_prompt3="%{$fg_bold[$history_color]%}]%{$reset_color%}"
-#
-# history_total="${history_prompt1}${history_prompt2}${history_prompt3}"
-#
-# error_prompt1="%{$fg_bold[$error_color]%}<%{$reset_color%}"
-#
-# error_prompt2="%{$fg[$error_color]%}%?%{$reset_color%}"
-#
-# error_prompt3="%{$fg_bold[$error_color]%}>%{$reset_color%}"
-#
-# error_total="%(?..${error_prompt1}${error_prompt2}${error_prompt3} )"
-#
-# case "$TERM" in
-#   (screen)
-#     function precmd() { print -Pn "\033]0;S $TTY:t{%100<...<%~%<<}\007" }
-#   ;;
-#   (xterm)
-#     directory_prompt=""
-#   ;;
-#   (*)
-#     directory_prompt="%{$fg[$directory_color]%}%~%{$reset_color%} "
-#   ;;
-# esac
-#
-# if [[ $USER == root ]]; then
-#     post_prompt="%{$fg_bold[$root_color]%}%#%{$reset_color%}"
-# else
-#     post_prompt="%{$fg_bold[$user_color]%}%#%{$reset_color%}"
-# fi
-#
-# PS1="${host_prompt} ${jobs_total}${history_total} ${directory_prompt}${error_total}${post_prompt} "
-#
-#
-# #if [[ $TERM == screen]; then
-#      #function precmd() {
-#           #print -Pn "\033]0;S $TTY:t{%100<...<%~%<<}\007"
-#              #}
-# #elsif [[ $TERM == linux ]]; then
-#     #precmd () { print -Pn "\e]0;%m: %~\a" }
-# #fi
-#
-# #}}}
-
-
-
-
 
 

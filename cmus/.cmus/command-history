@@ -1,0 +1,12 @@
+clear 
+add ~/Music/
+colorscheme tronclu_by_gotbletu:
+colorscheme tronlegacy_by_gotbletu
+colorscheme tronclu_by_gotbletu
+chat#Zq
+filter 
+set status_display_program=/home/heoyea-core/.cmus/cmus-cover-art/observe.sh
+add ~/Music/zothers/Naruto_Shippuuden_OST_Unreleased_-_Konan_vs_Tobi.mp3
+set output_plugin=pulse
+set output_plugin=alsa
+add ~/Music/GreatestHits/Petula Clark - The Windmills of Your Mind.mp3

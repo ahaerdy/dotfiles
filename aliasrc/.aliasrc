@@ -15,7 +15,7 @@
 
 
 ##############################
-####### PLATINUM LIST ########
+####### A. PLATINUM LIST #####
 ##############################
 
 # #-------- Environment Variable {{{
@@ -45,7 +45,7 @@ find_alt() { for i;do which "$i" >/dev/null && { echo "$i"; return 0;};done;retu
 # set the default program
 # the first program in the array will be chosen as the default
 export OPENER=$(find_alt xdg-open exo-open gnome-open )
-export BROWSER=$(find_alt chromium chromium-browser google-chrome firefox $OPENER )
+export BROWSER=$(find_alt chromium chromium-browser qutebrowser google-chrome firefox $OPENER )
 export BROWSERCLI=$(find_alt w3m links2 links lynx elinks $OPENER )
 export COMICER=$(find_alt mcomix comix zathura $OPENER )
 export EBOOKER=$(find_alt ebook-viewer $OPENER )
@@ -144,6 +144,9 @@ On_IWhite='\e[0;107m'   # White
 if [ -d "$HOME/.local/bin" ] ; then
 	PATH="$HOME/.local/bin:$PATH"
 fi
+if [ -d "$HOME/.screenlayout" ] ; then
+	PATH="$HOME/.screenlayout:$PATH"
+fi
 
 # Go Packages (Golang)
 export GOPATH=~/.go
@@ -160,7 +163,7 @@ if [ -d "$HOME/.scripts" ] ; then
 fi
 
 # }}}
-#-------- Include Files {{{
+#-------- External Files {{{
 #------------------------------------------------------
 if [ -f ~/.hintrc ]; then
     . ~/.hintrc
@@ -170,7 +173,7 @@ fi
 #-------- Configurations {{{
 #------------------------------------------------------
 cfg-aliasrc() { $EDITOR ~/.aliasrc ;}
-cfg-bashrc() { $EDITOR ~/.bashrc && source ~/.bashrc ;}   # edit and source on exit
+cfg-bashrc() { $EDITOR ~/.bashrc ;}
 cfg-blocklist() { $EDITOR ~/.scripts/blocklist.sh ;}
 # https://wiki.archlinux.org/index.php/Cursor_Themes#Choosing_and_Configuring_Cursor_Themes
 cfg-cursor() { $EDITOR ~/.icons/default/index.theme ;}
@@ -180,7 +183,8 @@ cfg-emulationstation() { $EDITOR ~/.emulationstation/es_systems.cfg ;}
 cfg-emulationstation-input() { $EDITOR ~/.emulationstation/es_input.cfg ;}
 cfg-flexget() { $EDITOR ~/.flexget/config.yml ;}
 cfg-fstab() { sudo $EDITOR /etc/fstab ;}
-cfg-gitignore() { $EDITOR ~/Public/dotfiles/.gitignore;}
+cfg-gitignore() { $EDITOR ~/Public/dotfiles/.gitignore ;}
+cfg-giftd() { $EDITOR ~/.giFT/giftd.conf ;}
 cfg-group() { sudo $EDITOR /etc/group ;}
 cfg-grub() { sudo $EDITOR /etc/default/grub ;}
 cfg-hintrc() { $EDITOR ~/.hintrc ;}
@@ -193,6 +197,7 @@ cfg-lgogdownloader() { $EDITOR ~/.config/lgogdownloader/config.cfg ;}
 cfg-livestreamer() { $EDITOR ~/.livestreamerrc ;}
 cfg-mailcap() { $EDITOR ~/.mailcap ;}
 cfg-mbsyncrc() { $EDITOR ~/.mbsyncrc ;}
+cfg-mc() { $EDITOR ~/.config/mc/ini ;}
 cfg-mcomix() { $EDITOR ~/.config/mcomix/keybindings.conf ;}
 cfg-mpd() { $EDITOR ~/.mpd/mpd.conf ;}
 cfg-mplayer() { $EDITOR ~/.mplayer/config ;}
@@ -212,6 +217,9 @@ cfg-profile() { $EDITOR ~/.profile ;}
 cfg-pulseaudio() { sudo $EDITOR /etc/pulse/default.pa ;}
 cfg-pyload() { $EDITOR ~/.pyload/pyload.conf ;}
 cfg-pyradio() { $EDITOR ~/.pyradio.csv ;}
+cfg-qutebrowser() { $EDITOR ~/.config/qutebrowser/qutebrowser.conf ;}
+cfg-qutebrowser-keys() { $EDITOR ~/.config/qutebrowser/keys.conf ;}
+cfg-qutebrowser-quickmarks() { $EDITOR ~/.config/qutebrowser/quickmarks ;}
 cfg-quicktile() { $EDITOR ~/.config/quicktile.cfg ;}
 cfg-ranger() { $EDITOR ~/.config/ranger/rc.conf ;}
 cfg-ranger-rifle() { $EDITOR ~/.config/ranger/rifle.conf ;}
@@ -241,7 +249,8 @@ cfg-wegorc() { $EDITOR ~/.wegorc ;}
 cfg-xboxdrv() { sudo $EDITOR /etc/default/xboxdrv ;}
 cfg-xresources() { $EDITOR ~/.Xresources ;}
 cfg-yaourtrc() { $EDITOR ~/.yaourtrc ;}
-cfg-zshrc() { $EDITOR ~/.zshrc && source ~/.zshrc ;}   # edit and source on exit
+cfg-zshrc() { $EDITOR ~/.zshrc ;}
+cfg-zurlrc() { $EDITOR ~/.zurlrc ;}
 #}}}
 #-------- Configurations Reload {{{
 #------------------------------------------------------
@@ -276,13 +285,13 @@ alias nvlc='nvlc --no-color'				# vlc black/white color
 alias pdfgrep='pdfgrep -in'				# ignorecase, page number
 alias pyradio='pyradio -s ~/.pyradio.csv'
 alias rm='rm -Iv --preserve-root'			# rm interactive, prompt once only
-# alias sudo='sudo '					# make aliases work with sudo
+alias sudo='sudo '					# make aliases work with sudo
 alias sr='sr -browser=$BROWSERCLI'			# cli browser
 alias surfraw='surfraw -browser=$BROWSER'		# gui browser
 alias sudo='sudo -i'
 alias wget='wget -c'					# continues/resumes
 alias youtube-viewer='youtube-viewer -C -f -4 --results=6'	# color, fullscreen, 480p, number of results
-# alias visudo='sudo EDITOR="$EDITOR" visudo'
+alias visudo='sudo EDITOR="$EDITOR" visudo'
 
 # color for common commands
 # tutorial video: http://www.youtube.com/watch?v=RbVCzxnKJL4
@@ -330,9 +339,9 @@ m-ip() {
 #}}}
 #-------- Fasd {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=ur81Y-mV5Us
-# url:  https://github.com/clvv/fasd
-# desc: jump to path or open recent files quickly from cli, better than autojump
+# DEMO: http://www.youtube.com/watch?v=ur81Y-mV5Us
+# URL:  https://github.com/clvv/fasd
+# DESC: jump to path or open recent files quickly from cli, better than autojump
 
 if which fasd >/dev/null; then
 	eval "$(fasd --init auto)"	# get fasd working, initialization code
@@ -343,9 +352,9 @@ fi
 #}}}
 #-------- PulseAudio Switcher CLI v2 {{{
 #------------------------------------------------------
-# demo: https://www.youtube.com/watch?v=jhv-2pNWfr4
-# desc: switch audio stream to different output (HDMI, Headphone, Speakers ...etc)
-# ref:  http://askubuntu.com/a/18210
+# DEMO: https://www.youtube.com/watch?v=jhv-2pNWfr4
+# DESC: switch audio stream to different output (HDMI, Headphone, Speakers ...etc)
+# REFF: http://askubuntu.com/a/18210
 
 pa-global() { 
 	if [  $# -lt 1 ]; then
@@ -388,9 +397,9 @@ pa-solo() {
 #}}}
 #-------- Calibre CLI v3 {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=FeoVsC4U_0A
-# desc: ebook manager supports many formats and devices; interfaces with cli, webui, gui
-# url:  http://manual.calibre-ebook.com/cli/calibredb.html
+# DEMO: http://www.youtube.com/watch?v=FeoVsC4U_0A
+# DESC: ebook manager supports many formats and devices; interfaces with cli, webui, gui
+# URL:  http://manual.calibre-ebook.com/cli/calibredb.html
 
 # define your library path
 cbbook=~/MA_Calibre/Book
@@ -459,6 +468,7 @@ cmx-show() {
 	calibredb show_metadata "${@:2}" --library-path "$1" | html2text 
 }
 
+
 cmx-recipes() { ebook-convert --list-recipes | less ;}
 
 # WebUI content server
@@ -476,8 +486,8 @@ cmx-server() {
 #}}}
 #-------- Transmission CLI v2 {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=ee4XzWuapsE
-# desc: lightweight torrent client; interface from cli, webui, ncurses, and gui
+# DEMO: http://www.youtube.com/watch?v=ee4XzWuapsE
+# DESC: lightweight torrent client; interface from cli, webui, ncurses, and gui
 # WebUI:	http://localhost:9091/transmission/web/
 # 		http://192.168.1.xxx:9091/transmission/web/
 
@@ -491,8 +501,8 @@ tsm-count() { echo "Blocklist rules:" $(curl -s --data \
 	"$(curl -s -D - localhost:9091/transmission/rpc | grep X-Transmission-Session-Id)" \
 	| cut -d: -f 11 | cut -d, -f1) ;}
 
-# demo: http://www.youtube.com/watch?v=TyDX50_dC0M
-# desc: merge multiple ip blocklist into one
+# DEMO: http://www.youtube.com/watch?v=TyDX50_dC0M
+# DESC: merge multiple ip blocklist into one
 tsm-blocklist() { 
 	echo -e "${Red} Stopping Transmission Daemon ${Color_Off}"
 	killall transmission-daemon
@@ -521,17 +531,17 @@ tsm-speed() { while true;do clear; transmission-remote -t"$1" -i | grep Speed;sl
 tsm-grep() { transmission-remote --list | grep -i "$1" ;}
 tsm() { transmission-remote --list ;}
 
-# demo: http://www.youtube.com/watch?v=hLz7ditUwY8
-# url:  https://github.com/fagga/transmission-remote-cli
-# desc: ncurses frontend to transmission-daemon
+# DEMO: http://www.youtube.com/watch?v=hLz7ditUwY8
+# URL:  https://github.com/fagga/transmission-remote-cli
+# DESC: ncurses frontend to transmission-daemon
 tsm-ncurse() { transmission-remote-cli ;}
 
 #}}}
-#-------- Ubooquity Comic Server # {{{
+#-------- Ubooquity Ebook Comicbook Server # {{{
 #------------------------------------------------------
-# demo: https://www.youtube.com/watch?v=qfLG9nKt3ew
-# url:  http://vaemendis.net/ubooquity/
-# desc: personal comic and ebook server
+# DEMO: https://www.youtube.com/watch?v=qfLG9nKt3ew
+# URL:  http://vaemendis.net/ubooquity/
+# DESC: personal comic and ebook server
 
 PATH_UBOOQUITY=~/.ubooquity
 ubooquity() { cd $PATH_UBOOQUITY && nohup java -jar $PATH_UBOOQUITY/Ubooquity.jar -webadmin -headless >/dev/null 2>&1& }
@@ -548,76 +558,6 @@ ubooquity-status() {
 }
 
 # }}}
-#-------- Sopcast CLI v2 (Streaming P2P Videos) {{{
-#------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=Dm7cFjhzgHo
-# desc: watch movies/tv shows over p2p
-
-# ref:
-# http://www.sopcast.com/chlist.xml
-# http://sopcast.ucoz.com
-# http://streams.magazinmixt.ro
-# google keyword: sop://broker.sopcast
-
-# package:
-# Archlinux: sopcast ( x64 https://www.archlinux.org/packages/multilib/x86_64/sopcast/)
-# Archlinux: sopcast ( x32 https://www.archlinux.org/packages/community/i686/sopcast/)
-# Ubuntu/Debian: sp-auth (https://launchpad.net/~jason-scheunemann/+archive/ppa)
-
-# choose a player (cvlc is default)
-# SP_VIDPLAYER=cvlc
-SP_VIDPLAYER=(cvlc --file-caching=10000)
-# SP_VIDPLAYER=vlc
-# SP_VIDPLAYER=(vlc --control=lirc)
-# SP_VIDPLAYER=mplayer
-# SP_VIDPLAYER=(mplayer -cache 1000)
-
-# wait X seconds to stabilize channel (make it longer if u got slower connection)
-SP_SLEEP=15
-
-# sopcast port and player port
-SP_LOCAL_PORT=55050
-SP_PLAYER_PORT=55051
-
-# manually kill sopcast (sometimes it doesnt exit properly and still uses bandwidth in the background)
-sppc-kill() { killall sp-sc ;}
-
-# kills existing connection, starts a new connection, sleep X sec to stabilize the stream, waits to player to exit and kill itself
-sppc() {
-	killall sp-sc &>/dev/null
-	(sp-sc "$1" $SP_LOCAL_PORT $SP_PLAYER_PORT &>/dev/null &)
-	sleep $SP_SLEEP
-	($SP_VIDPLAYER http://localhost:$SP_PLAYER_PORT) 
-	wait
-	killall sp-sc
-}
-
-#### eng = english, ro = romanian, esp = espanol/spanish
-# added on February 06, 2014
-spp-doc-discovery.eng,ro() { sppc "sop://broker.sopcast.com:3912/256241" ;}
-spp-doc-discoveryid.eng,ro() { sppc "sop://broker.sopcast.com:3912/256244" ;}
-spp-doc-discoveryscience.eng,ro() { sppc "sop://broker.sopcast.com:3912/256243" ;}
-spp-doc-discoveryworld.eng,ro() { sppc "sop://broker.sopcast.com:3912/256242" ;}
-spp-doc-history.eng,ro() { sppc "sop://broker.sopcast.com:3912/253032" ;}
-spp-doc-natgeo.eng,ro() { sppc "sop://broker.sopcast.com:3912/148248" ;}
-spp-doc-natgeowild.eng,ro() { sppc "sop://broker.sopcast.com:3912/253037" ;}
-spp-movie-hbo.eng,ro() { sppc "sop://broker.sopcast.com:3912/148985" ;}
-spp-movie-hbocomedy.eng,ro() { sppc "sop://broker.sopcast.com:3912/149255" ;}
-spp-tv-axn.eng,ro() { sppc "sop://broker.sopcast.com:3912/253035" ;}
-spp-tv-comedycentral.eng,ro() { sppc "sop://151.80.76.190:3912/253470" ;}
-spp-tv-foxsports2.eng,ro() { sppc "sop://124.232.150.188:3920/5730" ;}
-
-#}}}
-#-------- Peerflix (Popcorntime CLI) {{{
-#------------------------------------------------------
-# demo: https://www.youtube.com/watch?v=NG13yOTPgfY
-# url:  https://github.com/saironiq/shellscripts
-# desc: popcorntime from terminal
-PFLIX_PORT=55055
-peerflix-vlc() { vlc http://localhost:$PFLIX_PORT ;}
-peerflix-mplayer() { mplayer http://localhost:$PFLIX_PORT ;}	
-
-# }}}
 #-------- Convert to Audio {{{
 #------------------------------------------------------
 # https://trac.ffmpeg.org/wiki/Encode/MP3
@@ -625,154 +565,238 @@ peerflix-mplayer() { mplayer http://localhost:$PFLIX_PORT ;}
 # https://trac.ffmpeg.org/wiki/TheoraVorbisEncodingGuide
 
 convert2audio_mp3() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.m4a" 
-		echo -e "\nmultiple: $0 file1.m4a file2.m4a file3.m4a" 
-		echo -e "\nwildcard: $0 *.m4a" 
-		return 1
-	fi 
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.m4a" 
+        echo -e "\nmultiple: $0 file1.m4a file2.m4a file3.m4a" 
+        echo -e "\nwildcard: $0 *.m4a" 
+        return 1
+    fi 
 
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-audiotrack.mp3 ]
-		do
-			ffmpeg -i "$arg" -codec:a libmp3lame -qscale:a 2 "${arg%.*}"-audiotrack.mp3
-		done
-	done
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+    while [ ! -f "${arg%.*}"-audiotrack.mp3 ]
+    do
+        ffmpeg -i "$arg" -codec:a libmp3lame -qscale:a 2 "${arg%.*}"-audiotrack.mp3
+        done
+    done
 }
 
 convert2audio_m4a() {
-	if [  $# -lt 1 ]; then 
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp3" 
-		echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
-		echo -e "\nwildcard: $0 *.mp3" 
-		return 1
-	fi 
+    if [  $# -lt 1 ]; then 
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.mp3" 
+        echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
+        echo -e "\nwildcard: $0 *.mp3" 
+        return 1
+    fi 
 
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-audiotrack.m4a ]
-		do
-			ffmpeg -i "$arg" -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}"-audiotrack.m4a
-		done
-	done
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-audiotrack.m4a ]
+        do
+            ffmpeg -i "$arg" -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}"-audiotrack.m4a
+        done
+    done
 }
 convert2audio_ogg() {
-	if [  $# -lt 1 ]; then 
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp3" 
-		echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
-		echo -e "\nwildcard: $0 *.mp3" 
-		return 1
-	fi 
+    if [  $# -lt 1 ]; then 
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.mp3" 
+        echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
+        echo -e "\nwildcard: $0 *.mp3" 
+        return 1
+    fi 
 
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-audiotrack.ogg ]
-		do
-			ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}"-audiotrack.ogg
-		done
-	done
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-audiotrack.ogg ]
+        do
+            ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}"-audiotrack.ogg
+        done
+    done
 }
 
 convert2audio_wav() {
-	if [  $# -lt 1 ]; then 
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp3" 
-		echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
-		echo -e "\nwildcard: $0 *.mp3" 
-		return 1
-	fi 
+    if [  $# -lt 1 ]; then 
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.mp3" 
+        echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
+        echo -e "\nwildcard: $0 *.mp3" 
+        return 1
+    fi 
 
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-audiotrack.wav ]
-		do
-			ffmpeg -i "$arg" "${arg%.*}"-audiotrack.wav
-		done
-	done
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-audiotrack.wav ]
+        do
+            ffmpeg -i "$arg" "${arg%.*}"-audiotrack.wav
+        done
+    done
 }
 
 convert2audio_webm() {
-	if [  $# -lt 1 ]; then 
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp3" 
-		echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
-		echo -e "\nwildcard: $0 *.mp3" 
-		return 1
-	fi 
+    if [  $# -lt 1 ]; then 
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.mp3" 
+        echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
+        echo -e "\nwildcard: $0 *.mp3" 
+        return 1
+    fi 
 
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-audiotrack.webm ]
-		do
-			ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}"-audiotrack.webm
-		done
-	done
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-audiotrack.webm ]
+        do
+            ffmpeg -i "$arg" -codec:a libvorbis -qscale:a 5 -vn "${arg%.*}"-audiotrack.webm
+        done
+    done
 }
 
 convert2audio_wavmono() {
-	if [  $# -lt 1 ]; then 
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp3" 
-		echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
-		echo -e "\nwildcard: $0 *.mp3" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-monoaudiotrack.wav ]
-		do
-			ffmpeg -i "$arg" -codec:a pcm_mulaw -ar 8000 -ac 1 "${arg%.*}"-monoaudiotrack.wav
-		done
-	done
+    if [  $# -lt 1 ]; then 
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.mp3" 
+        echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
+        echo -e "\nwildcard: $0 *.mp3" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-monoaudiotrack.wav ]
+        do
+            ffmpeg -i "$arg" -codec:a pcm_mulaw -ar 8000 -ac 1 "${arg%.*}"-monoaudiotrack.wav
+        done
+    done
 }
 
 convert2audio_wma() {
-	if [  $# -lt 1 ]; then 
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp3" 
-		echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
-		echo -e "\nwildcard: $0 *.mp3" 
-		return 1
-	fi 
+if [  $# -lt 1 ]; then 
+    echo -e "Usage: $0 <file_name>"
+    echo -e "\nsingle:   $0 file.mp3" 
+    echo -e "\nmultiple: $0 file1.mp3 file2.mp3 file3.mp3" 
+    echo -e "\nwildcard: $0 *.mp3" 
+    return 1
+fi 
 
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-audiotrack.wma ]
-		do
-			ffmpeg -i "$arg" -codec:a wmav2 -b:a 128k "${arg%.*}"-audiotrack.wma
-		done
-	done
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-audiotrack.wma ]
+        do
+            ffmpeg -i "$arg" -codec:a wmav2 -b:a 128k "${arg%.*}"-audiotrack.wma
+        done
+    done
 }
 
 # }}}
 #-------- Simple HTTP Server {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=FFIjMYzkHhc
-# desc: python http server, host files and folders
+# DEMO: http://www.youtube.com/watch?v=FFIjMYzkHhc
+# DESC: python http server, host files and folders
 
 SimpleHTTPserver() {
-	if which python2 >/dev/null; then
-		python2 -m SimpleHTTPServer "${1:-8000}"
-	else
-		python3 -m http.server "${1:-8000}"
-	fi
+    if which python2 >/dev/null; then
+        python2 -m SimpleHTTPServer "${1:-8000}"
+    else
+        python3 -m http.server "${1:-8000}"
+    fi
 }
 #}}}
 
 ##############################
-####### WAITING LIST #########
+####### B. WAITING LIST ######
 ##############################
 
-#-------- FFMPEG X11GRAB Screencasting v2 {{{
+#-------- FFMPEG X11GRAB Screencasting {{{
 #------------------------------------------------------
-# desc: record desktop using ffmpeg X11grab
+# record desktop using ffmpeg
+# tutorial video: http://www.youtube.com/watch?v=mNz5Lrc06_s
+# http://ubuntuforums.org/showthread.php?t=1392026
+# https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
+# https://trac.ffmpeg.org/wiki/Capture/ALSA
+# https://trac.ffmpeg.org/wiki/Capture/Desktop
+# http://nowardev.wordpress.com/2011/05/23/how-to-screencast/
+# https://dl.dropboxusercontent.com/u/28788188/cast.sh (Xpander69)
+# https://www.youtube.com/watch?v=mEV2O8C272g
+# https://github.com/gotbletu/wikimd/blob/master/ffmpeg-compile.md
 
-# ref:
+# ffmpeg location
+# FF_RECORDER=/usr/bin/ffmpeg
+FF_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
+
+# use "arecord -l" or "arecord -L" to find mic
+# pavucontrol if using pulseaudio
+# FF_MIC=pulse
+# FF_MIC=hw:4,0
+FF_MIC=front:CARD=Snowball
+
+# scale down resolution if needed
+# ${FF_SCALE[*]}
+# FF_SCALE=(-vf scale=1280:720)
+
+
+FF_OUTPUT_MOVIE=~/Public/screencast/mm_movie_baking.mkv
+FF_OUTPUT_VIDEO=~/Public/screencast/vv_video_baking.mkv
+FF_OUTPUT_AUDIO=~/Public/screencast/aa_audio_baking.mp3
+
+# movie = video and audio
+# videotrack = video only
+# audiotrack = audio only
+ffcast_fullscreen_movie() { 
+	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
+	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
+	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
+	-acodec libmp3lame -ab 320k -threads 0 -y $FF_OUTPUT_MOVIE 
+}
+
+ffcast_fullscreen_videotrack() { 
+	$FF_RECORDER -f x11grab -r 30 \
+	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
+	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
+	-threads 0 -y $FF_OUTPUT_VIDEO
+}
+
+ffcast_audiotrack() { 
+	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC \
+	-acodec libmp3lame -ab 320k \
+	-threads 0 -y $FF_OUTPUT_AUDIO
+}
+
+# single window: select a window with mouse cursor to record
+ffcast_window_movie() { 
+	INFO=$(xwininfo -frame)
+	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
+	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
+
+	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
+	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
+	-preset ultrafast -crf 0 -acodec libmp3lame -ab 320k \
+	-threads 0 -y $FF_OUTPUT_MOVIE
+}
+
+ffcast_window_videotrack() { 
+	INFO=$(xwininfo -frame)
+	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
+	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
+
+	$FF_RECORDER -f x11grab -r 30 \
+	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
+	-preset ultrafast -crf 0 \
+	-threads 0 -y $FF_OUTPUT_VIDEO
+}
+
+
+# example references
+# worked well on ffmpeg 0.11.1
+# ffmpeg -f pulse -ac 1 -i hw:3,0 -async 1 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -y ~/Public/screencast/aa_screencast_baking.mkv 
+
+# }}}
+#-------- FFMPEG X11GRAB Screencasting v2 (Multiple Inputs) {{{
+#------------------------------------------------------
+# DESC: record desktop using ffmpeg X11grab
+
+# REFF:
 # MrWhat record mic & speakers: https://www.youtube.com/watch?v=mEV2O8C272g
 # MrWhat keep audio sync: https://www.youtube.com/watch?v=Xbzh-T2kfJk
 # https://ask.fedoraproject.org/en/question/65662/recording-audio-from-mic-and-speakers-from-commandline/
@@ -865,7 +889,7 @@ ffxcast_fullscreen_movie() {
 #-------- Alias Custom {{{
 #------------------------------------------------------
 # alias ps="ps aux | grep -v grep | grep "
-
+alias t="todo.sh"
 alias f="find . |grep "
 alias p="ps aux |grep "
 # alias o="xdg-open "
@@ -892,15 +916,16 @@ alias stackexchange='lynx http://column80.com'		# lookup information
 alias srb='surfraw -browser=$BROWSER'			# use for surfraw bookmarks
 alias trash='trash-put -v'
 alias xev-keycode="xev | grep 'keycode\|button'"
-alias weechat='weechat-curses'
+# alias weechat='weechat-curses'
 alias lsd='ls -1d */'					# ls folders only
 alias l='ls -l'
 alias lsf='ls --color=always -p | grep -v '/$''		# ls files only
 alias lsa='ls -GghA'
+alias lsx='ls -lX'
 # list and grep
 lsg() {
-	keyword=$(echo "$@" |  sed 's/ /.*/g')
-	ls -GgthrA | grep -iE $keyword
+    keyword=$(echo "$@" |  sed 's/ /.*/g')
+    ls -GgthrA | grep -iE $keyword
 }
 
 # ls recent items at bottom with green TODAY yellow YESTERDAY substituted
@@ -910,6 +935,8 @@ lst() {
     | sed "s/$(date +%Y-%m-%d)/\x1b[32m     TODAY\x1b[m/;s/$(date +'%Y-%m-%d' -d yesterday)/\x1b[33m YESTERDAY\x1b[m/" | tac
 }
 # alias lst='ls -Ggthrc'				# ls by time/changes, newest at bottom
+
+
 
 # }}}
 #-------- Functions {{{
@@ -930,14 +957,19 @@ grub-list() {
 
 # http://stackoverflow.com/a/18709707
 wget-ext-url() { 
-	if [  $# -lt 2 ]; then 
-		echo -e "Download all extension on a webpage"
-		echo -e "\nUsage:   $0 <file_extension> <url>"
-		echo -e "\nExample: $0 mp3 http://example.com/files/"
-		echo -e "\nGoogle: http://lmgtfy.com/?q=%22index+of+mp3%22"
-		return 1
-	fi 
-	wget -r -l1 -H -t1 -nd -N -np -A "$1" -erobots=off "$2"
+    if [  $# -lt 2 ]; then 
+        echo -e "Download all extension on a webpage"
+        echo -e "\nUsage:   $0 <file_extension> <url>"
+        echo -e "\nExample: $0 mp3 http://example.com/files/"
+        echo -e "\nGoogle: http://lmgtfy.com/?q=intitle%3Aindex.of+mp3+-html+-htm+-php+-asp+-txt+-pls+madonna"
+        return 1
+    fi 
+
+    savepath=~/Downloads
+    outputdir_name=$(echo "$2" | rev | cut -d\/ -f2 | rev)
+
+    mkdir -pv "$savepath/$outputdir_name"
+    cd "$savepath/$outputdir_name" && wget -r -l1 -H -t1 -nd -N -np -A "$1" -erobots=off "$2" 
 }
 
 # color the manpages
@@ -975,25 +1007,28 @@ file-type() { file --mime-type -b "$@" ;}
 function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
 
 # searches for manual locally or online
-manned() { for arg in "$@"; do man $arg 2> /dev/null \
-	|| $arg -H 2> /dev/null || $arg -h 2> /dev/null \
-	|| $arg --help-all 2> /dev/null || $arg --help 2> /dev/null \
-	|| help $arg 2> /dev/null \
-	|| $BROWSERCLI "http://manned.org/browse/search?q=$@" 2> /dev/null \
-	|| $BROWSER "http://manned.org/browse/search?q=$@" 2> /dev/null \
-	|| open "http://manned.org/browse/search?q=$@" 2> /dev/null \
-	|| xdg-open "http://manned.org/browse/search?q=$@" ; done ;}
+manned() {
+    for arg in "$@"; do man $arg 2> /dev/null \
+    || $arg -H 2> /dev/null || $arg -h 2> /dev/null \
+    || $arg --help-all 2> /dev/null || $arg --help 2> /dev/null \
+    || help $arg 2> /dev/null \
+    || $BROWSERCLI "http://manned.org/browse/search?q=$@" 2> /dev/null \
+    || $BROWSER "http://manned.org/browse/search?q=$@" 2> /dev/null \
+    || open "http://manned.org/browse/search?q=$@" 2> /dev/null \
+    || xdg-open "http://manned.org/browse/search?q=$@"
+    done 
+}
 
 # python calculator
 # press Ctrl+D to quit
 # http://docs.python.org/library/math.html
 # tutorial video: http://www.youtube.com/watch?v=JkyodHenTuc
 calc() {
-	if which python2 >/dev/null; then
-		python2 -ic "from __future__ import division; from math import *; from random import *"
-	else
-		python3 -ic "from math import *; import cmath"
-	fi
+    if which python2 >/dev/null; then
+        python2 -ic "from __future__ import division; from math import *; from random import *"
+    else
+        python3 -ic "from math import *; import cmath"
+    fi
 }
 
 # change font size (guake terminal)
@@ -1004,7 +1039,6 @@ chfontsize() {
 
 	#gnome-terminal
 	dconf write /org/gnome/terminal/legacy/profiles:/$(dconf list /org/gnome/terminal/legacy/profiles:/)font "'Monospace ${1:-16}'"
-
 }
 
 # search commandlinefu.com
@@ -1043,92 +1077,10 @@ webcam-mplayer-noborder() { mplayer tv:// -tv driver=v4l2:width=640:height=360:d
 webcam-mplayer-screenshot() { mplayer tv:// -tv driver=v4l2:width=1920:height=1080:device=/dev/video0 -fps 30 -vf screenshot -ontop ;}
 
 #}}}
-#-------- Slice Videos {{{
-#------------------------------------------------------
-
-# movie = both audio & video
-# audiotrack = audio only
-# videotrack = video only
-
-# mplayer OSD in milliseconds
-mplayer-milliseconds() { mplayer -osd-fractions 1 -osdlevel 3 "$1" -ss "${2:-00:00:00}" ;}
-
-slice_movie() { 
-    if [  $# -lt 5 ] 
-    then 
-        echo -e "Use ffmpeg to slice movie (video & audio tracks) with beginning and endpoint with accurate milliseconds" 
-        echo -e "\nUsage:\n$0 file hh:mm:ss ms hh:mm:ss ms" 
-        echo -e "\nexample:\n$0 file.mp4 00:01:00 00 00:05:00 00 \n" 
-
-        return 1
-    fi 
-    
-    # code
-    BEGINTIME=${2}
-    ENDTIME=${4}
-    
-    # Convert the times to seconds from the Epoch
-    SEC1=`date +%s -d ${BEGINTIME}`
-    SEC2=`date +%s -d ${ENDTIME}`
-    
-    # Use expr to do the math
-    DIFFSEC=`expr ${SEC2} - ${SEC1}`
-    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
-    
-    ffmpeg -i "$1" -ss ${BEGINTIME}."$3" -t ${DURATIONTIME}."$5" -codec:v copy -codec:a copy "${1%.*}"-"$0"-`date +'%F_%Hh%Ms%S'`."${1##*.}"
-
-}
-
-slice_videotrack() { 
-    if [  $# -lt 5 ] 
-    then 
-        echo -e "Use ffmpeg to slice videotrack (no audio) with beginning and endpoint with accurate milliseconds" 
-        echo -e "\nUsage:\n$0 file hh:mm:ss ms hh:mm:ss ms" 
-        echo -e "\nexample:\n$0 file.mp4 00:01:00 00 00:05:00 00 \n" 
-
-        return 1
-    fi 
-    
-    BEGINTIME=${2}
-    ENDTIME=${3}
-    
-    SEC1=`date +%s -d ${BEGINTIME}`
-    SEC2=`date +%s -d ${ENDTIME}`
-    
-    DIFFSEC=`expr ${SEC2} - ${SEC1}`
-    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
-    
-    ffmpeg -i "$1" -ss ${BEGINTIME}."$3" -t ${DURATIONTIME}."$5" -an -codec:v copy "${1%.*}"-"$0"-`date +'%F_%Hh%Ms%S'`."${1##*.}"
-
-}
-
-slice_audiotrack() { 
-    if [  $# -lt 5 ] 
-    then 
-        echo -e "Use ffmpeg to slice audiotrack (no video) with beginning and endpoint with accurate milliseconds" 
-        echo -e "\nUsage:\n$0 file hh:mm:ss ms hh:mm:ss ms" 
-        echo -e "\nexample:\n$0 file.mp4 00:01:00 00 00:05:00 00 \n" 
-
-        return 1
-    fi 
-    
-    BEGINTIME=${2}
-    ENDTIME=${3}
-    
-    SEC1=`date +%s -d ${BEGINTIME}`
-    SEC2=`date +%s -d ${ENDTIME}`
-    
-    DIFFSEC=`expr ${SEC2} - ${SEC1}`
-    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
-    
-    ffmpeg -i "$1" -ss ${BEGINTIME}."$3" -t ${DURATIONTIME}."$5" -vn -codec:a copy "${1%.*}"-"$0"-`date +'%F_%Hh%Ms%S'`."${1##*.}"
-}
-
-# }}}
 #-------- Gotbletu Universal Package Manager {{{
 #------------------------------------------------------
-# demo: https://www.youtube.com/watch?v=N8CZhlIssdk
-# desc: auto detect package manager and loads proper alias for it
+# DEMO: https://www.youtube.com/watch?v=N8CZhlIssdk
+# DESC: auto detect package manager and loads proper alias for it
 
 # legends# {{{
 # https://wiki.archlinux.org/index.php/Pacman_Rosetta
@@ -1279,7 +1231,7 @@ elif [ "$PKMGR" = "pacman" ]; then
 		&& sudo pacman-key --populate archlinux \
 		&& sudo pacman-key --refresh-keys ;}
 	pkm-list() { pacman -Qql "$@" ;}
-	pkm-listlocal() { pacman -Qm ;}
+	pkm-listinstalled() { pacman -Qe ;}
 	pkm-listcache() { ls -1 /var/cache/pacman/pkg "$@" && \
 		echo "pwd: /var/cache/pacman/pkg" ;}
 	pkm-localinstall() { sudo pacman --noconfirm -U "$@" ;}
@@ -1323,7 +1275,7 @@ elif [ "$PKMGR" = "yaourt" ]; then
 		&& sudo pacman-key --populate archlinux \
 		&& sudo pacman-key --refresh-keys ;}
 	pkm-list() { yaourt -Qql "$@" ;}
-	pkm-listlocal() { yaourt -Qm ;}
+	pkm-listinstalled() { yaourt -Qe ;}
 	pkm-listcache() { ls -1 /var/cache/pacman/pkg "$@" && \
 		echo "pwd: /var/cache/pacman/pkg" ;}
 	pkm-localinstall() { sudo pacman --noconfirm -U "$@" ;}
@@ -1374,23 +1326,11 @@ fi
 # }}}
 
 #}}}
-#-------- Internet Music {{{
-# url: http://whatnotlinux.blogspot.com/2013/02/somafm-and-digitally-imported-bash.html
-somafm() {
-while true; do local station;echo "Select a station to listen to:";select station in "Doomed" "Groove Salad" "Lush" "Suburbs of Goa" "Secret Agent" "Drone Zone" "Space Station" "cliqhop idm" "Digitalis" "Sonic Universe" "Boot Liquor" "Covers" "Illinois Street Lounge" "indie pop rocks" "PopTron" "Tags Trip" "Beat Bender" "Mission Control";do station=$(echo -n "$station"|tr '[:upper:]' '[:lower:]'|sed 's/ //g');break;done; mplayer -playlist http://somafm.com/startstream=${station}.pls; done;
-}
-
-difm() {
-while true; do local station;echo "Select a station to listen to:";select station in "trance" "vocaltrance" "electro" "chillout" "eurodance" "house" "soulfulhouse" "funkyhouse" "tribalhouse" "harddance" "minimal" "techno" "progressive" "goapsy" "hardstyle" "hardcore" "djmixes" "lounge" "drumandbass" "classictechno" "ambient" "breaks" "futuresynthpop";do station=$(echo -n "$station"|tr '[:upper:]' '[:lower:]'|sed 's/ //g');break;done; mplayer -playlist http://www.di.fm/mp3/${station}.pls; done; 
-}
-
-#}}}
 #-------- Clipboard and Upload {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=fKP0FLp3uW0 (xclip)
+# DEMO: http://www.youtube.com/watch?v=fKP0FLp3uW0 (xclip)
 # 	https://www.youtube.com/watch?v=Ww7Sl4d8F8A (pastebinit)
-# desc: copy/paste for linux machines (Mac style)
-
+# DESC: copy/paste for linux machines (Mac style)
 
 alias pbcopy='xclip -selection clipboard'	# copy to clipboard, ctrl+c, ctrl+shift+c
 alias pbpaste='xclip -selection clipboard -o'	# paste from clipboard, ctrl+v, ctrl+shitt+v
@@ -1414,18 +1354,18 @@ alias pbuploadixio="cat "$1" | curl -F 'f:1=<-' ix.io | pbcopy && echo 'URL has 
 # }}}
 #-------- Screenshot and Upload {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/watch?v=Hh8G1aBp8gc
-# desc: take screenshot fullscreen, single window or draw a box
+# DEMO: http://www.youtube.com/watch?v=Hh8G1aBp8gc
+# DESC: take screenshot fullscreen, single window or draw a box
 export PATH_SCREENSHOT=~/Pictures/screenshots
 pix() { scrot -d 2 "$PATH_SCREENSHOT/fullscr_`date +'%F_%Hh%Ms%S'`.png" ;}
 pix-area() { sleep 2 && scrot -s "$PATH_SCREENSHOT/windowed_`date +'%F_%Hh%Ms%S'`.png" ;}
 
 
-# demo: http://www.youtube.com/watch?v=7-9uYSGyvU0
-# desc: upload to imgur.com
-# ref:  http://www.commandlinefu.com/commands/view/9341
+# DEMO: http://www.youtube.com/watch?v=7-9uYSGyvU0
+# DESC: upload to imgur.com
+# REFF: http://www.commandlinefu.com/commands/view/9341
 upl-imgur() { 
-	curl -# -F image=@"$1" -F "key=1913b4ac473c692372d108209958fd15" \
+	curl -\# -F image=@"$1" -F "key=1913b4ac473c692372d108209958fd15" \
 	http://api.imgur.com/2/upload.xml | grep -Eo "<original>(.)*</original>" \
 	| grep -Eo "http://i.imgur.com/[^<]*"
 }
@@ -1433,31 +1373,31 @@ upl-imgur() {
 # }}}
 #-------- Fuzzy Finder {{{
 #------------------------------------------------------
-# demo: https://www.youtube.com/playlist?list=PLqv94xWU9zZ2fMsMMDF4PjtNHCeBFbggD
-# desc: interactive fuzzy string matching
-# url:  https://github.com/junegunn/fzf
+# DEMO: https://www.youtube.com/playlist?list=PLqv94xWU9zZ2fMsMMDF4PjtNHCeBFbggD
+# DESC: interactive fuzzy string matching
+# URL:  https://github.com/junegunn/fzf
 
 fzf-dmenu() { 
-	# note: xdg-open has a bug with .desktop files, so we cant use that shit
-	selected="$(ls /usr/share/applications | fzf -e -i )"
-	nohup `grep '^Exec' "/usr/share/applications/$selected" | tail -1 | sed 's/^Exec=//' | sed 's/%.//'` >/dev/null 2>&1&
-	# disown if exit 0 successfully
-	if [[ $? = 0 ]] ; then disown; fi
+    # note: xdg-open has a bug with .desktop files, so we cant use that shit
+    selected="$(ls /usr/share/applications | fzf -e -i )"
+    nohup `grep '^Exec' "/usr/share/applications/$selected" | tail -1 | sed 's/^Exec=//' | sed 's/%.//'` >/dev/null 2>&1&
+    # disown if exit 0 successfully
+    if [[ $? = 0 ]] ; then disown; fi
 }
 
 fzf-surfraw() { surfraw "$(cat ~/.config/surfraw/bookmarks | sed '/^$/d' | sort -n | fzf -e -i )" ;}
 
 fzf-locate() {
-	xdg-open "$(locate "*" | fzf -e -i )"
-
-	# some programs require a longer time to load
-	sleep 1.5
-
-	# if cancle or fail then exit
-	# if [ $? -ne 0 ]
-	# then
-	#  	exit
-	# fi
+    xdg-open "$(locate "*" | fzf -e -i )"
+    
+    # some programs require a longer time to load
+    sleep 1.5
+    
+    # if cancle or fail then exit
+    # if [ $? -ne 0 ]
+    # then
+    #  	exit
+    # fi
 }
 
 fzf-playonlinux() { playonlinux --run '$(ls ~/.PlayOnLinux/shortcuts | fzf -e -i )' ;}
@@ -1470,35 +1410,33 @@ cfg-snippetrc() { $EDITOR ~/.snippetrc ;}
 cfg-multisnippetrc() { $EDITOR ~/.multisnippet/"$(ls ~/.multisnippet | fzf -e -i)" ;}
 multisnippet() { $EDITOR ~/.multisnippet/"$1" ;}
 fzf-snippet() { 
-	selected="$(cat ~/.snippetrc | sed '/^$/d' | sort -n | fzf -e -i )"
-	# remove tags, leading and trailing spaces, also no newline
-	echo "$selected" | sed -e s/\;\;\.\*\$// | sed 's/^[ \t]*//;s/[ \t]*$//' | tr -d '\n' | xclip -selection clipboard
+    selected="$(cat ~/.snippetrc | sed '/^$/d' | sort -n | fzf -e -i )"
+    # remove tags, leading and trailing spaces, also no newline
+    echo "$selected" | sed -e s/\;\;\.\*\$// | sed 's/^[ \t]*//;s/[ \t]*$//' | tr -d '\n' | xclip -selection clipboard
 }
 fzf-multisnippet() { 
-	# location of snippets
-	dir=~/.multisnippet
-
-	# merge filename and tags into single line
-	results=$(for FILE in $dir/*
-	do
-		getname=$(basename $FILE)
-		gettags=$(head -n 1 $FILE)
-
-		echo "$getname \t $gettags" 
-
-	done)
-
-	# copy content into clipboard without tags
-	filename=$(echo "$(echo $results | fzf -e -i )" | cut -d' ' -f 1)
-	sed 1d $dir/$filename | xclip -selection clipboard
+    # location of snippets
+    dir=~/.multisnippet
+    
+    # merge filename and tags into single line
+    results=$(for FILE in $dir/*
+    do
+        getname=$(basename $FILE)
+        gettags=$(head -n 1 $FILE)
+        echo "$getname \t $gettags" 
+    done)
+    
+    # copy content into clipboard without tags
+    filename=$(echo "$(echo $results | fzf -e -i )" | cut -d' ' -f 1)
+    sed 1d $dir/$filename | xclip -selection clipboard
 }
 
 #}}}
 #-------- Flexget (Torrent RSS) {{{
 #------------------------------------------------------
-# demo: http://www.youtube.com/playlist?list=PLqv94xWU9zZ0pVGrgKtMuhFHun8-MahSY
-# desc: auto download torrent similar to how a DVR works
-# url:  http://flexget.com/
+# DEMO: http://www.youtube.com/playlist?list=PLqv94xWU9zZ0pVGrgKtMuhFHun8-MahSY
+# DESC: auto download torrent similar to how a DVR works
+# URL:  http://flexget.com/
 
 alias flexget='~/.virtualenv/flexget/bin/flexget'
 flexget-list() { flexget series list && flexget movie-queue list waiting && flexget movie-queue list downloaded ;}
@@ -1513,10 +1451,1123 @@ flexget-del() { flexget movie-queue del "$@" ;}
 flexget-forget() { flexget movie-queue forget "$@" ;}	# allow redownloading on waiting list
 
 #}}}
-#-------- Podcast RSS (NVLC) {{{
+#-------- Convert to Video {{{
 #------------------------------------------------------
-# demo: https://www.youtube.com/watch?v=7y_58wpHuFE
-# desc: play local and internet media using ncurses VLC
+# http://linuxconfig.org/ffmpeg-audio-format-conversions
+convert2video_mp4() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-movie.mp4 ]
+        do
+            ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}"-movie.mp4
+        done
+    done
+}
+
+convert2video_avi() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.mp4" 
+        echo -e "\nmultiple: $0 file1.mp4 file2.mp4 file3.mp4" 
+        echo -e "\nwildcard: $0 *.mp4" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-movie.avi ]
+        do
+            ffmpeg -i "$arg" -codec:v mpeg4 -vtag xvid -qscale:v 3 -codec:a libmp3lame -qscale:a 4 "${arg%.*}"-movie.avi
+        done
+    done
+}
+
+convert2video_ogv() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-movie.ogv ]
+        do
+            ffmpeg -i "$arg" -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 "${arg%.*}"-movie.ogv
+        done
+    done
+}
+
+convert2video_mpg() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-movie.mpg ]
+        do
+            ffmpeg -i "$arg" -codec:v mpeg2video -qscale:v 2 -codec:a mp2 -b:a 192k "${arg%.*}"-movie.mpg
+        done
+    done
+}
+
+convert2video_mkv() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-movie.mkv ]
+        do
+            ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a libvorbis -qscale:a 5 "${arg%.*}"-movie.mkv
+        done
+    done
+}
+
+convert2video_webm() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}"-movie.webm ]
+        do
+            ffmpeg -i "$arg" -codec:v libvpx -crf 10 -b:v 1M -codec:a libvorbis "${arg%.*}"-movie.webm
+        done
+    done
+}
+
+# convert video to gif animation
+# http://superuser.com/a/730389
+# http://superuser.com/a/841379
+convert_to_gifv() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "convert video to animated gif" 
+        echo -e "\nUsage:\n$0 <file> <resolution>" 
+        echo -e "\nexample:\n$0 file.mkv \n" 
+        echo -e "$0 file.mkv 320\n" 
+        echo -e "$0 file.mkv 720\n" 
+        echo -e "$0 file.mkv 1080\n" 
+        echo -e "Note: animated gif size are usually x2 or x3 the size of the original video file" 
+
+        return 1
+    fi 
+
+    # get video resolution (height)
+    eval $(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height,width "$1")
+    size=${streams_stream_0_height}
+
+    ffmpeg -i "$1" -vf scale="${2:-$size}":-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - "${1%.*}"-gifvid"$2".gif
+}
+
+# }}}
+#-------- Convert to iOS (iPod, Macs, iPhone, Apple TV) {{{
+#------------------------------------------------------
+# https://trac.handbrake.fr/wiki/BuiltInPresets
+
+convert2iOS_ipod() {
+    if [  $# -lt 1 ]; then
+        echo -e "HandBrake's low resolution settings for the iPod (5G and up)"
+        echo -e "Optimized for great playback on the iPod screen, with smaller file size."
+        echo -e "\nUsage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".ipod.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.ipod.mp4" --preset="iPod"
+        done
+    done
+}
+convert2iOS_universal() {
+    if [  $# -lt 1 ]; then
+        echo -e "HandBrake's universally compatible, full resolution settings for all current Apple devices: iPod (6G and up), iPhone, AppleTV, and Macs"
+        echo -e "\nUsage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".universal.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.universal.mp4" --preset="Universal"
+        done
+    done
+}
+
+convert2iOS_iphone() {
+    if [  $# -lt 1 ]; then
+        echo -e "HandBrake's settings for all iPhones and iPod Touches going back to the original iPhone 2G."
+        echo -e "\nUsage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".iphone.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.iphone.mp4" --preset="iPhone & iPod touch"
+        done
+    done
+}
+
+convert2iOS_ipodtouch() {
+    if [  $# -lt 1 ]; then
+        echo -e "HandBrake's settings for all iPhones and iPod Touches going back to the original iPhone 2G."
+        echo -e "\nUsage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".ipodtouch.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.ipodtouch.mp4" --preset="iPhone & iPod touch"
+        done
+    done
+}
+
+convert2iOS_ipad() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".ipad.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.ipad.mp4" --preset="iPad"
+        done
+    done
+}
+
+convert2iOS_appletv() {
+    if [  $# -lt 1 ]; then
+        echo -e "HandBrake's settings for the AppleTV and 2009's iPhone and iPod Touch lineup. Provides a good balance between quality and file size, and pushes the devices to their limits. Includes Dolby Digital 5.1 AC3 sound for the AppleTV."
+        echo -e "\nUsage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".appletv.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv.mp4" --preset="AppleTV"
+        done
+    done
+}
+
+convert2iOS_appletv2() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".appletv2.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv2.mp4" --preset="AppleTV 2"
+        done
+    done
+}
+
+convert2iOS_appletv3() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".appletv3.mp4 ]
+        do
+            HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv3.mp4" --preset="AppleTV 3"
+        done
+    done
+}
+
+# }}}
+#-------- Convert to Devices (Other, Gaming Device) {{{
+#------------------------------------------------------
+# http://develop.participatoryculture.org/index.php/ConversionMatrix
+
+convert2psp() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.avi" 
+        echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+        echo -e "\nwildcard: $0 *.avi" 
+        return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        while [ ! -f "${arg%.*}".psp.mp4 ]
+        do
+            ffmpeg -i "$arg" -s 320x240 -b:v 512000 -ar 24000 -ab 64000 -f psp -r 29.97 -strict experimental "${arg%.*}".psp.mp4
+        done
+    done
+}
+
+convert2windowsphone8() {
+if [  $# -lt 1 ]; then
+    echo -e "Usage: $0 <file_name>"
+    echo -e "\nsingle:   $0 file.avi" 
+    echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
+    echo -e "\nwildcard: $0 *.avi" 
+    return 1
+fi 
+
+myArray=( "$@" )
+for arg in "${myArray[@]}"; do
+    while [ ! -f "${arg%.*}".windowsphone8.mp4 ]
+    do
+        HandBrakeCLI -i "$arg" -o "${arg%.*}.windowsphone8.mp4" --preset="Windows Phone 8"
+    done
+done
+}
+
+# }}}
+#-------- Convert to Archive {{{
+#------------------------------------------------------
+
+# to see required install for different formats
+# $ patool formats
+convert2archive_7z() { patool repack "$1" "${1%.*}".7z ;}
+convert2archive_ace() { patool repack "$1" "${1%.*}".ace ;}
+convert2archive_jar() { patool repack "$1" "${1%.*}".jar ;}
+convert2archive_rar() { patool repack "$1" "${1%.*}".rar ;}
+convert2archive_tar() { patool repack "$1" "${1%.*}".tar ;}
+convert2archive_xz() { patool repack "$1" "${1%.*}".xz ;}
+convert2archive_zip() { patool repack "$1" "${1%.*}".zip ;}
+convert2archive_targz() { patool repack "$1" "${1%.*}".tar.gz ;}
+convert2archive_tarbz2() { patool repack "$1" "${1%.*}".tar.bz2 ;}
+convert2archive_tarlzma() { patool repack "$1" "${1%.*}".tar.lzma ;}
+
+# https://en.wikipedia.org/wiki/Comic_book_archive
+convert2archive_cbz() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.gz" 
+        echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+        echo -e "\nwildcard: $0 *.gz" 
+    return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        if [[ ! -f "${arg%.*}".zip && ! -f "${arg%.*}".cbz ]]; then
+            patool repack "$arg" "${arg%.*}".zip && mv "${arg%.*}".zip "${arg%.*}".cbz
+        else
+            if [[ -f "${arg%.*}".zip ]]; then
+            mv -v -- "${arg%.*}".zip "${arg%.*}".cbz
+            fi
+        fi
+    done
+}
+
+convert2archive_cb7() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.gz" 
+        echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+        echo -e "\nwildcard: $0 *.gz" 
+    return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        if [[ ! -f "${arg%.*}".7z && ! -f "${arg%.*}".cb7 ]]; then
+            patool repack "$arg" "${arg%.*}".7z && mv "${arg%.*}".7z "${arg%.*}".cb7
+        else
+            if [[ -f "${arg%.*}".7z ]]; then
+            mv -v -- "${arg%.*}".7z "${arg%.*}".cb7
+            fi
+        fi
+    done
+}
+convert2archive_cba() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.gz" 
+        echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+        echo -e "\nwildcard: $0 *.gz" 
+    return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        if [[ ! -f "${arg%.*}".ace && ! -f "${arg%.*}".cba ]]; then
+            patool repack "$arg" "${arg%.*}".ace && mv "${arg%.*}".ace "${arg%.*}".cba
+        else
+            if [[ -f "${arg%.*}".ace ]]; then
+            mv -v -- "${arg%.*}".ace "${arg%.*}".cba
+            fi
+        fi
+    done
+}
+convert2archive_cbt() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.gz" 
+        echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+        echo -e "\nwildcard: $0 *.gz" 
+    return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        if [[ ! -f "${arg%.*}".tar && ! -f "${arg%.*}".cbt ]]; then
+            patool repack "$arg" "${arg%.*}".tar && mv "${arg%.*}".tar "${arg%.*}".cbt
+        else
+            if [[ -f "${arg%.*}".tar ]]; then
+            mv -v -- "${arg%.*}".tar "${arg%.*}".cbt
+            fi
+        fi
+    done
+}
+convert2archive_cbr() {
+    if [  $# -lt 1 ]; then
+        echo -e "Usage: $0 <file_name>"
+        echo -e "\nsingle:   $0 file.gz" 
+        echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
+        echo -e "\nwildcard: $0 *.gz" 
+    return 1
+    fi 
+    
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        if [[ ! -f "${arg%.*}".rar && ! -f "${arg%.*}".cbr ]]; then
+            patool repack "$arg" "${arg%.*}".rar && mv "${arg%.*}".rar "${arg%.*}".cbr
+        else
+            if [[ -f "${arg%.*}".rar ]]; then
+            mv -v -- "${arg%.*}".rar "${arg%.*}".cbr
+            fi
+        fi
+    done
+}
+
+# }}}
+#-------- VimWiki {{{
+#------------------------------------------------------
+wikimd()     { $EDITOR ~/.vimwiki/wikimd/index.md ;}
+# }}}
+#-------- Slice Videos {{{
+#------------------------------------------------------
+
+# movie = both audio & video
+# audiotrack = audio only
+# videotrack = video only
+
+# mplayer OSD in milliseconds
+mplayer-milliseconds() { mplayer -osd-fractions 1 -osdlevel 3 "$1" -ss "${2:-00:00:00}" ;}
+
+slice_movie() { 
+    if [  $# -lt 5 ] 
+    then 
+        echo -e "Use ffmpeg to slice movie (video & audio tracks) with beginning and endpoint with accurate milliseconds" 
+        echo -e "\nUsage:\n$0 file hh:mm:ss ms hh:mm:ss ms" 
+        echo -e "\nexample:\n$0 file.mp4 00:01:00 00 00:05:00 00 \n" 
+
+        return 1
+    fi 
+    
+    # code
+    BEGINTIME=${2}
+    ENDTIME=${4}
+    
+    # Convert the times to seconds from the Epoch
+    SEC1=`date +%s -d ${BEGINTIME}`
+    SEC2=`date +%s -d ${ENDTIME}`
+    
+    # Use expr to do the math
+    DIFFSEC=`expr ${SEC2} - ${SEC1}`
+    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
+    
+    ffmpeg -i "$1" -ss ${BEGINTIME}."$3" -t ${DURATIONTIME}."$5" -codec:v copy -codec:a copy "${1%.*}"-"$0"-`date +'%F_%Hh%Ms%S'`."${1##*.}"
+
+}
+
+slice_videotrack() { 
+    if [  $# -lt 5 ] 
+    then 
+        echo -e "Use ffmpeg to slice videotrack (no audio) with beginning and endpoint with accurate milliseconds" 
+        echo -e "\nUsage:\n$0 file hh:mm:ss ms hh:mm:ss ms" 
+        echo -e "\nexample:\n$0 file.mp4 00:01:00 00 00:05:00 00 \n" 
+
+        return 1
+    fi 
+    
+    BEGINTIME=${2}
+    ENDTIME=${3}
+    
+    SEC1=`date +%s -d ${BEGINTIME}`
+    SEC2=`date +%s -d ${ENDTIME}`
+    
+    DIFFSEC=`expr ${SEC2} - ${SEC1}`
+    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
+    
+    ffmpeg -i "$1" -ss ${BEGINTIME}."$3" -t ${DURATIONTIME}."$5" -an -codec:v copy "${1%.*}"-"$0"-`date +'%F_%Hh%Ms%S'`."${1##*.}"
+
+}
+
+slice_audiotrack() { 
+    if [  $# -lt 5 ] 
+    then 
+        echo -e "Use ffmpeg to slice audiotrack (no video) with beginning and endpoint with accurate milliseconds" 
+        echo -e "\nUsage:\n$0 file hh:mm:ss ms hh:mm:ss ms" 
+        echo -e "\nexample:\n$0 file.mp4 00:01:00 00 00:05:00 00 \n" 
+
+        return 1
+    fi 
+    
+    BEGINTIME=${2}
+    ENDTIME=${3}
+    
+    SEC1=`date +%s -d ${BEGINTIME}`
+    SEC2=`date +%s -d ${ENDTIME}`
+    
+    DIFFSEC=`expr ${SEC2} - ${SEC1}`
+    DURATIONTIME=`date +%H:%M:%S -ud @${DIFFSEC}`
+    
+    ffmpeg -i "$1" -ss ${BEGINTIME}."$3" -t ${DURATIONTIME}."$5" -vn -codec:a copy "${1%.*}"-"$0"-`date +'%F_%Hh%Ms%S'`."${1##*.}"
+}
+
+# }}}
+#-------- RipMe CLI (Bulk Image Downloader) {{{
+#------------------------------------------------------
+# image album downloader
+# https://github.com/4pr0n/ripme
+# CLI options: https://github.com/4pr0n/ripme/wiki/How-To-Run-RipMe
+ripme-cli() { java -jar /usr/share/java/ripme-git-1.2.8.jar -l ~/Downloads -u "$@" ;}
+
+# }}}
+#-------- Mount Archive (ZIP|RAR|TAR) {{{
+#------------------------------------------------------
+# http://ubuntuforums.org/showthread.php?t=1207096
+mount-archive() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "mount archive files (zip|rar|tar...etc)" 
+        echo -e "\nUsage:\n$0 <archive>" 
+        echo -e "\nexample:\n$0 file.zip" 
+        return 1
+    fi 
+
+    # mount the archive
+    gvfs-mount "archive://$( ( echo -n 'file://' ; readlink -f "$1" ; ) | perl -MURI::Escape -lne 'print uri_escape($_)')"
+
+    # if mount was sucessful then cd into gvfs dir and ls the mountpoint
+    if [ $? -eq 0 ]; then
+	cd "/run/user/$(id -u)/gvfs" && ls
+    else
+        return 1
+    fi
+
+}
+unmount-archive() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "unmount archive files (zip|rar|tar)" 
+        echo -e "\nUsage:\n$0 <mount_point" 
+        echo -e "\nexample:\n$0 disc_image.iso" 
+        echo -e "cd /run/user/${UID}/gvfs/ && $0 mount_point"
+        return 1
+    fi 
+	gvfs-mount -u "/run/user/$(id -u)/gvfs/$1"
+}
+
+# }}}
+#-------- Mount Disc Images (ISO|NRG|BIN|MDF|IMG) {{{
+#------------------------------------------------------
+mount-discimage() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "mount ISO filesystem images (iso,nrg,bin,mdf,img)" 
+        echo -e "\nUsage:\n$0 <disc_image>" 
+        echo -e "\nexample:\n$0 disc_image.iso" 
+        echo -e "$0 disc_image.iso disc_image2.bin disc_image3.mdf" 
+        echo -e "$0 *.iso" 
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        fuseiso -n -p "$arg" "/tmp/$arg"
+    done
+
+    # if mount was sucessful then cd and ls the mountpoint
+    if [ $? -eq 0 ]; then
+	cd "/tmp/$1" && ls
+    else
+        return 1
+    fi
+    
+}
+
+unmount-discimage() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "unmount ISO filesystem images (iso,nrg,bin,mdf,img)" 
+        echo -e "\nUsage:\n$0 <mount_point|disc_image>" 
+        echo -e "\nexample:\n$0 disc_image.iso" 
+        echo -e "$0 disc_image.iso disc_image2.bin" 
+        echo -e "$0 mount_point1 mount_point2" 
+        echo -e "cd /tmp && $0 mount_point"
+        echo -e "cd /tmp && $0 *.iso" 
+        return 1
+    fi
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        fusermount -u "$arg"
+    done
+}
+# }}}
+#-------- Image Resizer (32|96|128|480|600|768|720|960|1080) {{{
+#------------------------------------------------------
+# Resizing Pictures to different resolutions
+
+image-resize-32x32() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 32x32 "${arg%.*}"_32x32_resized."${arg##*.}"
+    done
+}
+image-resize-96x96() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 96x96 "${arg%.*}"_96x96_resized."${arg##*.}"
+    done
+}
+image-resize-128x128() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 128x128 "${arg%.*}"_128x128_resized."${arg##*.}"
+    done
+}
+image-resize-640x480() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 640x480 "${arg%.*}"_640x480_resized."${arg##*.}"
+    done
+}
+
+image-resize-800x600() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 800x600 "${arg%.*}"_800x600_resized."${arg##*.}"
+    done
+}
+
+image-resize-1024x768() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 1024x768 "${arg%.*}"_1024x768_resized."${arg##*.}"
+    done
+}
+image-resize-1280x720() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 1280x720 "${arg%.*}"_1280x720_resized."${arg##*.}"
+    done
+}
+image-resize-1280x960() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 1280x960 "${arg%.*}"_1280x960_resized."${arg##*.}"
+    done
+}
+image-resize-1920x1080() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert "$arg" -resize 1920x1080 "${arg%.*}"_1920x1080_resized."${arg##*.}"
+    done
+}
+
+# }}}
+
+##############################
+####### C. STREAMING MEDIA ###
+##############################
+# Code that is still useful but I no longer use it, still here for references
+
+#-------- Peerflix (Popcorntime CLI) {{{
+#------------------------------------------------------
+# DEMO: https://www.youtube.com/watch?v=NG13yOTPgfY
+# URL:  https://github.com/saironiq/shellscripts
+# DESC: popcorntime from terminal
+PFLIX_PORT=55055
+peerflix-vlc() { vlc http://localhost:$PFLIX_PORT ;}
+peerflix-mplayer() { mplayer http://localhost:$PFLIX_PORT ;}	
+
+# }}}
+#-------- Internet Videos - Porn {{{
+#------------------------------------------------------
+# requirements:
+#     1. install mplayer vim youtube-dl
+#     2. add this to your ~/.vimrc
+#        map <F8> :exec '!mplayer $(youtube-dl -g ' . shellescape(getline('.')) . ')' <CR><CR>
+# how to use:
+#     1. fap-youporn ashlynn brooke
+#     2. hit F8 on the link you want to play
+#     3. q to quit mplayer
+#     4. hit ZZ or ZQ to quit vim
+
+fap-youporn() { 
+    grepmatch=$(echo "$@" | sed 's/ /.*/g')
+    keyword="$(echo "http://www.youporn.com/search?query=$@&type=straight" | sed 's/ /\+/g')"
+    pagenum=3
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&page=$num"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/watch/ {print $2}' | cut -d\/ -f1-6 | grep -iE $grepmatch | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
+}
+
+fap-youjizz() {
+    keyword="$(echo "http://www.youjizz.com/search/$@" | sed 's/ /\-/g')"
+    pagenum=5
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword-$num".html""; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/\.com\/videos/ {print $2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
+}
+
+fap-pornotube() {
+    keyword="$(echo "http://www.pornotube.com/search.php?q=$@" | sed 's/ /\+/g')"
+    pagenum=3
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&page=$num"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do	curl -s "$line" \
+    | awk '/pornotube.com\/m/ && !/class/' | cut -d\" -f 2 | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
+}
+
+fap-xvideos() {
+    keyword="$(echo "http://www.xvideos.com/?k=$@" | sed 's/ /\+/g')"
+    pagenum=5
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&p=$num"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/xvideos\.com\/video/ {print $2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
+}
+
+fap-jizzhut() {
+    keyword="$(echo "http://www.jizzhut.com/search/$@" | sed 's/ /\-/g')"
+    pagenum=3
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword-$num.html"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/jizzhut\.com\/videos/ {print $2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | awk '!x[$0]++' | vim -R -
+}
+
+fap-redtube() {
+    keyword="$(echo "http://www.redtube.com/?search=$@" | sed 's/ /\+/g')"
+    pagenum=3
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&page=$num"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -source "$line" \
+    | awk -F\" '/class="s"/ {print $4, "http://redtube.com"$2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | awk '!x[$0]++' | vim -R -
+}
+
+fap-spankwire() {
+    keyword="$(echo "http://www.spankwire.com/search/straight/keyword/$@" | sed 's/ /\%20/g')"
+    pagenum=5
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword?Sort=Relevance&Page=$num"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/www\.spankwire\.com/ && /video/ {print $2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | vim -R -
+}
+
+# quvi not supported anymore
+fap-tnaflix() {
+    keyword="$(echo "&what=$@&category=&sb=relevance&su=anytime&sd=all&dir=desc" | sed 's/ /\%20/g')"
+    pagenum=3
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo \
+    	"http://www.tnaflix.com/search.php?page=$num$keyword"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/video[0-9]/ {print $2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | vim -R -
+}
+fap-empflix() {
+    keyword="$(echo "&what=$@&category=&sb=relevance&su=anytime&sd=all&dir=desc" | sed 's/ /\%20/g')"
+    pagenum=3
+    pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo \
+    	"http://www.empflix.com/search.php?page=$num$keyword"; done )
+    videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
+    | awk '/empflix\.com\/videos/ {print $2}' | awk '!x[$0]++' ; done)
+    
+    echo $videourl | sed 's/\ /\n/g' | vim -R -
+}
+
+#}}}
+#-------- Sopcast CLI v2 (Streaming P2P Videos) {{{
+#------------------------------------------------------
+# DEMO: http://www.youtube.com/watch?v=Dm7cFjhzgHo
+# DESC: watch movies/tv shows over p2p
+
+# REFF:
+# http://www.sopcast.com/chlist.xml
+# http://sopcast.ucoz.com
+# http://streams.magazinmixt.ro
+# google keyword: sop://broker.sopcast
+
+# package:
+# Archlinux: sopcast ( x64 https://www.archlinux.org/packages/multilib/x86_64/sopcast/)
+# Archlinux: sopcast ( x32 https://www.archlinux.org/packages/community/i686/sopcast/)
+# Ubuntu/Debian: sp-auth (https://launchpad.net/~jason-scheunemann/+archive/ppa)
+
+# choose a player (cvlc is default)
+# SP_VIDPLAYER=cvlc
+SP_VIDPLAYER=(cvlc --file-caching=10000)
+# SP_VIDPLAYER=vlc
+# SP_VIDPLAYER=(vlc --control=lirc)
+# SP_VIDPLAYER=mplayer
+# SP_VIDPLAYER=(mplayer -cache 1000)
+
+# wait X seconds to stabilize channel (make it longer if u got slower connection)
+SP_SLEEP=15
+
+# sopcast port and player port
+SP_LOCAL_PORT=55050
+SP_PLAYER_PORT=55051
+
+# manually kill sopcast (sometimes it doesnt exit properly and still uses bandwidth in the background)
+sppc-kill() { killall sp-sc ;}
+
+# kills existing connection, starts a new connection, sleep X sec to stabilize the stream, waits to player to exit and kill itself
+sppc() {
+    killall sp-sc &>/dev/null
+    (sp-sc "$1" $SP_LOCAL_PORT $SP_PLAYER_PORT &>/dev/null &)
+    sleep $SP_SLEEP
+    ($SP_VIDPLAYER http://localhost:$SP_PLAYER_PORT) 
+    wait
+    killall sp-sc
+}
+
+#### eng = english, ro = romanian, esp = espanol/spanish
+# added on February 06, 2014
+spp-doc-discovery.eng,ro() { sppc "sop://broker.sopcast.com:3912/256241" ;}
+spp-doc-discoveryid.eng,ro() { sppc "sop://broker.sopcast.com:3912/256244" ;}
+spp-doc-discoveryscience.eng,ro() { sppc "sop://broker.sopcast.com:3912/256243" ;}
+spp-doc-discoveryworld.eng,ro() { sppc "sop://broker.sopcast.com:3912/256242" ;}
+spp-doc-history.eng,ro() { sppc "sop://broker.sopcast.com:3912/253032" ;}
+spp-doc-natgeo.eng,ro() { sppc "sop://broker.sopcast.com:3912/148248" ;}
+spp-doc-natgeowild.eng,ro() { sppc "sop://broker.sopcast.com:3912/253037" ;}
+spp-movie-hbo.eng,ro() { sppc "sop://broker.sopcast.com:3912/148985" ;}
+spp-movie-hbocomedy.eng,ro() { sppc "sop://broker.sopcast.com:3912/149255" ;}
+spp-tv-axn.eng,ro() { sppc "sop://broker.sopcast.com:3912/253035" ;}
+spp-tv-comedycentral.eng,ro() { sppc "sop://151.80.76.190:3912/253470" ;}
+spp-tv-foxsports2.eng,ro() { sppc "sop://124.232.150.188:3920/5730" ;}
+
+#}}}
+#-------- MPS-Youtube Channels {{{
+#------------------------------------------------------
+# tutorial video: https://www.youtube.com/watch?v=VE2iCBkIs8E
+mpsyt-collider-movietalk() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcmbuEa2cRW7Xe4_NrnVrxXn" ;}
+mpsyt-collider-jedicouncil() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnqEWU6U0D8I95SUiqVU3DR" ;}
+mpsyt-collider-heroes() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnaH7ltMEq0h8jBlfU79kwg" ;}
+mpsyt-collider-mailbag() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnuYS9PZhp3jgOSlb9BzaKs" ;}
+mpsyt-collider-spoilers() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBclxpYg1JdmqUYQnKCCiPcPd" ;}
+mpsyt-collider-arrow() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcleKplDKkFuxLrcL9-7Gw8T" ;}
+mpsyt-collider-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcmOgOIwVNJV0G6YerPH_Fhp" ;}
+mpsyt-collider-starwarsrebels() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBckZWQgRqTXB2CYRdzNuhBJX" ;}
+mpsyt-collider-walkingdead() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBckJSHjt2QlwJ91YmNb_oH7k" ;}
+mpsyt-amc-spoilers() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrrILuvfws1zYComnO5n4nmJ" ;}
+mpsyt-afterbuzz-arrowaftershow() { mpsyt pl PL6THzna6gLceNeZoXKUOoDeO7cwI57rJn ;}
+mpsyt-afterbuzz-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PL6THzna6gLcdfHMhXnGy-O0kS0q-muucC" ;}
+mpsyt-afterbuzz-gameofthrones() { mpsyt pl PL0404DAD1AD037666 ;}
+mpsyt-thestreamtv-arrow() { mpsyt pl "https://www.youtube.com/playlist?list=PLgh_e6sv2kpr40BXrvZ2qONoSlxFspXGK" ;}
+mpsyt-thestreamtv-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PLgh_e6sv2kprr9KHr94poccrwkAILkCcU" ;}
+mpsyt-btt-beyondthetrailer() { mpsyt user beyondthetrailer ;}
+mpsyt-btt-thinkabouttheink() { mpsyt user thinkabouttheink ;}
+mpsyt-movie-watchmojo() { mpsyt user watchmojo ;}
+mpsyt-movie-robertjones() { mpsyt user owiseone1 ;}
+mpsyt-comic-variantcomics() { mpsyt user VariantComics ;}
+mpsyt-tv-emergencyawesome() { mpsyt user emergencyawesome ;}
+mpsyt-game-angryjoeshow() { mpsyt user AngryJoeShow ;}
+mpsyt-game-cinemassacre() { mpsyt user cinemassacre ;}
+mpsyt-game-craigslistgamefinds() { mpsyt user craigslistgamefinds ;}
+mpsyt-game-happyconsolegamer() { mpsyt user happyconsolegamer ;}
+mpsyt-game-jamesnintendonerd() { mpsyt user jamesnintendonerd ;}
+mpsyt-game-gaminghistorian() { mpsyt user mcfrosticles ;}
+mpsyt-game-metaljesusrocks() { mpsyt user metaljesusrocks ;}
+mpsyt-game-retroliberty() { mpsyt user retroliberty ;}
+mpsyt-game-lazygamereviews() { mpsyt user phreakindee ;}
+mpsyt-greatmilitarybattles() { mpsyt user greatmilitarybattles ;}
+mpsyt-greentvgreentv() { mpsyt user greentvgreentv ;}
+mpsyt-homeorganizing() { mpsyt user homeorganizing ;}
+mpsyt-linux-linuxgamecast() { mpsyt user linuxgamecast ;}
+mpsyt-linux-jupiterbroadcasting() { mpsyt user jupiterbroadcasting ;}
+mpsyt-midwaysimplicity() { mpsyt user midwaysimplicity ;}
+mpsyt-midwaysimplicity-mtohami() { mpsyt user mtohami ;}
+mpsyt-minimalism-carriesimple() { mpsyt user UCtauuxrTG1yon8CNsgqhDkg ;}
+mpsyt-minimalism-discernmylife() { mpsyt user UCJPp8gkjxH4T3A8rYO1S52A ;}
+mpsyt-minimalism-poetskinny() { mpsyt user UC4O0Vd3UxFXGX-UQNelwTag ;}
+mpsyt-minimalism-ticoandtina() { mpsyt user ticoandtina ;}
+mpsyt-minimalism-unconventionalliving() { mpsyt user UC7uuFb0QztC-yC2CrcS-lJw ;}
+mpsyt-minimalism-zenminimalism() { mpsyt user UCpD5Hqe60AJ79fupvuA6F1Q ;}
+mpsyt-mma-arielhelwani() { mpsyt user arielhelwani ;}
+mpsyt-mma-fueltv() { mpsyt user fueltv ;}
+mpsyt-mma-gracieacademy() { mpsyt user gracieacademy ;}
+mpsyt-mma-graciebreakdown() { mpsyt user graciebreakdown ;}
+mpsyt-mma-karynbryant() { mpsyt user karynbryant ;}
+mpsyt-mma-mmaheat() { mpsyt user mmaheat ;}
+mpsyt-mma-mmafightingonsbn() { mpsyt user mmafightingonsbn ;}
+mpsyt-mma-thefightnetwork() { mpsyt user thefightnetwork ;}
+mpsyt-mma-themmanuts() { mpsyt user themmanuts ;}
+mpsyt-mma-ufc() { mpsyt user ufc ;}
+mpsyt-mma-uncutsports() { mpsyt user uncutsports ;}
+mpsyt-movie-cinefix() { mpsyt user CineFix ;}
+mpsyt-peakmoment() { mpsyt user peakmoment ;}
+mpsyt-poetskinny() { mpsyt user poetskinny ;}
+mpsyt-poetskinnyUnleashed() { mpsyt user PoetskinnyUnleashed ;}
+mpsyt-tinyhouse-kirstendirksen() { mpsyt user kirstendirksen ;}
+mpsyt-tinyhouse-livingbigtinyhouse() { mpsyt user livingbigtinyhouse ;}
+mpsyt-tinyhouse-relaxshacksDOTcom() { mpsyt user relaxshacksDOTcom ;}
+mpsyt-tinyhouse-tinyhousegj() { mpsyt user tinyhousegj ;}
+mpsyt-tmw-askhodgetwins() { mpsyt user askhodgetwins ;}
+mpsyt-tmw-fastingtwins() { mpsyt user fastingtwins ;}
+mpsyt-tmw-getfit4women() { mpsyt user getfit4women ;}
+mpsyt-tmw-hodgetwins() { mpsyt user hodgetwins ;}
+mpsyt-tmw-hodgetwinsonsports() { mpsyt user hodgetwinsonsports ;}
+mpsyt-tmw-twinmuscleworkout() { mpsyt user twinmuscleworkout ;}
+mpsyt-vanlife-christravels() { mpsyt user tylerdurdeno9 ;}
+mpsyt-vanlife-exploringalternatives() { mpsyt user explorealternatives ;}
+mpsyt-vanlife-noellemarie() { mpsyt user noellemarie42 ;}
+mpsyt-vanlife-happilyhouseless() { mpsyt user TheNomadicvanman ;}
+mpsyt-vanlife-justincredible() { mpsyt user JustinCredibleTV ;}
+mpsyt-vanlife-nomadicfanatic() { mpsyt user nomadicfanatic ;}
+mpsyt-walkingdead() { mpsyt pl "http://www.youtube.com/playlist?list=PLC7EC9FB2E211A261" ;}
+mpsyt-walkingdead-talkingdead() { mpsyt pl "http://www.youtube.com/playlist?list=PLP63B9XPsQt3H_5xGXifFxFJE7-RsKFb6" ;}
+mpsyt-walkingdead-webisodes() { mpsyt pl "http://www.youtube.com/playlist?list=PLC09448134D906619" ;}
+mpsyt-wwefannation() { mpsyt user wwefannation ;}
+
+# }}}
+#-------- Youtube Viewer Channels {{{
+#------------------------------------------------------
+# tutorial video: http://www.youtube.com/watch?v=FnJ67oAxVQ4
+# watch/login/comment/search/download...etc video on youtube, all from cli 
+# https://github.com/trizen/youtube-viewer
+yt-listen() { youtube-viewer -n $@ ;}	# no video, music/audio only
+yt-music() { youtube-viewer -n --category=Music --top ;}	# show top music list
+yts-movie-movieclipstrailer() { youtube-viewer -u UCi8e0iOVk1fEOogdfu4YgfA ;}
+yts-amcmovietalk() { youtube-viewer -p PLBFB97E5B9494EEBD ;}
+yts-amcmovietalk-mailbag() { youtube-viewer -p PLYNW0PN4_jrqlBqzAVRv3rfpo6nhzJnKp ;}
+yts-amctheatres() { youtube-viewer -u amctheatres ;}
+yts-afterbuzz-arrowaftershow() { youtube-viewer -p PL6THzna6gLceNeZoXKUOoDeO7cwI57rJn ;}
+yts-afterbuzz-gameofthrones() { youtube-viewer -p PL0404DAD1AD037666 ;}
+yts-afterbuzz-revolution() { youtube-viewer -p PL6THzna6gLccSY_0Cmoy6DvfH0iC8fyLR ;}
+yts-btt-beyondthetrailer() { youtube-viewer -u beyondthetrailer ;}
+yts-btt-thinkabouttheink() { youtube-viewer -u thinkabouttheink ;}
+yts-comic-watchmojo() { youtube-viewer -u watchmojo ;}
+yts-game-cinemassacre() { youtube-viewer -u cinemassacre ;}
+yts-game-craigslistgamefinds() { youtube-viewer -u craigslistgamefinds ;}
+yts-game-happyconsolegamer() { youtube-viewer -u happyconsolegamer ;}
+yts-game-jamesnintendonerd() { youtube-viewer -u jamesnintendonerd ;}
+yts-game-metaljesusrocks() { youtube-viewer -u metaljesusrocks ;}
+yts-game-mcfrosticles() { youtube-viewer -u mcfrosticles ;}
+yts-game-seejayare() { youtube-viewer -u SeeJayAre ;}
+yts-game-retroliberty() { youtube-viewer -u retroliberty ;}
+yts-greatmilitarybattles() { youtube-viewer -u greatmilitarybattles ;}
+yts-greentvgreentv() { youtube-viewer -u greentvgreentv ;}
+yts-homeorganizing() { youtube-viewer -u homeorganizing ;}
+yts-linuxgamecast() { youtube-viewer -u linuxgamecast ;}
+yts-jupiterbroadcasting() { youtube-viewer -u jupiterbroadcasting ;}
+yts-minimalism-carriesimple() { youtube-viewer -u UCtauuxrTG1yon8CNsgqhDkg ;}
+yts-minimalism-poetskinny() { youtube-viewer -u UC4O0Vd3UxFXGX-UQNelwTag ;}
+yts-minimalism-ticoandtina() { youtube-viewer -u ticoandtina ;}
+yts-minimalism-unconventionalliving() { youtube-viewer -u UC7uuFb0QztC-yC2CrcS-lJw ;}
+yts-minimalism-zenminimalism() { youtube-viewer -u UCpD5Hqe60AJ79fupvuA6F1Q ;}
+yts-midwaysimplicity() { youtube-viewer -u midwaysimplicity ;}
+yts-midwaysimplicity-mtohami() { youtube-viewer -u mtohami ;}
+yts-mma-arielhelwani() { youtube-viewer -u arielhelwani ;}
+yts-mma-fueltv() { youtube-viewer -u fueltv ;}
+yts-mma-gracieacademy() { youtube-viewer -u gracieacademy ;}
+yts-mma-graciebreakdown() { youtube-viewer -u graciebreakdown ;}
+yts-mma-karynbryant() { youtube-viewer -u karynbryant ;}
+yts-mma-mmaheat() { youtube-viewer -u mmaheat ;}
+yts-mma-mmafightingonsbn() { youtube-viewer -u mmafightingonsbn ;}
+yts-mma-thefightnetwork() { youtube-viewer -u thefightnetwork ;}
+yts-mma-themmanuts() { youtube-viewer -u themmanuts ;}
+yts-mma-ufc() { youtube-viewer -u ufc ;}
+yts-mma-uncutsports() { youtube-viewer -u uncutsports ;}
+yts-peakmoment() { youtube-viewer -u peakmoment ;}
+yts-poetskinny() { youtube-viewer -u poetskinny ;}
+yts-poetskinnyunleashed() { youtube-viewer -u PoetskinnyUnleashed ;}
+yts-tinyhouse-kirstendirksen() { youtube-viewer -u kirstendirksen ;}
+yts-tinyhouse-livingbigtinyhouse() { youtube-viewer -u livingbigtinyhouse ;}
+yts-tinyhouse-relaxshacksDOTcom() { youtube-viewer -u relaxshacksDOTcom ;}
+yts-tinyhouse-tinyhousegj() { youtube-viewer -u tinyhousegj ;}
+yts-tmw-askhodgetwins() { youtube-viewer -u askhodgetwins ;}
+yts-tmw-fastingtwins() { youtube-viewer -u fastingtwins ;}
+yts-tmw-getfit4women() { youtube-viewer -u getfit4women ;}
+yts-tmw-hodgetwins() { youtube-viewer -u hodgetwins ;}
+yts-tmw-hodgetwinsonsports() { youtube-viewer -u hodgetwinsonsports ;}
+yts-tmw-twinmuscleworkout() { youtube-viewer -u twinmuscleworkout ;}
+yts-vanlife-christravels() { youtube-viewer -u tylerdurdeno9 ;}
+yts-vanlife-happilyhouseless() { youtube-viewer -u TheNomadicvanman ;}
+yts-vanlife-justincredible() { youtube-viewer -u JustinCredibleTV ;}
+yts-walkingdead() { youtube-viewer -p PLC7EC9FB2E211A261 ;}
+yts-walkingdead-talkingdead() { youtube-viewer -p PLP63B9XPsQt3H_5xGXifFxFJE7-RsKFb6 ;}
+yts-walkingdead-webisodes() { youtube-viewer -p PLC09448134D906619 ;}
+yts-wwefannation() { youtube-viewer -u wwefannation ;}
+## }}}
+#-------- NVLC Podcast RSS {{{
+#------------------------------------------------------
+# DEMO: https://www.youtube.com/watch?v=7y_58wpHuFE
+# DESC: play local and internet media using ncurses VLC
 
 nvlc-player() { nvlc ${1:-cdda://} ;}		# other cdrom; cdda:///dev/cdrom ; cdda:///dev/sr0 ; cdda:///dev/sr1
 nvlc-podcast() { nvlc -S podcast --podcast-urls "$@" ;}
@@ -1552,559 +2603,23 @@ podcast-science-startalk() { nvlc-podcast "http://feeds.soundcloud.com/users/sou
 podcast-science-thisweekinscience() { nvlc-podcast "http://feeds.feedburner.com/twis/science/" ;}
 
 #}}}
-#-------- Convert to Video {{{
-#------------------------------------------------------
-# http://linuxconfig.org/ffmpeg-audio-format-conversions
-convert2video_mp4() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-movie.mp4 ]
-		do
-			ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a aac -qscale:a 6 -strict experimental "${arg%.*}"-movie.mp4
-		done
-	done
+#-------- Internet Music {{{
+# URL: http://whatnotlinux.blogspot.com/2013/02/somafm-and-digitally-imported-bash.html
+somafm() {
+while true; do local station;echo "Select a station to listen to:";select station in "Doomed" "Groove Salad" "Lush" "Suburbs of Goa" "Secret Agent" "Drone Zone" "Space Station" "cliqhop idm" "Digitalis" "Sonic Universe" "Boot Liquor" "Covers" "Illinois Street Lounge" "indie pop rocks" "PopTron" "Tags Trip" "Beat Bender" "Mission Control";do station=$(echo -n "$station"|tr '[:upper:]' '[:lower:]'|sed 's/ //g');break;done; mplayer -playlist http://somafm.com/startstream=${station}.pls; done;
 }
 
-convert2video_avi() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.mp4" 
-		echo -e "\nmultiple: $0 file1.mp4 file2.mp4 file3.mp4" 
-		echo -e "\nwildcard: $0 *.mp4" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-movie.avi ]
-		do
-			ffmpeg -i "$arg" -codec:v mpeg4 -vtag xvid -qscale:v 3 -codec:a libmp3lame -qscale:a 4 "${arg%.*}"-movie.avi
-		done
-	done
+difm() {
+while true; do local station;echo "Select a station to listen to:";select station in "trance" "vocaltrance" "electro" "chillout" "eurodance" "house" "soulfulhouse" "funkyhouse" "tribalhouse" "harddance" "minimal" "techno" "progressive" "goapsy" "hardstyle" "hardcore" "djmixes" "lounge" "drumandbass" "classictechno" "ambient" "breaks" "futuresynthpop";do station=$(echo -n "$station"|tr '[:upper:]' '[:lower:]'|sed 's/ //g');break;done; mplayer -playlist http://www.di.fm/mp3/${station}.pls; done; 
 }
 
-
-convert2video_ogv() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-movie.ogv ]
-		do
-			ffmpeg -i "$arg" -codec:v libtheora -qscale:v 7 -codec:a libvorbis -qscale:a 5 "${arg%.*}"-movie.ogv
-		done
-	done
-}
-
-convert2video_mpg() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-movie.mpg ]
-		do
-			ffmpeg -i "$arg" -codec:v mpeg2video -qscale:v 2 -codec:a mp2 -b:a 192k "${arg%.*}"-movie.mpg
-		done
-	done
-}
-
-convert2video_mkv() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-movie.mkv ]
-		do
-			ffmpeg -i "$arg" -codec:v libx264 -preset medium -crf 22 -codec:a libvorbis -qscale:a 5 "${arg%.*}"-movie.mkv
-		done
-	done
-}
-
-convert2video_webm() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}"-movie.webm ]
-		do
-			ffmpeg -i "$arg" -codec:v libvpx -crf 10 -b:v 1M -codec:a libvorbis "${arg%.*}"-movie.webm
-		done
-	done
-}
-
-# convert video to gif animation
-# http://superuser.com/a/730389
-# http://superuser.com/a/841379
-convert_to_gifv() { 
-    if [  $# -lt 1 ] 
-    then 
-        echo -e "convert video to animated gif" 
-        echo -e "\nUsage:\n$0 <file> <resolution>" 
-        echo -e "\nexample:\n$0 file.mkv \n" 
-        echo -e "$0 file.mkv 320\n" 
-        echo -e "$0 file.mkv 720\n" 
-        echo -e "$0 file.mkv 1080\n" 
-        echo -e "Note: animated gif size are usually x2 or x3 the size of the original video file" 
-
-        return 1
-    fi 
-
-    # get video resolution (height)
-    eval $(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height,width "$1")
-    size=${streams_stream_0_height}
-
-    ffmpeg -i "$1" -vf scale="${2:-$size}":-1 -r 10 -f image2pipe -vcodec ppm - | convert -delay 5 -loop 0 - "${1%.*}"-gifvid"$2".gif
-}
-
-# }}}
-#-------- Convert to iOS (iPod, Macs, iPhone, Apple TV) {{{
-#------------------------------------------------------
-# https://trac.handbrake.fr/wiki/BuiltInPresets
-
-convert2iOS_ipod() {
-	if [  $# -lt 1 ]; then
-		echo -e "HandBrake's low resolution settings for the iPod (5G and up). Optimized for great playback on the iPod screen, with smaller file size."
-		echo -e "\nUsage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".ipod.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.ipod.mp4" --preset="iPod"
-		done
-	done
-}
-convert2iOS_universal() {
-	if [  $# -lt 1 ]; then
-		echo -e "HandBrake's universally compatible, full resolution settings for all current Apple devices: iPod (6G and up), iPhone, AppleTV, and Macs"
-		echo -e "\nUsage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".universal.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.universal.mp4" --preset="Universal"
-		done
-	done
-}
-
-convert2iOS_iphone() {
-	if [  $# -lt 1 ]; then
-		echo -e "HandBrake's settings for all iPhones and iPod Touches going back to the original iPhone 2G."
-		echo -e "\nUsage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".iphone.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.iphone.mp4" --preset="iPhone & iPod touch"
-		done
-	done
-}
-
-convert2iOS_ipodtouch() {
-	if [  $# -lt 1 ]; then
-		echo -e "HandBrake's settings for all iPhones and iPod Touches going back to the original iPhone 2G."
-		echo -e "\nUsage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".ipodtouch.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.ipodtouch.mp4" --preset="iPhone & iPod touch"
-		done
-	done
-}
-
-convert2iOS_ipad() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".ipad.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.ipad.mp4" --preset="iPad"
-		done
-	done
-}
-
-convert2iOS_appletv() {
-	if [  $# -lt 1 ]; then
-		echo -e "HandBrake's settings for the AppleTV and 2009's iPhone and iPod Touch lineup. Provides a good balance between quality and file size, and pushes the devices to their limits. Includes Dolby Digital 5.1 AC3 sound for the AppleTV."
-		echo -e "\nUsage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".appletv.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv.mp4" --preset="AppleTV"
-		done
-	done
-}
-
-convert2iOS_appletv2() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".appletv2.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv2.mp4" --preset="AppleTV 2"
-		done
-	done
-}
-
-convert2iOS_appletv3() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".appletv3.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv3.mp4" --preset="AppleTV 3"
-		done
-	done
-}
-
-# }}}
-#-------- Convert to Devices (Other, Gaming Device) {{{
-#------------------------------------------------------
-# http://develop.participatoryculture.org/index.php/ConversionMatrix
-
-convert2psp() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".psp.mp4 ]
-		do
-			ffmpeg -i "$arg" -s 320x240 -b:v 512000 -ar 24000 -ab 64000 -f psp -r 29.97 -strict experimental "${arg%.*}".psp.mp4
-		done
-	done
-}
-
-convert2windowsphone8() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.avi" 
-		echo -e "\nmultiple: $0 file1.avi file2.avi file3.avi" 
-		echo -e "\nwildcard: $0 *.avi" 
-		return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		while [ ! -f "${arg%.*}".windowsphone8.mp4 ]
-		do
-			HandBrakeCLI -i "$arg" -o "${arg%.*}.windowsphone8.mp4" --preset="Windows Phone 8"
-		done
-	done
-}
-
-# }}}
-#-------- Convert to Archive {{{
-#------------------------------------------------------
-
-# to see required install for different formats
-# $ patool formats
-convert2archive_7z() { patool repack "$1" "${1%.*}".7z ;}
-convert2archive_ace() { patool repack "$1" "${1%.*}".ace ;}
-convert2archive_jar() { patool repack "$1" "${1%.*}".jar ;}
-convert2archive_rar() { patool repack "$1" "${1%.*}".rar ;}
-convert2archive_tar() { patool repack "$1" "${1%.*}".tar ;}
-convert2archive_xz() { patool repack "$1" "${1%.*}".xz ;}
-convert2archive_zip() { patool repack "$1" "${1%.*}".zip ;}
-convert2archive_targz() { patool repack "$1" "${1%.*}".tar.gz ;}
-convert2archive_tarbz2() { patool repack "$1" "${1%.*}".tar.bz2 ;}
-convert2archive_tarlzma() { patool repack "$1" "${1%.*}".tar.lzma ;}
-
-# https://en.wikipedia.org/wiki/Comic_book_archive
-convert2archive_cbz() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.gz" 
-		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
-		echo -e "\nwildcard: $0 *.gz" 
-	return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		if [[ ! -f "${arg%.*}".zip && ! -f "${arg%.*}".cbz ]]; then
-			patool repack "$arg" "${arg%.*}".zip && mv "${arg%.*}".zip "${arg%.*}".cbz
-		else
-			if [[ -f "${arg%.*}".zip ]]; then
-			mv -v -- "${arg%.*}".zip "${arg%.*}".cbz
-			fi
-		fi
-	done
-}
-convert2archive_cb7() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.gz" 
-		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
-		echo -e "\nwildcard: $0 *.gz" 
-	return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		if [[ ! -f "${arg%.*}".7z && ! -f "${arg%.*}".cb7 ]]; then
-			patool repack "$arg" "${arg%.*}".7z && mv "${arg%.*}".7z "${arg%.*}".cb7
-		else
-			if [[ -f "${arg%.*}".7z ]]; then
-			mv -v -- "${arg%.*}".7z "${arg%.*}".cb7
-			fi
-		fi
-	done
-}
-convert2archive_cba() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.gz" 
-		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
-		echo -e "\nwildcard: $0 *.gz" 
-	return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		if [[ ! -f "${arg%.*}".ace && ! -f "${arg%.*}".cba ]]; then
-			patool repack "$arg" "${arg%.*}".ace && mv "${arg%.*}".ace "${arg%.*}".cba
-		else
-			if [[ -f "${arg%.*}".ace ]]; then
-			mv -v -- "${arg%.*}".ace "${arg%.*}".cba
-			fi
-		fi
-	done
-}
-convert2archive_cbt() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.gz" 
-		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
-		echo -e "\nwildcard: $0 *.gz" 
-	return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		if [[ ! -f "${arg%.*}".tar && ! -f "${arg%.*}".cbt ]]; then
-			patool repack "$arg" "${arg%.*}".tar && mv "${arg%.*}".tar "${arg%.*}".cbt
-		else
-			if [[ -f "${arg%.*}".tar ]]; then
-			mv -v -- "${arg%.*}".tar "${arg%.*}".cbt
-			fi
-		fi
-	done
-}
-convert2archive_cbr() {
-	if [  $# -lt 1 ]; then
-		echo -e "Usage: $0 <file_name>"
-		echo -e "\nsingle:   $0 file.gz" 
-		echo -e "\nmultiple: $0 file1.gz file2.gz file3.gz" 
-		echo -e "\nwildcard: $0 *.gz" 
-	return 1
-	fi 
-
-	myArray=( "$@" )
-	for arg in "${myArray[@]}"; do
-		if [[ ! -f "${arg%.*}".rar && ! -f "${arg%.*}".cbr ]]; then
-			patool repack "$arg" "${arg%.*}".rar && mv "${arg%.*}".rar "${arg%.*}".cbr
-		else
-			if [[ -f "${arg%.*}".rar ]]; then
-			mv -v -- "${arg%.*}".rar "${arg%.*}".cbr
-			fi
-		fi
-	done
-}
-
-
-# }}}
-#-------- VimWiki {{{
-#------------------------------------------------------
-wikiapps()   { $EDITOR ~/.vimwiki/wikiapps/index.wiki ;}
-wikidroid()  { $EDITOR ~/.vimwiki/wikidroid/index.wiki ;}
-wikigame()   { $EDITOR ~/.vimwiki/wikigame/index.wiki ;}
-wikihaiku()  { $EDITOR ~/.vimwiki/wikihaiku/index.md ;}
-wikimd()     { $EDITOR ~/.vimwiki/wikimd/index.md ;}
-wikinote()   { $EDITOR ~/.vimwiki/wikinote/index.wiki ;}
-wikislitaz() { $EDITOR ~/.vimwiki/wikislitaz/index.md ;}
-wikisuper()  { $EDITOR ~/.vimwiki/wikisuper/index.wiki ;}
-wikivista()  { $EDITOR ~/.vimwiki/wikivista/index.wiki ;}
-# }}}
+#}}}
 
 ##############################
-####### OBSOLETE LIST ########
+####### D. OBSOLETE LIST #####
 ##############################
 # Code that is still useful but I no longer use it, still here for references
 
-#-------- FFMPEG X11GRAB Screencasting {{{
-#------------------------------------------------------
-# record desktop using ffmpeg
-# tutorial video: http://www.youtube.com/watch?v=mNz5Lrc06_s
-# http://ubuntuforums.org/showthread.php?t=1392026
-# https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
-# https://trac.ffmpeg.org/wiki/Capture/ALSA
-# https://trac.ffmpeg.org/wiki/Capture/Desktop
-# http://nowardev.wordpress.com/2011/05/23/how-to-screencast/
-# https://dl.dropboxusercontent.com/u/28788188/cast.sh (Xpander69)
-# https://www.youtube.com/watch?v=mEV2O8C272g
-# https://github.com/gotbletu/wikimd/blob/master/ffmpeg-compile.md
-
-# ffmpeg location
-# FF_RECORDER=/usr/bin/ffmpeg
-FF_RECORDER=~/Compile/ffmpeg/bin/ffmpeg
-
-# use "arecord -l" or "arecord -L" to find mic
-# pavucontrol if using pulseaudio
-# FF_MIC=pulse
-# FF_MIC=hw:4,0
-FF_MIC=front:CARD=Snowball
-
-# scale down resolution if needed
-# ${FF_SCALE[*]}
-# FF_SCALE=(-vf scale=1280:720)
-
-
-FF_OUTPUT_MOVIE=~/Public/screencast/mm_movie_baking.mkv
-FF_OUTPUT_VIDEO=~/Public/screencast/vv_video_baking.mkv
-FF_OUTPUT_AUDIO=~/Public/screencast/aa_audio_baking.mp3
-
-# movie = video and audio
-# videotrack = video only
-# audiotrack = audio only
-ffcast_fullscreen_movie() { 
-	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
-	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
-	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
-	-acodec libmp3lame -ab 320k -threads 0 -y $FF_OUTPUT_MOVIE 
-}
-
-ffcast_fullscreen_videotrack() { 
-	$FF_RECORDER -f x11grab -r 30 \
-	-s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) \
-	-i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 \
-	-threads 0 -y $FF_OUTPUT_VIDEO
-}
-
-ffcast_audiotrack() { 
-	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC \
-	-acodec libmp3lame -ab 320k \
-	-threads 0 -y $FF_OUTPUT_AUDIO
-}
-
-# single window: select a window with mouse cursor to record
-ffcast_window_movie() { 
-	INFO=$(xwininfo -frame)
-	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
-	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
-
-	$FF_RECORDER -f alsa -ac 1 -i $FF_MIC -async 1 -f x11grab -r 30 \
-	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
-	-preset ultrafast -crf 0 -acodec libmp3lame -ab 320k \
-	-threads 0 -y $FF_OUTPUT_MOVIE
-}
-
-ffcast_window_videotrack() { 
-	INFO=$(xwininfo -frame)
-	WIN_GEO=$(echo $INFO | grep -oEe 'geometry [0-9]+x[0-9]+' | grep -oEe '[0-9]+x[0-9]+')
-	WIN_XY=$(echo $INFO | grep -oEe 'Corners:\s+\+[0-9]+\+[0-9]+' | grep -oEe '[0-9]+\+[0-9]+' | sed -e 's/\+/,/' )
-
-	$FF_RECORDER -f x11grab -r 30 \
-	-s $WIN_GEO -i :0.0+$WIN_XY -vcodec libx264 -pix_fmt yuv444p \
-	-preset ultrafast -crf 0 \
-	-threads 0 -y $FF_OUTPUT_VIDEO
-}
-
-
-# example references
-# worked well on ffmpeg 0.11.1
-# ffmpeg -f pulse -ac 1 -i hw:3,0 -async 1 -f x11grab -r 30 -s $(xwininfo -root | grep 'geometry' |awk '{print $2;}' | cut -d\+ -f1) -i :0.0 -vcodec libx264 -pix_fmt yuv444p -preset ultrafast -crf 0 -acodec libmp3lame -ab 128k -threads 0 -y ~/Public/screencast/aa_screencast_baking.mkv 
-
-# }}}
 #-------- Recordmydesktop CLI {{{
 #------------------------------------------------------
 # http://www.pclinuxos.com/forum/index.php/topic,97181.msg822796.html#msg822796
@@ -2202,39 +2717,36 @@ sharelin-quit() { killall sharelin ;}
 # tutorial video: https://www.youtube.com/watch?v=LCr_0zFcbaM
 alias magnet-to-torrent="aria2c -q --bt-metadata-only --bt-save-metadata"
 aria2c-quit() {
-
-	killall aria2c
-	kill $(ps -ef | grep '[h]ttp.server' | awk '{print $2}')
-	#kill $(ps -ef | grep '[S]impleHTTPServer' | awk '{print $2}')
-	}
+   killall aria2c
+   kill $(ps -ef | grep '[h]ttp.server' | awk '{print $2}')
+   #kill $(ps -ef | grep '[S]impleHTTPServer' | awk '{print $2}')
+}
 
 aria2c-webui() {
-
-	# download location
-	DIR_DL=~/Downloads
-
-	# run as daemon
-	aria2c --enable-rpc --rpc-listen-all -D -d "$DIR_DL"
-
-
-	# use python simplehttpserver to host the webui 
-	# this avoids download the index.html file on each computer
-	# https://github.com/ziahamza/webui-aria2
-	
-	# path to the webui index.html
-	DIR_WEBUI=~/.scripts/webui-aria2/
-
-	# webui-aria2c uses port 6800 so we use 6801 for python_simple_http_server
-	PORT=6801
-	cd "$DIR_WEBUI"
-	nohup python3 -m http.server "$PORT" >/dev/null 2>&1&
-
-	# for older distro
-	# nohup python2 -m SimpleHTTPServer "$PORT" >/dev/null 2>&1&
-	
-	echo "connect via http://localhost:$PORT or http://ip_address_of_server:$PORT"
-
-	}
+    # download location
+    DIR_DL=~/Downloads
+    
+    # run as daemon
+    aria2c --enable-rpc --rpc-listen-all -D -d "$DIR_DL"
+    
+    
+    # use python simplehttpserver to host the webui 
+    # this avoids download the index.html file on each computer
+    # https://github.com/ziahamza/webui-aria2
+    
+    # path to the webui index.html
+    DIR_WEBUI=~/.scripts/webui-aria2/
+    
+    # webui-aria2c uses port 6800 so we use 6801 for python_simple_http_server
+    PORT=6801
+    cd "$DIR_WEBUI"
+    nohup python3 -m http.server "$PORT" >/dev/null 2>&1&
+    
+    # for older distro
+    # nohup python2 -m SimpleHTTPServer "$PORT" >/dev/null 2>&1&
+    
+    echo "connect via http://localhost:$PORT or http://ip_address_of_server:$PORT"
+}
 
 # }}}
 #-------- iPod 5G Device {{{
@@ -2372,17 +2884,49 @@ tsniff-less() { less /tmp/tcpoutput.txt ;}
 #}}}
 
 ##############################
-####### TESTING LIST #########
+####### E. TESTING LIST ######
 ##############################
 # New code dump, stuff I am creating or copy from others
 
+
+#-------- Weechat XDCC {{{
+#------------------------------------------------------
+# http://nibl.co.uk/bots.php?search=
+
+xdcc-nibl() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "Download XDCC files from using weechat from (#nibl @ irc.rizon.net)" 
+        echo -e "Search using http://nibl.co.uk/bots.php?search="
+        echo -e "\nUsage:\n$0 </msg>" 
+        echo -e "\nexample:\n$0 '/msg AHQ[Turtle] xdcc send #1721'" 
+        
+        return 1
+    fi 
+
+    echo "irc.rizon.#nibl *$1" > "$(ls ~/.weechat/weechat_fifo*)"
+}
+
+
+
+
+# }}}
+#-------- Empty Template {{{
+#------------------------------------------------------
+
+# }}}
 # https://www.reddit.com/r/archlinux/comments/42784v/what_are_your_bash_aliasesfunctions_for_ffmpeg/cz88h5f
 ffmpeg-stereo () {
-	        ffmpeg -i "$1" -i "$2" -filter_complex "[0:a][1:a]amerge=inputs=2[aout]" -map "[aout]" -c:a flac "$3"
+        ffmpeg -i "$1" -i "$2" -filter_complex "[0:a][1:a]amerge=inputs=2[aout]" -map "[aout]" -c:a flac "$3"
 }
 
 # https://www.reddit.com/r/archlinux/comments/423wr9/is_anyone_having_trouble_with_reflector/
-alias updatemirrors='sudo reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist' 
+# alias updatemirrors='sudo reflector --verbose --country 'United States' -l 200 -p http --sort rate --save /etc/pacman.d/mirrorlist' 
+
+# Shortcut to generate an updated Arch Linux mirrorlist - requires reflector
+reflector-generate() {
+    reflector --country "United States" -l 200 -p http --sort rate --save "$1"
+}
 
 mpd-kill() { kill -9 $(cat ~/.mpd/mpd.pid) ;}
 mpd-restart() { kill -9 $(cat ~/.mpd/mpd.pid) && mpd ;}
@@ -2392,30 +2936,6 @@ mpd-restart() { kill -9 $(cat ~/.mpd/mpd.pid) && mpd ;}
 # https://www.reddit.com/r/debian/comments/41sw7g/checking_battery_status_in_terminal/cz68iwq
 alias batterystatus="upower -i /org/freedesktop/UPower/devices/........ | grep time"
 alias batteryshow='cat /sys/class/power_supply/BAT1/status'
-
-
-
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
-# }}}
-#-------- Empty Template {{{
-#------------------------------------------------------
-
 # }}}
 #-------- Binary / Shell Scripts {{{
 #------------------------------------------------------
@@ -2605,33 +3125,33 @@ convert_pdf_to_pbm-monochrome() {
 #------------------------------------------------------
 
 #  https://github.com/helmuthdu/dotfiles/blob/master/.bashrc
-# CONVERT TO ISO 
-    to_iso () {
-      if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
-        echo -e "Converts raw, bin, cue, ccd, img, mdf, nrg cd/dvd image files to ISO image file.\nUsage: to_iso file1 file2..."
-      fi
-      for i in $*; do
-        if [[ ! -f "$i" ]]; then
-          echo "'$i' is not a valid file; jumping it"
+convert2discimage_iso () {
+    if [[ $# == 0 || $1 == "--help" || $1 == "-h" ]]; then
+      echo -e "Converts raw|bin|cue|ccd|img|mdf|nrg disc image to ISO"
+      echo -e "Usage: $0 <disc_image>"
+    fi
+    for i in $*; do
+      if [[ ! -f "$i" ]]; then
+        echo "'$i' is not a valid file; jumping it"
+      else
+        echo -n "converting $i..."
+        # OUT=`echo $i | cut -d '.' -f 1`
+        case $i in
+              *.raw ) bchunk "$i" "${i%.*}.iso" ;; #raw=bin
+        *.bin|*.cue ) bchunk "${i%.*}.bin" "${i%.*}.cue" "${i%.*}.iso" ;; # bin,cue
+        *.ccd|*.img ) ccd2iso "${i%.*}.img" "${i%.*}.iso" ;; # Clone CD images
+              *.mdf ) mdf2iso "$i" "${i%.*}.iso" ;; # Alcohol images
+              *.nrg ) nrg2iso "$i" "${i%.*}.iso" ;; # Nero images
+                  * ) echo "$0 don't know de extension of '$i'";;
+        esac
+        if [[ $? != 0 ]]; then
+          echo -e "${R}ERROR!${W}"
         else
-          echo -n "converting $i..."
-          OUT=`echo $i | cut -d '.' -f 1`
-          case $i in
-                *.raw ) bchunk -v $i $OUT.iso;; #raw=bin #*.cue #*.bin
-          *.bin|*.cue ) bin2iso $i $OUT.iso;;
-          *.ccd|*.img ) ccd2iso $i $OUT.iso;; #Clone CD images
-                *.mdf ) mdf2iso $i $OUT.iso;; #Alcohol images
-                *.nrg ) nrg2iso $i $OUT.iso;; #nero images
-                    * ) echo "to_iso don't know de extension of '$i'";;
-          esac
-          if [[ $? != 0 ]]; then
-            echo -e "${R}ERROR!${W}"
-          else
-            echo -e "${G}done!${W}"
-          fi
+          echo -e "${G}done!${W}"
         fi
-      done
-    }
+      fi
+    done
+}
 
 # https://help.ubuntu.com/community/ManageDiscImages#CloneCD.2FIMG_Images
 convert_to_iso() {
@@ -2904,266 +3424,6 @@ demux_audiotrack() { ffmpeg -i "$1" -vn -codec:a copy "${1%.*}"."$0"."${1##*.}" 
 # demux_fonts/attachments
 
 # }}}
-#-------- Internet Videos - Porn {{{
-#------------------------------------------------------
-# requirements:
-# 	1. install mplayer vim youtube-dl
-# 	2. add this to your ~/.vimrc
-# 		map <F8> :exec '!mplayer $(youtube-dl -g ' . shellescape(getline('.')) . ')' <CR><CR>
-# how to use:
-# 	1. fap-youporn ashlynn brooke
-# 		note: if it doesnt play, try hitting right arrow key
-# 	2. hit F8 on the link you want to play
-# 	3. q to quit mplayer
-# 	4. hit ZZ to quit vim
-
-fap-youporn() { 
-	grepmatch=$(echo "$@" | sed 's/ /.*/g')
-        keyword="$(echo "http://www.youporn.com/search?query=$@&type=straight" | sed 's/ /\+/g')"
-	pagenum=3
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&page=$num"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/watch/ {print $2}' | cut -d\/ -f1-6 | grep -iE $grepmatch | awk '!x[$0]++' ; done)
-
-	echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
-}
-
-fap-youjizz() {
-        keyword="$(echo "http://www.youjizz.com/search/$@" | sed 's/ /\-/g')"
-	pagenum=5
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword-$num".html""; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/\.com\/videos/ {print $2}' | awk '!x[$0]++' ; done)
-	
-	echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
-}
-
-fap-pornotube() {
-        keyword="$(echo "http://www.pornotube.com/search.php?q=$@" | sed 's/ /\+/g')"
-	pagenum=3
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&page=$num"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do	curl -s "$line" \
-	| awk '/pornotube.com\/m/ && !/class/' | cut -d\" -f 2 | awk '!x[$0]++' ; done)
-
-	echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
-}
-
-fap-xvideos() {
-        keyword="$(echo "http://www.xvideos.com/?k=$@" | sed 's/ /\+/g')"
-	pagenum=5
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&p=$num"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/xvideos\.com\/video/ {print $2}' | awk '!x[$0]++' ; done)
-
-	echo $videourl | sed 's/\ /\n/g' | awk '!x[$0]++' | vim -R -
-}
-
-fap-jizzhut() {
-        keyword="$(echo "http://www.jizzhut.com/search/$@" | sed 's/ /\-/g')"
-	pagenum=3
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword-$num.html"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/jizzhut\.com\/videos/ {print $2}' | awk '!x[$0]++' ; done)
-
-	echo $videourl | awk '!x[$0]++' | vim -R -
-}
-
-fap-redtube() {
-        keyword="$(echo "http://www.redtube.com/?search=$@" | sed 's/ /\+/g')"
-	pagenum=3
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword&page=$num"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -source "$line" \
-	| awk -F\" '/class="s"/ {print $4, "http://redtube.com"$2}' | awk '!x[$0]++' ; done)
-
-	echo $videourl | awk '!x[$0]++' | vim -R -
-}
-
-
-fap-spankwire() {
-        keyword="$(echo "http://www.spankwire.com/search/straight/keyword/$@" | sed 's/ /\%20/g')"
-	pagenum=5
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo "$keyword?Sort=Relevance&Page=$num"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/www\.spankwire\.com/ && /video/ {print $2}' | awk '!x[$0]++' ; done)
-
-	echo $videourl | sed 's/\ /\n/g' | vim -R -
-}
-
-# quvi not supported anymore
-fap-tnaflix() {
-        keyword="$(echo "&what=$@&category=&sb=relevance&su=anytime&sd=all&dir=desc" | sed 's/ /\%20/g')"
-	pagenum=3
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo \
-		"http://www.tnaflix.com/search.php?page=$num$keyword"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/video[0-9]/ {print $2}' | awk '!x[$0]++' ; done)
-
-	echo $videourl | sed 's/\ /\n/g' | vim -R -
-}
-fap-empflix() {
-        keyword="$(echo "&what=$@&category=&sb=relevance&su=anytime&sd=all&dir=desc" | sed 's/ /\%20/g')"
-	pagenum=3
-	pagenum_to_url=$(for num in $(seq 1 "$pagenum"); do echo \
-		"http://www.empflix.com/search.php?page=$num$keyword"; done )
-	videourl=$(echo "$pagenum_to_url" | while read line; do lynx -dump "$line" \
-	| awk '/empflix\.com\/videos/ {print $2}' | awk '!x[$0]++' ; done)
-
-	echo $videourl | sed 's/\ /\n/g' | vim -R -
-}
-
-#}}}
-#-------- MPS-Youtube {{{
-#------------------------------------------------------
-# tutorial video: https://www.youtube.com/watch?v=VE2iCBkIs8E
-mpsyt-collider-movietalk() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcmbuEa2cRW7Xe4_NrnVrxXn" ;}
-mpsyt-collider-jedicouncil() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnqEWU6U0D8I95SUiqVU3DR" ;}
-mpsyt-collider-heroes() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnaH7ltMEq0h8jBlfU79kwg" ;}
-mpsyt-collider-mailbag() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcnuYS9PZhp3jgOSlb9BzaKs" ;}
-mpsyt-collider-spoilers() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBclxpYg1JdmqUYQnKCCiPcPd" ;}
-mpsyt-collider-arrow() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcleKplDKkFuxLrcL9-7Gw8T" ;}
-mpsyt-collider-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBcmOgOIwVNJV0G6YerPH_Fhp" ;}
-mpsyt-collider-starwarsrebels() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBckZWQgRqTXB2CYRdzNuhBJX" ;}
-mpsyt-collider-walkingdead() { mpsyt pl "https://www.youtube.com/playlist?list=PLayt6616lBckJSHjt2QlwJ91YmNb_oH7k" ;}
-mpsyt-amc-spoilers() { mpsyt pl "https://www.youtube.com/playlist?list=PLYNW0PN4_jrrILuvfws1zYComnO5n4nmJ" ;}
-mpsyt-afterbuzz-arrowaftershow() { mpsyt pl PL6THzna6gLceNeZoXKUOoDeO7cwI57rJn ;}
-mpsyt-afterbuzz-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PL6THzna6gLcdfHMhXnGy-O0kS0q-muucC" ;}
-mpsyt-afterbuzz-gameofthrones() { mpsyt pl PL0404DAD1AD037666 ;}
-mpsyt-thestreamtv-arrow() { mpsyt pl "https://www.youtube.com/playlist?list=PLgh_e6sv2kpr40BXrvZ2qONoSlxFspXGK" ;}
-mpsyt-thestreamtv-flash() { mpsyt pl "https://www.youtube.com/playlist?list=PLgh_e6sv2kprr9KHr94poccrwkAILkCcU" ;}
-mpsyt-btt-beyondthetrailer() { mpsyt user beyondthetrailer ;}
-mpsyt-btt-thinkabouttheink() { mpsyt user thinkabouttheink ;}
-mpsyt-movie-watchmojo() { mpsyt user watchmojo ;}
-mpsyt-movie-robertjones() { mpsyt user owiseone1 ;}
-mpsyt-comic-variantcomics() { mpsyt user VariantComics ;}
-mpsyt-tv-emergencyawesome() { mpsyt user emergencyawesome ;}
-mpsyt-game-angryjoeshow() { mpsyt user AngryJoeShow ;}
-mpsyt-game-cinemassacre() { mpsyt user cinemassacre ;}
-mpsyt-game-craigslistgamefinds() { mpsyt user craigslistgamefinds ;}
-mpsyt-game-happyconsolegamer() { mpsyt user happyconsolegamer ;}
-mpsyt-game-jamesnintendonerd() { mpsyt user jamesnintendonerd ;}
-mpsyt-game-gaminghistorian() { mpsyt user mcfrosticles ;}
-mpsyt-game-metaljesusrocks() { mpsyt user metaljesusrocks ;}
-mpsyt-game-retroliberty() { mpsyt user retroliberty ;}
-mpsyt-game-lazygamereviews() { mpsyt user phreakindee ;}
-mpsyt-greatmilitarybattles() { mpsyt user greatmilitarybattles ;}
-mpsyt-greentvgreentv() { mpsyt user greentvgreentv ;}
-mpsyt-homeorganizing() { mpsyt user homeorganizing ;}
-mpsyt-linux-linuxgamecast() { mpsyt user linuxgamecast ;}
-mpsyt-linux-jupiterbroadcasting() { mpsyt user jupiterbroadcasting ;}
-mpsyt-midwaysimplicity() { mpsyt user midwaysimplicity ;}
-mpsyt-midwaysimplicity-mtohami() { mpsyt user mtohami ;}
-mpsyt-minimalism-carriesimple() { mpsyt user UCtauuxrTG1yon8CNsgqhDkg ;}
-mpsyt-minimalism-discernmylife() { mpsyt user UCJPp8gkjxH4T3A8rYO1S52A ;}
-mpsyt-minimalism-poetskinny() { mpsyt user UC4O0Vd3UxFXGX-UQNelwTag ;}
-mpsyt-minimalism-ticoandtina() { mpsyt user ticoandtina ;}
-mpsyt-minimalism-unconventionalliving() { mpsyt user UC7uuFb0QztC-yC2CrcS-lJw ;}
-mpsyt-minimalism-zenminimalism() { mpsyt user UCpD5Hqe60AJ79fupvuA6F1Q ;}
-mpsyt-mma-arielhelwani() { mpsyt user arielhelwani ;}
-mpsyt-mma-fueltv() { mpsyt user fueltv ;}
-mpsyt-mma-gracieacademy() { mpsyt user gracieacademy ;}
-mpsyt-mma-graciebreakdown() { mpsyt user graciebreakdown ;}
-mpsyt-mma-karynbryant() { mpsyt user karynbryant ;}
-mpsyt-mma-mmaheat() { mpsyt user mmaheat ;}
-mpsyt-mma-mmafightingonsbn() { mpsyt user mmafightingonsbn ;}
-mpsyt-mma-thefightnetwork() { mpsyt user thefightnetwork ;}
-mpsyt-mma-themmanuts() { mpsyt user themmanuts ;}
-mpsyt-mma-ufc() { mpsyt user ufc ;}
-mpsyt-mma-uncutsports() { mpsyt user uncutsports ;}
-mpsyt-movie-cinefix() { mpsyt user CineFix ;}
-mpsyt-peakmoment() { mpsyt user peakmoment ;}
-mpsyt-poetskinny() { mpsyt user poetskinny ;}
-mpsyt-poetskinnyUnleashed() { mpsyt user PoetskinnyUnleashed ;}
-mpsyt-tinyhouse-kirstendirksen() { mpsyt user kirstendirksen ;}
-mpsyt-tinyhouse-livingbigtinyhouse() { mpsyt user livingbigtinyhouse ;}
-mpsyt-tinyhouse-relaxshacksDOTcom() { mpsyt user relaxshacksDOTcom ;}
-mpsyt-tinyhouse-tinyhousegj() { mpsyt user tinyhousegj ;}
-mpsyt-tmw-askhodgetwins() { mpsyt user askhodgetwins ;}
-mpsyt-tmw-fastingtwins() { mpsyt user fastingtwins ;}
-mpsyt-tmw-getfit4women() { mpsyt user getfit4women ;}
-mpsyt-tmw-hodgetwins() { mpsyt user hodgetwins ;}
-mpsyt-tmw-hodgetwinsonsports() { mpsyt user hodgetwinsonsports ;}
-mpsyt-tmw-twinmuscleworkout() { mpsyt user twinmuscleworkout ;}
-mpsyt-vanlife-christravels() { mpsyt user tylerdurdeno9 ;}
-mpsyt-vanlife-exploringalternatives() { mpsyt user explorealternatives ;}
-mpsyt-vanlife-noellemarie() { mpsyt user noellemarie42 ;}
-mpsyt-vanlife-happilyhouseless() { mpsyt user TheNomadicvanman ;}
-mpsyt-vanlife-justincredible() { mpsyt user JustinCredibleTV ;}
-mpsyt-vanlife-nomadicfanatic() { mpsyt user nomadicfanatic ;}
-mpsyt-walkingdead() { mpsyt pl "http://www.youtube.com/playlist?list=PLC7EC9FB2E211A261" ;}
-mpsyt-walkingdead-talkingdead() { mpsyt pl "http://www.youtube.com/playlist?list=PLP63B9XPsQt3H_5xGXifFxFJE7-RsKFb6" ;}
-mpsyt-walkingdead-webisodes() { mpsyt pl "http://www.youtube.com/playlist?list=PLC09448134D906619" ;}
-mpsyt-wwefannation() { mpsyt user wwefannation ;}
-
-# }}}
-#-------- Youtube Viewer {{{
-#------------------------------------------------------
-# tutorial video: http://www.youtube.com/watch?v=FnJ67oAxVQ4
-# watch/login/comment/search/download...etc video on youtube, all from cli 
-# https://github.com/trizen/youtube-viewer
-yt-listen() { youtube-viewer -n $@ ;}	# no video, music/audio only
-yt-music() { youtube-viewer -n --category=Music --top ;}	# show top music list
-yts-movie-movieclipstrailer() { youtube-viewer -u UCi8e0iOVk1fEOogdfu4YgfA ;}
-yts-amcmovietalk() { youtube-viewer -p PLBFB97E5B9494EEBD ;}
-yts-amcmovietalk-mailbag() { youtube-viewer -p PLYNW0PN4_jrqlBqzAVRv3rfpo6nhzJnKp ;}
-yts-amctheatres() { youtube-viewer -u amctheatres ;}
-yts-afterbuzz-arrowaftershow() { youtube-viewer -p PL6THzna6gLceNeZoXKUOoDeO7cwI57rJn ;}
-yts-afterbuzz-gameofthrones() { youtube-viewer -p PL0404DAD1AD037666 ;}
-yts-afterbuzz-revolution() { youtube-viewer -p PL6THzna6gLccSY_0Cmoy6DvfH0iC8fyLR ;}
-yts-btt-beyondthetrailer() { youtube-viewer -u beyondthetrailer ;}
-yts-btt-thinkabouttheink() { youtube-viewer -u thinkabouttheink ;}
-yts-comic-watchmojo() { youtube-viewer -u watchmojo ;}
-yts-game-cinemassacre() { youtube-viewer -u cinemassacre ;}
-yts-game-craigslistgamefinds() { youtube-viewer -u craigslistgamefinds ;}
-yts-game-happyconsolegamer() { youtube-viewer -u happyconsolegamer ;}
-yts-game-jamesnintendonerd() { youtube-viewer -u jamesnintendonerd ;}
-yts-game-metaljesusrocks() { youtube-viewer -u metaljesusrocks ;}
-yts-game-mcfrosticles() { youtube-viewer -u mcfrosticles ;}
-yts-game-seejayare() { youtube-viewer -u SeeJayAre ;}
-yts-game-retroliberty() { youtube-viewer -u retroliberty ;}
-yts-greatmilitarybattles() { youtube-viewer -u greatmilitarybattles ;}
-yts-greentvgreentv() { youtube-viewer -u greentvgreentv ;}
-yts-homeorganizing() { youtube-viewer -u homeorganizing ;}
-yts-linuxgamecast() { youtube-viewer -u linuxgamecast ;}
-yts-jupiterbroadcasting() { youtube-viewer -u jupiterbroadcasting ;}
-yts-minimalism-carriesimple() { youtube-viewer -u UCtauuxrTG1yon8CNsgqhDkg ;}
-yts-minimalism-poetskinny() { youtube-viewer -u UC4O0Vd3UxFXGX-UQNelwTag ;}
-yts-minimalism-ticoandtina() { youtube-viewer -u ticoandtina ;}
-yts-minimalism-unconventionalliving() { youtube-viewer -u UC7uuFb0QztC-yC2CrcS-lJw ;}
-yts-minimalism-zenminimalism() { youtube-viewer -u UCpD5Hqe60AJ79fupvuA6F1Q ;}
-yts-midwaysimplicity() { youtube-viewer -u midwaysimplicity ;}
-yts-midwaysimplicity-mtohami() { youtube-viewer -u mtohami ;}
-yts-mma-arielhelwani() { youtube-viewer -u arielhelwani ;}
-yts-mma-fueltv() { youtube-viewer -u fueltv ;}
-yts-mma-gracieacademy() { youtube-viewer -u gracieacademy ;}
-yts-mma-graciebreakdown() { youtube-viewer -u graciebreakdown ;}
-yts-mma-karynbryant() { youtube-viewer -u karynbryant ;}
-yts-mma-mmaheat() { youtube-viewer -u mmaheat ;}
-yts-mma-mmafightingonsbn() { youtube-viewer -u mmafightingonsbn ;}
-yts-mma-thefightnetwork() { youtube-viewer -u thefightnetwork ;}
-yts-mma-themmanuts() { youtube-viewer -u themmanuts ;}
-yts-mma-ufc() { youtube-viewer -u ufc ;}
-yts-mma-uncutsports() { youtube-viewer -u uncutsports ;}
-yts-peakmoment() { youtube-viewer -u peakmoment ;}
-yts-poetskinny() { youtube-viewer -u poetskinny ;}
-yts-poetskinnyunleashed() { youtube-viewer -u PoetskinnyUnleashed ;}
-yts-tinyhouse-kirstendirksen() { youtube-viewer -u kirstendirksen ;}
-yts-tinyhouse-livingbigtinyhouse() { youtube-viewer -u livingbigtinyhouse ;}
-yts-tinyhouse-relaxshacksDOTcom() { youtube-viewer -u relaxshacksDOTcom ;}
-yts-tinyhouse-tinyhousegj() { youtube-viewer -u tinyhousegj ;}
-yts-tmw-askhodgetwins() { youtube-viewer -u askhodgetwins ;}
-yts-tmw-fastingtwins() { youtube-viewer -u fastingtwins ;}
-yts-tmw-getfit4women() { youtube-viewer -u getfit4women ;}
-yts-tmw-hodgetwins() { youtube-viewer -u hodgetwins ;}
-yts-tmw-hodgetwinsonsports() { youtube-viewer -u hodgetwinsonsports ;}
-yts-tmw-twinmuscleworkout() { youtube-viewer -u twinmuscleworkout ;}
-yts-vanlife-christravels() { youtube-viewer -u tylerdurdeno9 ;}
-yts-vanlife-happilyhouseless() { youtube-viewer -u TheNomadicvanman ;}
-yts-vanlife-justincredible() { youtube-viewer -u JustinCredibleTV ;}
-yts-walkingdead() { youtube-viewer -p PLC7EC9FB2E211A261 ;}
-yts-walkingdead-talkingdead() { youtube-viewer -p PLP63B9XPsQt3H_5xGXifFxFJE7-RsKFb6 ;}
-yts-walkingdead-webisodes() { youtube-viewer -p PLC09448134D906619 ;}
-yts-wwefannation() { youtube-viewer -u wwefannation ;}
-## }}}
 #-------- Extraction / Archive Related {{{
 #------------------------------------------------------
 #Compression (cd into dir, will compress every single folder)
@@ -3367,14 +3627,60 @@ concat_pdf() {
 	gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile="${1%.*}"-`date +'%F_%Hh%Ms%S'`_concat.pdf -f "$@"
 }
 
+concat_png() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "concatenate multiple images into one single png" 
+        echo -e "\nUsage:\n$0 <images>" 
+        echo -e "\nexample:\n$0 file1.jpg file2.png file3.jpeg" 
+        echo -e "\n$0 *.jpg" 
+        echo -e "\n$0 *.png" 
+
+        return 1
+    fi 
+	convert -append "$@" concatoutput.png
+}
+concat_jpg() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "concatenate multiple images into one single jpg" 
+        echo -e "\nUsage:\n$0 <images>" 
+        echo -e "\nexample:\n$0 file1.jpg file2.png file3.jpeg" 
+        echo -e "\n$0 *.jpg" 
+        echo -e "\n$0 *.png" 
+
+        return 1
+    fi 
+	convert -append "$@" concatoutput.jpg
+}
+
 
 # tutorial video: https://www.youtube.com/watch?v=EAWGFJoZXAU
 concat_avi() { avimerge -o "${1%.*}".concat.avi -i "$@" ;}
 
+# concat_movie() { 
+# 	appendfile=$(echo "$@" | sed 's: : --append :g')
+# 	avidemux2_cli --nogui --audio-codec copy --video-codec copy --output-format "${1##*.}" --load $(echo $appendfile) --save "${1%.*}"-appended."${1##*.}" 
+# }
+#
 concat_movie() { 
-	appendfile=$(echo "$@" | sed 's: : --append :g')
-	avidemux2_cli --nogui --audio-codec copy --video-codec copy --output-format "${1##*.}" --load $(echo $appendfile) --save "${1%.*}"-appended."${1##*.}" 
+	avidemux2_cli --nogui --force-alt-h264 \
+	--audio-codec copy --video-codec copy --output-format "${1##*.}" \
+	--load "$1" --append "$2" --append "$3" --append "$4" \
+	--append "$5" --append "$6" --append "$7" --append "$8" \
+	--save "${1%.*}"-appended."${1##*.}" 
 }
+
+concat_mp4() { 
+	avidemux2_cli --nogui --force-alt-h264 \
+	--audio-codec copy --video-codec copy --output-format "${1##*.}" \
+	--load "$1" --append "$2" --append "$3" --append "$4" \
+	--append "$5" --append "$6" --append "$7" --append "$8" \
+	--save "${1%.*}"-appended."${1##*.}" 
+}
+
+
+
 
 # }}}
 #-------- Extract Files {{{
@@ -3481,15 +3787,66 @@ gg-translate() {
 #}}}
 #-------- Search for Files {{{
 #------------------------------------------------------
-# find files
+# http://askubuntu.com/questions/460535/how-do-i-tell-locate-to-keep-the-index-of-an-external-hdd
+updatedb-external() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "create private updatedb" 
+        echo -e "\nUsage:\n$0 <filename.db> <path>" 
+        echo -e "\nexample:\n$0 bingbong /media/bingbong" 
+        return 1
+    fi 
+    mkdir -p ~/.updatedb
+    updatedb -l 0 -o ~/.updatedb/"$1.db" -U "$2"
+}
+
+@locate-external() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "locate using private updatedb" 
+        echo -e "\nUsage:\n$0 <keywords>" 
+        echo -e "\nexample:\n$0 dragon ball z" 
+        echo -e "\nending extension:\n$0 naruto mkv$" 
+        echo -e "\nOR operator:\n$0 '(naruto|blech)'" 
+        echo -e "$0 '(naruto|bleach) (mkv|mp4)'" 
+        echo -e "\nupdate database:\nsudo updatedb" 
+        echo -e "\nquit vim:\nShift+ZZ or Shift+ZQ" 
+        return 1
+    fi 
+        keyword=$(echo "$@" |  sed -e 's/ /.*/g' -e 's:|:\\|:g' -e 's:(:\\(:g' -e 's:):\\):g')
+        locate -d ~/.updatedb/bingbong.db -ir "$keyword" | vim -R -
+}
+
 @find() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "find files recursively in current folder" 
+        echo -e "\nUsage:\n$0 <keywords>" 
+        echo -e "\nexample:\n$0 dragon ball z" 
+        echo -e "\nquit vim:\nShift+ZZ or Shift+ZQ" 
+        return 1
+    fi 
         keyword=$(echo "*$@*" |  sed -e 's/ /*/g')
-	find /home /media -type f -iname $keyword | vim -R - ;}
+	find . -type f -iname $keyword | vim -R - 
+}
 
 # find starting at current dir and go recursively to sub dir
-@search() { 
-        keyword=$(echo "*$@*" |  sed -e 's/ /*/g')
-	find -type f -iname $keyword | vim -R - ;}
+# @search() { 
+#     if [  $# -lt 1 ] 
+#     then 
+#         echo -e "search for files " 
+#         echo -e "\nUsage:\n$0 <keywords>" 
+#         echo -e "\nexample:\n$0 dragon ball z" 
+#         echo -e "\nending extension:\n$0 naruto mkv$" 
+#         echo -e "\nOR operator:\n$0 '(naruto|blech)'" 
+#         echo -e "$0 '(naruto|bleach) (mkv|mp4)'" 
+#         echo -e "\nupdate database:\nsudo updatedb" 
+#         echo -e "\nquit vim:\nShift+ZZ or Shift+ZQ" 
+#         return 1
+#     fi 
+#         keyword=$(echo "*$@*" |  sed -e 's/ /*/g')
+# 	find -type f -iname $keyword | vim -R -
+# }
 
 # find current dir files bigger than X size
 # useage: @size <filesize> <keyword>
@@ -3499,19 +3856,36 @@ gg-translate() {
 
 # search pdf files in current dir for keywords inside the pdfs
 # http://www.commandlinefu.com/commands/view/9189
-@pdfgrep() { find -iname \*.pdf -print0 | xargs -0 pdfgrep -in "$@" ;}
+@pdfgrep() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "search all pdf in current directory recursively for keyword inside the pdfs" 
+        echo -e "\nUsage:\n$0 <keyword>" 
+        echo -e "\nexample:\n$0 homework" 
+        echo -e "\n$0 'school transcript'" 
 
-# search using the mlocate database
-@locate() {
-	# tutorial video: http://www.youtube.com/watch?v=X0KPl5O006M
-	# 'bleach (mkv|avi)$' , '(naruto|shingeki) (mkv|avi)$' , naruto shippudden mkv$
-	# quit vim:  shift + zz
-	
+        return 1
+    fi 
+	find -iname \*.pdf -print0 | xargs -0 pdfgrep -in "$@"
+}
+
+@locate() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "search for files using updatedb" 
+        echo -e "\nUsage:\n$0 <keywords>" 
+        echo -e "\nexample:\n$0 dragon ball z" 
+        echo -e "\nending extension:\n$0 naruto mkv$" 
+        echo -e "\nOR operator:\n$0 '(naruto|blech)'" 
+        echo -e "$0 '(naruto|bleach) (mkv|mp4)'" 
+        echo -e "\nupdate database:\nsudo updatedb" 
+        echo -e "\nquit vim:\nShift+ZZ or Shift+ZQ" 
+        return 1
+    fi 
 	# escape spaces, pipe and parentheses
         keyword=$(echo "$@" |  sed -e 's/ /.*/g' -e 's:|:\\|:g' -e 's:(:\\(:g' -e 's:):\\):g')
 	locate -ir "$keyword" | vim -R -
 }
-
 
 #}}}
 #-------- IPTV {{{
@@ -3563,7 +3937,6 @@ ctv-news-aljazeera() { rtmpdump -v -r "rtmp://aljazeeraflashlivefs.fplive.net/al
 # metacity --replace
 # emerald --replace
 # xkill
-# wineserver -k
 # gnome-system-monitor
 # gnome-search-tool --hidden
 #
@@ -3947,21 +4320,21 @@ jdownloader() { nohup java -jar ~/.scripts/JDownloader/JDownloader.jar >/dev/nul
 
 date-global() {
 # use tzselect to find timezone listing
-	local SHOWTIMEZONE="$(
-	alias date='date +"%a %D %l:%M %p"'
-	echo "Current Location:" "$(date)"
-	echo "USA LosAngeles:" "$(TZ='America/Los_Angeles' date)"
-	echo "USA NewYork:" "$(TZ='America/New_York' date)"
-	echo "EU London:" "$(TZ='Europe/London' date)"
-	echo "Bangladesh Dhaka:" "$(TZ='Asia/Dhaka' date)"
-	echo "China Xinjiang:" "$(TZ='Asia/Urumqi' date)"
-	echo "Vietnam Saigon:" "$(TZ='Asia/Ho_Chi_Minh' date)"
-	echo "China Beijing:" "$(TZ='Asia/Shanghai' date)"
-	echo "HK HongKong:" "$(TZ='Asia/Hong_Kong' date)"
-	echo "Japan Tokyo:" "$(TZ='Asia/Tokyo' date)"
-	)"
-	echo "$SHOWTIMEZONE" | column -t
-
+    local SHOWTIMEZONE="$(
+    alias date='date +"%a %D %l:%M %p"'
+    echo "Current Location:" "$(date)"
+    echo "USA LosAngeles:" "$(TZ='America/Los_Angeles' date)"
+    echo "Canada Alberta:" "$(TZ='America/Edmonton' date)"
+    echo "USA NewYork:" "$(TZ='America/New_York' date)"
+    echo "EU London:" "$(TZ='Europe/London' date)"
+    echo "Bangladesh Dhaka:" "$(TZ='Asia/Dhaka' date)"
+    echo "China Xinjiang:" "$(TZ='Asia/Urumqi' date)"
+    echo "Vietnam Saigon:" "$(TZ='Asia/Ho_Chi_Minh' date)"
+    echo "China Beijing:" "$(TZ='Asia/Shanghai' date)"
+    echo "HK HongKong:" "$(TZ='Asia/Hong_Kong' date)"
+    echo "Japan Tokyo:" "$(TZ='Asia/Tokyo' date)"
+    )"
+    echo "$SHOWTIMEZONE" | column -t
 }
 
 # http://stackoverflow.com/a/13541721
@@ -4321,10 +4694,6 @@ cdls() {
 }
 
 
-# Shortcut to generate an updated Arch Linux mirrorlist - requires reflector
-reflector-generate() {
-    reflector --country "United States" -l 200 -p http --sort rate --save "$1"
-}
 
 # super stealth background launch
 function daemon
@@ -4612,5 +4981,141 @@ clonezilla_partition_restore() {
 # http://stackoverflow.com/a/22049344
 killall-zombies() { kill -HUP $(ps -A -ostat,ppid | grep -e '[zZ]'| awk '{ print $2 }') ;}
 
+m-disconnect() { nmcli d disconnect enp5s0 ;}
+m-connect() { nmcli d connect enp5s0 ;}
+mount-image() { 
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "concatenate multiple pdf files into one single pdf" 
+        echo -e "\nUsage:\n$0 <pdfs>" 
+        echo -e "\nexample:\n$0 file1.pdf file2.pdf file3.pdf" 
+        echo -e "\n$0 *.pdf" 
+        
+        return 1
+    fi 
+
+    mkdir "/tmp/$1"
+    mount -t vfat -o loop,ro,noexec "$1" "/tmp/$1"
+
+}
+
+cmus-alarm() { 
+    cmus-remote -p -v 100	
+	
+}
+
+
+lynx-mp3() { lynx -dump "$1" | awk '/http/ && /mp3/ {print $2}' ;}
+
+nap() { 
+	~/.bin/nap-1.5.4.linux-amd64/nap \
+	-r \
+	-s 108.19.45.179:7777 \
+	-s 108.19.45.179:8888 \
+	-s share-it.loginto.me:3456 \
+	-s 84.24.69.59:6436 \
+	-s spica.sytes.net:8888 \
+	-s 98.202.75.0:8877 \
+	-s 87.13.117.33:8888 \
+	-s 79.103.107.173:5995 \
+	-s 79.31.239.174:8888 \
+	"$@"
+}
+
+cfg-nap() { $EDITOR ~/.nap/napconf ;}
+
+
+# http://twit.altervista.org/linux-2/how-to-copy-an-entire-commandline-using-just-the-keyboard.html
+# alias copylastcommand='echo "!!" | xclip -selection clipboard'
+# alias copylastcommand='history -p !! | xsel -ib'
+# alias copylastcommand='$(history -p !-1) | xsel -ib'
+
+color_term() {
+    for i in {0..255} ; do
+        printf "\x1b[38;5;${i}mcolour${i}\n"
+    done
+}
+
+vcsi-width-3x5() {
+	vcsi "$2" -t -w "$1" --background-color 000000 --metadata-font-color ffffff -g 3x5 --end-delay-percent 20
+}
+convert2image_jpg() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "convert images to jpg" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.bmp pic3.png" 
+        echo -e "\n$0 *.png"
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        convert -quality 50% "$arg" "${arg%.*}.jpg" 
+    done
+}
+
+vcsi-1280-3x4() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "vcsi" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        vcsi "$arg" -t -w 1024 --background-color 000000 --metadata-font-color ffffff -g 2x5 --end-delay-percent 20
+    done
+}
+
+vcsi-auto-3x5() {
+	eval $(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height,width "$1")
+	get_width=${streams_stream_0_width}
+	vcsi "$1" -t -w "$get_width" --background-color 000000 --metadata-font-color ffffff -g 3x5 --end-delay-percent 20
+}
+
+vsheet() {
+
+	# generate sheet
+	eval $(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height,width "$1")
+	get_width=${streams_stream_0_width}
+	vcsi "$1" -t -w "$get_width" --background-color 000000 --metadata-font-color ffffff -g 3x5 --end-delay-percent 20
+
+        concat_jpg mpv-*.jpg *.png
+	image-resize-1920x1080 concatoutput.jpg
+	mv concatoutput_1920x1080_resized.jpg cover.jpg
+
+
+}
+
+
+
+# http://productivefoss.blogspot.com.au/2015/05/exploring-notification-system-ii-how-to.html?m=1
+# http://www.webupd8.org/2016/03/translate-any-text-you-select-on-your.html
+
+
+publicpickups() {
+    if [  $# -lt 1 ] 
+    then 
+        echo -e "resize pictures to another resolution" 
+        echo -e "\nUsage:\n$0 <picture>" 
+        echo -e "\nexample:\n$0 pic1.png pic2.png pic3.png" 
+        echo -e "\n$0 *.jpg" 
+        
+        return 1
+    fi 
+
+    myArray=( "$@" )
+    for arg in "${myArray[@]}"; do
+        # AUTHORS=$( echo "$arg" | awk -F_ '{print $2 " " $3}' | sed -e "s/\b\(.\)/\u\1/g" )
+        AUTHORS=$( echo "$arg" | awk -F_ '{print $2}' | sed -e "s/\b\(.\)/\u\1/g" )
+        cmx-add $cbsuper -e -a "$AUTHORS" -t "$arg" -T "korn,pov,amatuer" -c "${arg}.jpg"
+    done
+}
 
 
