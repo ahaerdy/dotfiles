@@ -146,8 +146,12 @@ zstyle ':completion:*' menu select      # to activate the menu, press tab twice
 unsetopt menu_complete                  # do not autoselect the first completion entry
 setopt completealiases                  # autocompletion CLI switches for aliases
 zstyle ':completion:*' list-colors ''   # show colors on menu completion
+
+# http://unix.stackexchange.com/a/297000
+setopt complete_in_word                 # tab completion from both ends
+setopt glob_complete                    # wildcard completion eg. *-tar
+
 # setopt auto_menu         # show completion menu on succesive tab press
-# setopt complete_in_word
 # setopt always_to_end
 
 # show dots if tab compeletion is taking long to load
@@ -178,7 +182,7 @@ alias -g NF='*(.om[1])' 		# newest file
 #alias -g NE='2>|/dev/null'
 alias -g NO='&>|/dev/null'
 alias -g P='2>&1 | $PAGER'
-alias -g V='| vim -R -'
+alias -g VV='| vim -R -'
 alias -g L='| less'
 alias -g M='| most'
 alias -g C='| wc -l'
@@ -259,12 +263,13 @@ bindkey '^[[B' history-search-forward
 # print previous command but only the first nth arguments
 # Alt+1, Alt+2 ...etc
 # http://www.softpanorama.org/Scripting/Shellorama/bash_command_history_reuse.shtml#Bang_commands
-bindkey -s '\e1' "!:0 \t"
-bindkey -s '\e2' "!:0-1 \t"
-bindkey -s '\e3' "!:0-2 \t"
-bindkey -s '\e4' "!:0-3 \t"
-bindkey -s '\e5' "!:0-4 \t"
-bindkey -s '\e`' "!:0- \t"     # all but the last word
+bindkey -s '\e1' "!:0 \t"        # last command
+bindkey -s '\e2' "!:0-1 \t"      # last command + 1st argument
+bindkey -s '\e3' "!:0-2 \t"      # last command + 1st-2nd argument
+bindkey -s '\e4' "!:0-3 \t"      # last command + 1st-3rd argument
+bindkey -s '\e5' "!:0-4 \t"      # last command + 1st-4th argument
+bindkey -s '\e`' "!:0- \t"       # all but the last argument
+bindkey -s '\e9' "!:0 !:2* \t"   # all but the 1st argument (aka 2nd word)
 
 
 #}}}
@@ -342,6 +347,15 @@ compctl -K _cmpl_playonlinux playonlinux
 
 
 # fzf_surfraw() { zle -I; surfraw $(cat ~/.config/surfraw/bookmarks | fzf | awk 'NF != 0 && !/^#/ {print $1}' ) ; }; zle -N fzf_surfraw; bindkey '^W' fzf_surfraw
+
+# add sudo in front of current command
+# https://www.reddit.com/r/zsh/comments/4b2lyj/send_a_simulated_keypress_from_zle_script_to/
+sudo_ (){
+    BUFFER="sudo $BUFFER"
+    CURSOR=$#BUFFER
+}
+zle -N sudo_
+bindkey "^f" sudo_
 
 
 # }}}
@@ -595,4 +609,7 @@ setopt AUTO_PUSHD        # This makes cd=pushd
 #
 # #}}}
 
+# copy current command to clipboard (Ctrl+X)
+# https://www.reddit.com/r/commandline/comments/4fjpb0/question_how_to_copy_the_command_to_clipboard/
+zle -N copyx; copyx() { echo -E $BUFFER | xsel -ib }; bindkey '^X' copyx
 
