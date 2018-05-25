@@ -47,6 +47,8 @@
 !antimicro
 !antimicro/.config
 !antimicro/.config/*.amgp
+!autostartrc
+!autostartrc/.autostartrc
 !bashrc
 !bashrc/.bashrc
 !beets
@@ -91,6 +93,8 @@
 !keepass/.config/keepassc/config
 !keepass/.config/keepassx
 !keepass/.config/keepassx/config.ini
+!mailcap
+!mailcap/.mailcap
 !mcomix
 !mcomix/.config
 !mcomix/.config/mcomix

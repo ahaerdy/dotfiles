@@ -1,3 +1,4 @@
+unmailboxes *
 set imap_user = "gotbletu@live.com"
 set imap_pass = "XXXXXXX"
 set smtp_url = "smtp://gotbletu@live.com@smtp.live.com:587/"
